@@ -9,6 +9,19 @@ window.onload = function() {
         mainContent.classList.remove("hidden");
         mainContent.style.opacity = 1;
     }, 3000); // 3秒后加载完成，展示主页面
+        
+        // 获取播放按钮和音频元素
+    const playButton = document.getElementById("play-button");
+    const music = document.getElementById("background-music");
+
+    // 添加图片点击事件，点击后切换播放/暂停
+    playButton.addEventListener('click', function() {
+        if (music.paused) {
+            music.play();  // 如果音频已暂停，开始播放
+        } else {
+            music.pause();  // 如果音频正在播放，暂停音频
+        }
+    });
 }
 
 // 使书本页可交互放大
@@ -24,24 +37,3 @@ pages.forEach(page => {
     });
 });
 
-// 使书本旋转通过鼠标拖动
-let book = document.querySelector('.book');
-let mouseDown = false;
-let lastX = 0;
-
-book.addEventListener('mousedown', (e) => {
-    mouseDown = true;
-    lastX = e.clientX;
-});
-
-window.addEventListener('mousemove', (e) => {
-    if (!mouseDown) return;
-    let deltaX = e.clientX - lastX;
-    let rotation = book.style.transform ? parseFloat(book.style.transform.replace('rotateY(', '').replace('deg)', '')) : 0;
-    book.style.transform = `rotateY(${rotation + deltaX * 0.2}deg)`;  // 控制旋转速度
-    lastX = e.clientX;
-});
-
-window.addEventListener('mouseup', () => {
-    mouseDown = false;
-});

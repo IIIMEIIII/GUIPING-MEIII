@@ -1,0 +1,164 @@
+/* 基本样式 */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+/* 加载屏幕 */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('[t×6s]_[688441bd-9b4a-4a10-a0de-7eeaa4b36ab7]_2026-04-17_17-57-02.png'); /* 背景图像 */
+    background-size: cover; /* 使背景图覆盖整个屏幕 */
+    background-position: center center; /* 背景图居中 */
+    background-attachment: fixed; /* 背景图在滚动时保持固定 */
+    background-color: rgba(0, 0, 0, 0.7); /* 半透明黑色背景 */
+    backdrop-filter: blur(10px); /* 模糊背景 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-size: 1.5rem;
+    z-index: 1000;
+    animation: showBackground 3s ease-in-out forwards; /* 只应用一次背景渐显动画 */
+}
+
+/* 背景显示的动画 */
+@keyframes showBackground {
+    0% {
+        opacity: 0; /* 开始时背景图是透明的 */
+    }
+    100% {
+        opacity: 1; /* 背景图完全显示 */
+    }
+}
+
+/* 加载页面的文字部分 */
+.loading-content h1 {
+    font-size: 3rem;
+    color: white;
+    margin-bottom: 20px;
+    opacity: 0; /* 初始状态为透明 */
+    animation: fadeInText 2s ease-in-out 1s forwards; /* 文字渐显动画，延时 1 秒 */
+}
+
+.loading-content p {
+    font-size: 1.2rem;
+    color: white;
+    opacity: 0; /* 初始状态为透明 */
+    animation: fadeInText 2s ease-in-out 2s forwards; /* 延迟文字的显示 */
+}
+
+/* 动画中的文字渐显效果 */
+@keyframes fadeInText {
+    0% {
+        opacity: 0; /* 开始时文字是透明的 */
+    }
+    100% {
+        opacity: 1; /* 文字完全显示 */
+    }
+}
+
+/* 主页面 */
+#main-content {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    padding: 50px;
+}
+
+/* 3D书本容器 */
+.book-container {
+    perspective: 2500px;
+    width: 80%;
+    height: 70vh;
+    overflow: hidden;
+    position: relative;
+    margin: auto;
+    cursor: pointer;
+}
+
+/* 书本本体 */
+.book {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    transform-style: preserve-3d;
+    animation: rotateBook 20s linear infinite;
+}
+
+/* 每一页 */
+.page {
+    position: absolute;
+    width: 200px;
+    height: 300px;
+    margin: 10px;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 页面正面和背面 */
+.page .front, .page .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+.page .front { transform: rotateY(0deg); }
+.page .back { transform: rotateY(180deg); }
+
+.page img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* 控制页面翻页的交互效果 */
+.page:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* 动画控制书本旋转 */
+@keyframes rotateBook {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+}
+
+/* 为滚动条样式 */
+.book-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.book-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.book-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* 使书本旋转和放大 */
+.book-container:hover .book {
+    animation: rotateBook 15s linear infinite;
+}
+
+/* 页面加载后，隐藏加载页面并显示主页面 */
+window.onload = function() {
+    setTimeout(function() {
+        document.getElementById("loading-screen").style.display = "none";
+        document.getElementById("main-content").style.opacity = 1; }, 3000);
+}

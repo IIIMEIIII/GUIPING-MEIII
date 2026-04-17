@@ -127,12 +127,12 @@ body {
 
 /* 第一排文字大号字体 */
 .large-text {
-    font-size: 2rem; /* 设置较大字体 */
+    font-size: 1.5rem; /* 设置较大字体 */
 }
 
 /* 后续文字缩小字体 */
 .small-text {
-    font-size: 0.8rem; /* 设置较小字体 */
+    font-size: 0.5rem; /* 设置较小字体 */
 }
 
 

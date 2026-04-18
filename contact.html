@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — GUIPING MEI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #000; --bg2: #0a0a0a; --border: rgba(255,255,255,0.08);
+      --white: #fff; --dim: rgba(255,255,255,0.45); --accent: #cc1111;
+      --font: 'Space Grotesk', sans-serif;
+    }
+    html, body { height: 100%; background: var(--bg); color: var(--white); font-family: var(--font); overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; z-index: 100; background: transparent;
+    }
+    .nav-logo { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.25em; }
+    .nav-back {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em;
+      color: var(--dim); display: flex; align-items: center; gap: 8px;
+      transition: color .2s;
+    }
+    .nav-back:hover { color: var(--white); }
+
+    /* HERO TEXT */
+    .contact-hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 64px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 40%, rgba(204,17,17,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .contact-hero-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.3em;
+      color: var(--accent); margin-bottom: 20px;
+      opacity: 0; animation: fadeUp .8s .2s ease forwards;
+    }
+    .contact-hero-title {
+      font-size: clamp(4rem, 12vw, 10rem);
+      font-weight: 900; line-height: 0.9;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      opacity: 0; animation: fadeUp .8s .4s ease forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* CONTACT GRID */
+    .contact-grid {
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .contact-block {
+      padding: 64px;
+      border-right: 1px solid var(--border);
+      opacity: 0; animation: fadeUp .8s ease forwards;
+    }
+    .contact-block:last-child { border-right: none; }
+    .contact-block:nth-child(1) { animation-delay: .5s; }
+    .contact-block:nth-child(2) { animation-delay: .65s; }
+    .contact-block:nth-child(3) { animation-delay: .8s; }
+
+    .block-label {
+      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.3em;
+      color: rgba(255,255,255,0.25); margin-bottom: 20px;
+    }
+    .block-items { display: flex; flex-direction: column; gap: 14px; }
+    .block-item { display: flex; flex-direction: column; gap: 4px; }
+    .item-name {
+      font-size: 0.62rem; font-weight: 600; letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.3); text-transform: uppercase;
+    }
+    .item-value {
+      font-size: 1.05rem; font-weight: 500; color: var(--white);
+      letter-spacing: 0.02em; transition: color .2s;
+    }
+    .item-value a:hover { color: var(--accent); }
+
+    /* LINE DIVIDER */
+    .contact-divider {
+      height: 1px; background: var(--border); margin: 0;
+    }
+
+    /* CLOSING LINE */
+    .contact-closing {
+      padding: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+    .closing-text {
+      font-size: clamp(1rem, 2vw, 1.6rem);
+      font-weight: 400; color: var(--dim); max-width: 480px; line-height: 1.5;
+    }
+    .closing-back {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em;
+      border: 1px solid rgba(255,255,255,0.2); padding: 16px 28px;
+      color: var(--dim); transition: color .3s, border-color .3s;
+      position: relative; overflow: hidden;
+    }
+    .closing-back::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--white); transform: translateX(-101%);
+      transition: transform .35s cubic-bezier(.4,0,.2,1);
+    }
+    .closing-back:hover::before { transform: translateX(0); }
+    .closing-back:hover { color: #000; border-color: var(--white); }
+    .closing-back span { position: relative; z-index: 1; }
+
+    /* FOOTER */
+    footer {
+      padding: 24px 64px; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.62rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.18);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .contact-hero { padding: 0 32px 64px; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .contact-block { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 32px; }
+      .contact-block:last-child { border-bottom: none; }
+      .contact-closing { flex-direction: column; gap: 32px; padding: 40px 32px; }
+      footer { padding: 20px 32px; flex-direction: column; gap: 6px; text-align: center; }
+      nav { padding: 0 24px; }
+    }
+    @media (max-width: 540px) {
+      .contact-hero { padding: 0 20px 48px; }
+      .contact-hero-title { font-size: clamp(3rem, 16vw, 5rem); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">GUIPING MEI</div>
+    <a href="index.html" class="nav-back">← BACK</a>
+  </nav>
+
+  <section class="contact-hero">
+    <div class="contact-hero-label">GET IN TOUCH</div>
+    <h1 class="contact-hero-title">CONTACT</h1>
+  </section>
+
+  <div class="contact-grid">
+
+    <div class="contact-block">
+      <div class="block-label">SOCIAL</div>
+      <div class="block-items">
+        <div class="block-item">
+          <span class="item-name">WECHAT</span>
+          <span class="item-value">M_paradisemi</span>
+        </div>
+        <div class="block-item">
+          <span class="item-name">INSTAGRAM</span>
+          <span class="item-value">
+            <a href="https://instagram.com/mi_paradisee" target="_blank">@mi_paradisee</a>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-block">
+      <div class="block-label">TELEPHONE</div>
+      <div class="block-items">
+        <div class="block-item">
+          <span class="item-name">IT</span>
+          <span class="item-value">
+            <a href="tel:+393446875847">+39 344 6875 847</a>
+          </span>
+        </div>
+        <div class="block-item">
+          <span class="item-name">CN</span>
+          <span class="item-value">
+            <a href="tel:+8618323209388">+86 183 2320 9388</a>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-block">
+      <div class="block-label">EMAIL</div>
+      <div class="block-items">
+        <div class="block-item">
+          <span class="item-name">MAIL</span>
+          <span class="item-value">
+            <a href="mailto:18323209388@163.com">18323209388@163.com</a>
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="contact-closing">
+    <p class="closing-text">Available for creative collaborations, fashion projects, and art direction commissions.</p>
+    <a href="index.html" class="closing-back">
+      <span>← BACK TO PORTFOLIO</span>
+    </a>
+  </div>
+
+  <footer>
+    <span>© 2026 GUIPING MEI. All rights reserved.</span>
+    <span>Creative Developer &amp; Visual Designer</span>
+  </footer>
+
+</body>
+</html>

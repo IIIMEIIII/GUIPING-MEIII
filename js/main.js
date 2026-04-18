@@ -336,24 +336,11 @@
       setTimeout(snapNearest, 550);
     }
 
-    let startX = 0;
-    stage.addEventListener('mousedown',  e => { pDown(e.clientY); e.preventDefault(); });
-
     stage.addEventListener('mousedown',  e => { pDown(e.clientY); e.preventDefault(); });
     window.addEventListener('mousemove', e => { if (dragging) pMove(e.clientY); });
     window.addEventListener('mouseup',   () => pUp());
-    stage.addEventListener('touchstart', e => {
-      startX = e.touches[0].clientX;
-      pDown(e.touches[0].clientY);
-    }, { passive: true });
-    stage.addEventListener('touchmove', e => {
-      const dx = Math.abs(e.touches[0].clientX - startX);
-      const dy = Math.abs(e.touches[0].clientY - (lastY || e.touches[0].clientY));
-      // 只有横向滑动幅度 > 纵向时才拦截（转盘是竖向转，所以改判断方向）
-      // 纵向滑动时不拦截，让页面正常滚动
-      if (dy > dx) return;
-      pMove(e.touches[0].clientY);
-    }, { passive: true });
+    stage.addEventListener('touchstart', e => pDown(e.touches[0].clientY), { passive: true });
+    stage.addEventListener('touchmove',  e => { pMove(e.touches[0].clientY); e.preventDefault(); }, { passive: false });
     stage.addEventListener('touchend',   () => pUp());
 
     // 滚轮

@@ -154,13 +154,18 @@
       const el = document.createElement('div');
       el.className = 'dial-item';
       if (w.video) {
-        // 视频封面：静音自动循环，active时播放
-        el.innerHTML = `<div class="dial-item-img">
-          <video src="${w.video}" muted loop playsinline webkit-playsinline
-            poster="${w.img}"
-            style="width:100%;height:100%;object-fit:cover;display:block;border-radius:4px;"
-          ></video>
-        </div>`;
+  // 视频封面：叠加img作为poster兜底（解决iOS黑屏问题）
+  el.innerHTML = `<div class="dial-item-img" style="position:relative;">
+    <video src="${w.video}" muted loop playsinline webkit-playsinline
+      poster="${w.img}"
+      style="width:100%;height:100%;object-fit:cover;display:block;border-radius:4px;position:absolute;inset:0;"
+    ></video>
+    <img src="${w.img}" alt="${w.title}"
+      class="dial-video-poster"
+      style="width:100%;height:100%;object-fit:cover;display:block;border-radius:4px;position:absolute;inset:0;transition:opacity 0.3s;"
+    />
+  </div>`;
+
       } else {
         el.innerHTML = `<div class="dial-item-img"><img src="${w.img}" alt="${w.title}" loading="eager"/></div>`;
       }
@@ -253,15 +258,20 @@
         const isActive = absd < 0.5;
         el.classList.toggle('active', isActive);
 
-        // 视频：active时自动播放，否则暂停
+        // 视频：active时播放并隐藏poster图，否则暂停并显示poster图（解决iOS黑屏）
         const vid = el.querySelector('video');
+        const posterImg = el.querySelector('.dial-video-poster');
         if (vid) {
           if (isActive) {
             vid.play().catch(() => {});
+            if (posterImg) posterImg.style.opacity = '0';
           } else {
             vid.pause();
+            vid.currentTime = 0;
+            if (posterImg) posterImg.style.opacity = '1';
           }
         }
+
       });
 
       // info panel
@@ -326,11 +336,24 @@
       setTimeout(snapNearest, 550);
     }
 
+    let startX = 0;
+    stage.addEventListener('mousedown',  e => { pDown(e.clientY); e.preventDefault(); });
+
     stage.addEventListener('mousedown',  e => { pDown(e.clientY); e.preventDefault(); });
     window.addEventListener('mousemove', e => { if (dragging) pMove(e.clientY); });
     window.addEventListener('mouseup',   () => pUp());
-    stage.addEventListener('touchstart', e => pDown(e.touches[0].clientY), { passive: true });
-    stage.addEventListener('touchmove',  e => { pMove(e.touches[0].clientY); e.preventDefault(); }, { passive: false });
+    stage.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+      pDown(e.touches[0].clientY);
+    }, { passive: true });
+    stage.addEventListener('touchmove', e => {
+      const dx = Math.abs(e.touches[0].clientX - startX);
+      const dy = Math.abs(e.touches[0].clientY - (lastY || e.touches[0].clientY));
+      // 只有横向滑动幅度 > 纵向时才拦截（转盘是竖向转，所以改判断方向）
+      // 纵向滑动时不拦截，让页面正常滚动
+      if (dy > dx) return;
+      pMove(e.touches[0].clientY);
+    }, { passive: true });
     stage.addEventListener('touchend',   () => pUp());
 
     // 滚轮

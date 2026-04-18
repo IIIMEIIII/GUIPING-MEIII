@@ -154,17 +154,21 @@
       const el = document.createElement('div');
       el.className = 'dial-item';
       if (w.video) {
-  // 视频封面：叠加img作为poster兜底（解决iOS黑屏问题）
-  el.innerHTML = `<div class="dial-item-img" style="position:relative;">
-    <video src="${w.video}" muted loop playsinline webkit-playsinline
-      poster="${w.img}"
-      style="width:100%;height:100%;object-fit:cover;display:block;border-radius:4px;position:absolute;inset:0;"
-    ></video>
+  // 手机端和桌面端都使用视频，img叠加在上方作为封面兜底
+  el.innerHTML = `<div class="dial-item-img" style="position:relative;overflow:hidden;">
     <img src="${w.img}" alt="${w.title}"
       class="dial-video-poster"
-      style="width:100%;height:100%;object-fit:cover;display:block;border-radius:4px;position:absolute;inset:0;transition:opacity 0.3s;"
+      style="width:100%;height:100%;object-fit:cover;display:block;border-radius:4px;position:absolute;inset:0;z-index:2;transition:opacity 0.4s;"
     />
+    <video
+      src="${w.video}"
+      muted loop playsinline webkit-playsinline
+      preload="none"
+      poster="${w.img}"
+      style="width:100%;height:100%;object-fit:cover;display:block;border-radius:4px;position:absolute;inset:0;z-index:1;"
+    ></video>
   </div>`;
+
 
       } else {
         el.innerHTML = `<div class="dial-item-img"><img src="${w.img}" alt="${w.title}" loading="eager"/></div>`;
@@ -258,19 +262,26 @@
         const isActive = absd < 0.5;
         el.classList.toggle('active', isActive);
 
-        // 视频：active时播放并隐藏poster图，否则暂停并显示poster图（解决iOS黑屏）
         const vid = el.querySelector('video');
         const posterImg = el.querySelector('.dial-video-poster');
         if (vid) {
           if (isActive) {
-            vid.play().catch(() => {});
-            if (posterImg) posterImg.style.opacity = '0';
+            if (vid.getAttribute('preload') === 'none') {
+              vid.setAttribute('preload', 'auto');
+              vid.load();
+            }
+            vid.play().then(() => {
+              if (posterImg) posterImg.style.opacity = '0';
+            }).catch(() => {
+              if (posterImg) posterImg.style.opacity = '1';
+            });
           } else {
             vid.pause();
             vid.currentTime = 0;
             if (posterImg) posterImg.style.opacity = '1';
           }
         }
+
 
       });
 

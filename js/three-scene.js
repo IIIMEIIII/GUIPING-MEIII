@@ -261,11 +261,14 @@
       cards.push({ group: cardGroup, meshFront, angle, data: work, index: i, hovered: false });
 
       // Load real image or video if provided
-      if (work.video) {
+      // 手机端WebGL无法跨域绘制视频帧，改用图片纹理
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (work.video && !isMobile) {
         loadVideoTexture(work, matFront);
       } else if (work.image) {
         loadImageTexture(work, matFront);
       }
+
     });
   }
 

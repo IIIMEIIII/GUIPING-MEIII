@@ -501,7 +501,7 @@
     ctx.font = '500 38px Arial';
     ctx.fillStyle = 'rgba(204,17,17,0.8)';
     ctx.textAlign = 'left';
-    ctx.fillText('↗', 36, ch - 38);
+    ctx.fillText('↗\uFE0E', 36, ch - 38);
   }
 
   // -------- PARTICLES --------

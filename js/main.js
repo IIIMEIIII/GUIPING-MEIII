@@ -464,7 +464,7 @@
         isPlaying = true;
         startSpin();
         needleDrop();
-        if (swStatus) swStatus.textContent = '▶';
+        if (swStatus) swStatus.textContent = '▶\uFE0E';
       }).catch(() => {});
     }
 

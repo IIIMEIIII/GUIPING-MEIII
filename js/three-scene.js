@@ -69,7 +69,7 @@
       category: 'AI Video',
       year: '2026',
       desc: 'Using fish as an example, discuss and reflect on your own project.',
-      image: 'images/work-10-cover.jpg',
+      image: 'images/work-10-cover.png',
       video: 'videos/work-6.mp4',
       href: 'work-6.html',
       color1: '#0e0e14', color2: '#1e1e2e',

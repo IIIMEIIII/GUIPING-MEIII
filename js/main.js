@@ -46,14 +46,21 @@
 
   // -------- LOADER --------
   function initLoader() {
-    const loader = document.getElementById('loader');
-    if (!loader) return;
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => {
+  const loader = document.getElementById('loader');
+  if (!loader) return;
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => {
+    // 加载完成后显示点击提示，不自动消失
+    const loaderText = loader.querySelector('.loader-text');
+    if (loaderText) loaderText.textContent = 'CLICK TO ENTER';
+    loader.style.cursor = 'pointer';
+    loader.addEventListener('click', () => {
       loader.classList.add('hidden');
       document.body.style.overflow = '';
-    }, 2200);
-  }
+    }, { once: true });
+  }, 2200);
+}
+
 
   // -------- NAV (always transparent, only mobile menu) --------
   function initNav() {
@@ -213,7 +220,7 @@
       const arcStep = Math.PI / 5; // 36°
 
       // 基础图片尺寸 — 竖构图（宽:高 = 1:1.45），缩小到 2/3
-      const baseW = Math.min(sw * 0.85 * (2/3), 427);
+      const baseW = Math.min(sw * 0.85 * (1/3), 213);
       const baseH = baseW * 1.45;
 
       let activeIdx = Math.round(offset);
@@ -681,3 +688,13 @@
   }
 
 })();
+
+// 信封：滚动到contact区域时自动打开
+const envWrap = document.getElementById('envelopeWrap');
+const env = document.getElementById('envelope');
+if (envWrap && env) {
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) env.classList.add('open');
+  }, { threshold: 0.5 });
+  observer.observe(envWrap);
+}

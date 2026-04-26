@@ -49,17 +49,180 @@
   const loader = document.getElementById('loader');
   if (!loader) return;
   document.body.style.overflow = 'hidden';
-  setTimeout(() => {
-    // 加载完成后显示点击提示，不自动消失
-    const loaderText = loader.querySelector('.loader-text');
-    if (loaderText) loaderText.textContent = 'CLICK TO ENTER';
-    loader.style.cursor = 'pointer';
-    loader.addEventListener('click', () => {
-      loader.classList.add('hidden');
-      document.body.style.overflow = '';
-    }, { once: true });
-  }, 2200);
+
+  // 视频正放→倒放→正放循环
+  const vid = document.getElementById('loaderVideo');
+  if (vid) {
+    let revTimer = null;
+
+function playForward() {
+  if (revTimer) { clearInterval(revTimer); revTimer = null; }
+  vid.playbackRate = 1;
+  vid.currentTime = 0;
+  vid.play();
 }
+
+function playReverse() {
+  vid.pause();
+  let t = vid.duration || 0;
+  revTimer = setInterval(() => {
+    t -= 0.033;
+    if (t <= 0) {
+      clearInterval(revTimer);
+      revTimer = null;
+      playForward();
+    } else {
+      vid.currentTime = t;
+    }
+  }, 33);
+}
+
+vid.addEventListener('ended', playReverse);
+vid.play().catch(() => {});
+
+  }
+
+  // 加载完成后显示 EXPLORE 按钮
+  const enterBtn = document.getElementById('loaderEnterBtn');
+  // 同步右侧视频
+const vidR = document.getElementById('loaderVideoR');
+if (vidR) vidR.play().catch(() => {});
+
+setTimeout(() => {
+  if (enterBtn) {
+    enterBtn.style.visibility = 'visible';
+    enterBtn.style.opacity = '1';
+    enterBtn.addEventListener('click', () => {
+
+  const W = window.innerWidth;
+  const H = window.innerHeight;
+
+  // ── 1. 用 html2canvas 思路：直接用视频帧截图 ──
+  // 因跨域限制无法直接读视频像素，改用"纯色分块"模拟像素风粒子
+  const canvas = document.getElementById('loaderParticles');
+  const ctx    = canvas.getContext('2d');
+  canvas.width  = W;
+  canvas.height = H;
+  canvas.style.opacity = '1';
+
+  // ── 2. 把整个 loader 当前画面画进 snapshot canvas ──
+  const snap    = document.getElementById('loaderSnapshot');
+  const sCtx    = snap.getContext('2d');
+  const TILE    = 8;                         // 每个粒子代表 8×8px 区块
+  const cols    = Math.ceil(W / TILE);
+  const rows    = Math.ceil(H / TILE);
+  snap.width    = W;
+  snap.height   = H;
+
+  // 先把 loader 背景色填满（视频无法跨域读取，用暗色打底）
+  sCtx.fillStyle = '#0a0a0a';
+  sCtx.fillRect(0, 0, W, H);
+  // 在中心区域画白色矩形代表 loader-inner 区域（签名+文字+按钮）
+  sCtx.fillStyle = 'rgba(255,255,255,0.06)';
+  sCtx.fillRect(W/2 - 200, H/2 - 160, 400, 320);
+
+  const imgData = sCtx.getImageData(0, 0, W, H);
+
+  // ── 3. 生成粒子 ──
+  const particles = [];
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const px = col * TILE + TILE / 2;
+      const py = row * TILE + TILE / 2;
+
+      // 从截图读取颜色
+      const idx = (Math.floor(py) * W + Math.floor(px)) * 4;
+      const r = imgData.data[idx];
+      const g = imgData.data[idx + 1];
+      const b = imgData.data[idx + 2];
+
+      // 距屏幕中心的方向向量（3D 散开感）
+      const dx   = px - W / 2;
+      const dy   = py - H / 2;
+      const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      const spd = 0.6 + Math.random() * 2 + dist * 0.003;
+
+
+
+      particles.push({
+        x:  px, y: py,
+        vx: (dx / dist) * spd * (0.25 + Math.random() * 0.3),
+        vy: (dy / dist) * spd * (0.25 + Math.random() * 0.3),
+
+
+        vz: -(1 + Math.random() * 3),        // 模拟 z 轴向外飞
+        scale: 1,
+        alpha: 1,
+        size: TILE * (0.7 + Math.random() * 0.5),
+        rot: Math.random() * Math.PI * 2,
+        rotV: (Math.random() - 0.5) * 0.25,
+        color: `rgb(${r},${g},${b})`,
+        decay: 0.008 + Math.random() * 0.012,
+        delay: dist * 0.0004               // 边缘粒子稍晚飞出
+      });
+    }
+  }
+
+  // ── 4. 动画循环 ──
+  let elapsed = 0;
+  let frame;
+  function animParticles() {
+    elapsed += 0.016;
+    ctx.clearRect(0, 0, W, H);
+
+    let alive = false;
+    particles.forEach(p => {
+      if (elapsed < p.delay) { alive = true; return; }
+      if (p.alpha <= 0) return;
+      alive = true;
+
+      p.x     += p.vx;
+      p.y     += p.vy;
+      p.vx    *= 0.92;
+      p.vy    *= 0.92;
+      p.scale += p.vz * 0.015;            // z 运动缩放
+      p.scale  = Math.max(0.05, p.scale);
+      p.rot   += p.rotV;
+      p.alpha -= p.decay;
+
+      const s = p.size * p.scale;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-s / 2, -s / 2, s, s);
+      ctx.restore();
+    });
+
+    if (alive) {
+      frame = requestAnimationFrame(animParticles);
+    } else {
+      cancelAnimationFrame(frame);
+    }
+  }
+  animParticles();
+
+  // ── 5. 粒子启动后 loader 背景迅速透明，露出主页面 ──
+  setTimeout(() => {
+    loader.style.transition = 'opacity 0.6s ease';
+    loader.style.opacity    = '0';
+    setTimeout(() => {
+      cancelAnimationFrame(frame);
+      loader.classList.add('hidden');
+      canvas.style.opacity = '0';
+      document.body.style.overflow = '';
+    }, 650);
+  }, 120);
+
+}, { once: true });
+
+
+  }
+}, 2200);
+
+}
+
 
 
   // -------- NAV (always transparent, only mobile menu) --------
@@ -122,274 +285,122 @@
   }
 
   // -------- WORKS DIAL --------
-  function initWorksDial() {
-    const stage    = document.getElementById('dialStage');
-    const dotsEl   = document.getElementById('dialDots');
-    const dipNum   = document.getElementById('dipNum');
-    const dipTitle = document.getElementById('dipTitle');
-    const dipCat   = document.getElementById('dipCat');
-    if (!stage) return;
+  // -------- WORKS GRID --------
+function initWorksGrid() {
+  const grid = document.getElementById('worksGrid');
+  if (!grid) return;
 
-    const WORKS = [
-      { num:'01', title:'The Sensitive Monsterology',   cat:'Fashion design · 2026',                          href:'work-5.html',  img:'images/work-5.jpg' },
-      { num:'02', title:'Serotonin V: Selves',          cat:'Fashion design draping · 2026',                  href:'work-1.html',  img:'images/work-1.jpg' },
-      { num:'03', title:'Stay On Stage',                cat:'Fashion design · 2025',                          href:'work-2.html',  img:'images/work-2.jpg' },
-      { num:'04', title:'Bliss Naked',                  cat:'Wearable Bag Design · 2024',                     href:'work-3.html',  img:'images/work-3.jpg' },
-      { num:'05', title:'Acupuncture',                  cat:'Wearable Bag And Accessory Design · 2024',       href:'work-4.html',  img:'images/work-4.jpg' },
-      { num:'06', title:'Am I Wasting The Cruelty?',   cat:'AI Video · 2026',                                href:'work-6.html',  img:'images/work-10-cover.png',  video:'videos/work-6.mp4' },
-      { num:'07', title:'AI Project × Martine Rose',   cat:'AI Video · 2025',                                href:'work-7.html',  img:'images/work-11-cover.jpg',  video:'videos/work-7.mp4' },
-      { num:'08', title:'Clang & Clattered',            cat:'Handkerchiefs and Kimono-Inspired Print · 2025', href:'work-8.html',  img:'images/work-6.jpg' },
-      { num:'09', title:'Rust',                         cat:'Textile design · 2024',                          href:'work-9.html',  img:'images/work-7.jpg' },
-      { num:'10', title:'Help Me Out A Little!',        cat:'Bag Design · 2023',                              href:'work-10.html', img:'images/work-8.jpg' },
-      { num:'11', title:'Infinite Loop',                cat:'Fashion Research · 2022',                        href:'work-11.html', img:'images/work-9.jpg' },
-      { num:'12', title:'Leather Craftsmanship',        cat:'Craft · 2023',                                   href:'work-12.html', img:'images/work-13.jpg' },
-      { num:'13', title:'Metalworking',                 cat:'Craft · 2026',                                   href:'work-13.html', img:'images/work-12.jpg' },
-    ];
-    const N = WORKS.length;
+  // 按分类分组，顺序即显示顺序
+  const CATEGORIES = [
+    {
+      label: 'Fashion Design',
+      works: [
+        { num:'01', title:'The Sensitive Monsterology',  cat:'Fashion design · 2026',                    href:'work-5.html',  img:'images/work-5.jpg' },
+        { num:'02', title:'Serotonin V: Selves',         cat:'Fashion design draping · 2026',            href:'work-1.html',  img:'images/work-1.jpg' },
+        { num:'03', title:'Stay On Stage',               cat:'Fashion design · 2025',                    href:'work-2.html',  img:'images/work-2.jpg' },
+      ]
+    },
+    {
+      label: 'Accessory Design',
+      works: [
+        { num:'04', title:'Bliss Naked',                 cat:'Wearable Bag Design · 2024',               href:'work-3.html',  img:'images/work-3.jpg' },
+        { num:'05', title:'Acupuncture',                 cat:'Wearable Bag And Accessory Design · 2024', href:'work-4.html',  img:'images/work-4.jpg' },
+        { num:'10', title:'Help Me Out A Little!',       cat:'Bag Design · 2023',                        href:'work-10.html', img:'images/work-8.jpg' },
+        { num:'11', title:'Infinite Loop',               cat:'Fashion Research · 2022',                  href:'work-11.html', img:'images/work-9.jpg' },
+        { num:'12', title:'Leather Craftsmanship',       cat:'Craft · 2023',                             href:'work-12.html', img:'images/work-13.jpg' },
+        { num:'13', title:'Metalworking',                cat:'Craft · 2026',                             href:'work-13.html', img:'images/work-12.jpg' },
+      ]
+    },
+    {
+      label: 'Virtual Digital Design',
+      works: [
+        { num:'06', title:'Am I Wasting The Cruelty?',   cat:'AI Video · 2026',  href:'work-6.html', img:'images/work-10-cover..png', video:'videos/work-6.mp4' },
+        { num:'07', title:'AI Project × Martine Rose',   cat:'AI Video · 2025',  href:'work-7.html', img:'images/WechatIMG947.jpg',  video:'videos/work-7.mp4' },
+      ]
+    },
+    {
+      label: 'Textile Design',
+      works: [
+        { num:'08', title:'Clang & Clattered',           cat:'Print Design · 2025',   href:'work-8.html', img:'images/work-6.jpg' },
+        { num:'09', title:'Rust',                        cat:'Textile design · 2024', href:'work-9.html', img:'images/work-7.jpg' },
+      ]
+    },
+  ];
 
-    // offset: 当前选中的 index（可以是小数，用于平滑过渡）
-    // offset=0 → item0 在正中央
-    let offset = 0;   // current displayed (float)
-    let targetOffset = 0;
-    let raf = null;
-    let dragging = false;
-    let dragDelta = 0;
-    let velY = 0, lastY = 0, lastT = 0;
+  const isMobile = () => window.matchMedia('(hover: none)').matches;
 
-    // ── 创建图片/视频元素 ──
-    const els = WORKS.map((w, i) => {
-      const el = document.createElement('div');
-      el.className = 'dial-item';
+  CATEGORIES.forEach((cat, catIdx) => {
+    // ── 分类标题行（第一组不加顶部横线，后面的组加）
+    const header = document.createElement('div');
+    header.className = 'wg-category-header' + (catIdx > 0 ? ' wg-category-divider' : '');
+    header.innerHTML = `<span class="wg-category-label">${cat.label}</span>`;
+    grid.appendChild(header);
+
+    // ── 该分类下的卡片容器（独立一行的子网格）
+    const row = document.createElement('div');
+    row.className = 'wg-category-row';
+    grid.appendChild(row);
+
+    cat.works.forEach(w => {
+      const item = document.createElement('div');
+      item.className = 'wg-item';
+
+      const mediaHTML = w.video ? `
+        <div style="position:relative;width:100%;height:100%;">
+          <img src="${w.img}" alt="${w.title}"
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;transition:opacity 0.4s;" />
+          <video muted loop playsinline preload="none" poster="${w.img}"
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;">
+            <source src="${w.video}" type="video/mp4" />
+          </video>
+        </div>` : `<img src="${w.img}" alt="${w.title}" loading="lazy" />`;
+
+      item.innerHTML = mediaHTML + `
+        <div class="wg-overlay">
+          <span class="wg-num">${w.num}</span>
+          <div class="wg-title">${w.title}</div>
+          <div class="wg-cat">${w.cat}</div>
+        </div>`;
+
       if (w.video) {
-  // 手机端和桌面端都使用视频，img叠加在上方作为封面兜底
-  el.innerHTML = `<div class="dial-item-img" style="position:relative;overflow:hidden;">
-    <img src="${w.img}" alt="${w.title}"
-      class="dial-video-poster"
-      style="width:100%;height:100%;object-fit:cover;display:block;border-radius:4px;position:absolute;inset:0;z-index:2;transition:opacity 0.4s;"
-    />
-    <video
-      src="${w.video}"
-      muted loop playsinline webkit-playsinline
-      preload="none"
-      poster="${w.img}"
-      style="width:100%;height:100%;object-fit:cover;display:block;border-radius:4px;position:absolute;inset:0;z-index:1;"
-    ></video>
-  </div>`;
-
-
-      } else {
-        el.innerHTML = `<div class="dial-item-img"><img src="${w.img}" alt="${w.title}" loading="eager"/></div>`;
-      }
-      el.addEventListener('click', () => {
-        if (dragDelta < 8) window.location.href = w.href;
-      });
-      stage.appendChild(el);
-      return el;
-    });
-
-    // ── dots ──
-    if (dotsEl) {
-      dotsEl.innerHTML = '';
-      WORKS.forEach((_, i) => {
-        const d = document.createElement('div');
-        d.className = 'dial-dot';
-        d.addEventListener('click', () => goTo(i));
-        dotsEl.appendChild(d);
-      });
-    }
-    const getDots = () => dotsEl ? Array.from(dotsEl.querySelectorAll('.dial-dot')) : [];
-
-    // ── 渲染核心 ──
-    // 思路：以 stage 为坐标系
-    //   - 圆心在 stage 右侧之外：cx = sw + R*0.3
-    //   - 图片排在圆的左半弧（cos<0 区域），即 stage 左侧可见区域
-    //   - item i 的角度 = π - (i - offset) * arcStep
-    //     当 i=offset 时 angle=π → cos(π)=-1 → px = cx - R （最左，最大最亮）
-    //     其他 item 角度偏离π，cos 变大，px 向右移动，透明度减小
-    function render() {
-      const sw = stage.offsetWidth  || window.innerWidth;
-      const sh = stage.offsetHeight || window.innerHeight * 0.7;
-
-      // 圆盘半径
-      const R = sh * 0.95;
-      // 圆心在 stage 右侧之外
-      const cx = sw + R * 0.12;
-      const cy = sh * 0.5;
-
-      // 相邻 item 间的角间距（弧度）
-      const arcStep = Math.PI / 5; // 36°
-
-      // 基础图片尺寸 — 竖构图（宽:高 = 1:1.45），缩小到 2/3
-      const baseW = Math.min(sw * 0.85 * (1/3), 213);
-      const baseH = baseW * 1.45;
-
-      let activeIdx = Math.round(offset);
-      activeIdx = ((activeIdx % N) + N) % N;
-
-      els.forEach((el, i) => {
-        // item i 相对于当前 offset 的偏移量（带方向）
-        // 取最短绕行距离
-        let d = i - offset;
-        // 归一化到 [-N/2, N/2]
-        while (d >  N / 2) d -= N;
-        while (d < -N / 2) d += N;
-
-        // 只渲染距离中心 ±1.5 格以内的 item
-        if (Math.abs(d) > 1.8) {
-          el.style.opacity = '0';
-          el.style.pointerEvents = 'none';
-          el.classList.remove('active');
-          return;
-        }
-
-        // 角度：d=0 → angle=π（正左）；d>0 → angle>π（偏下）；d<0 → angle<π（偏上）
-        const angle = Math.PI - d * arcStep;
-
-        // 圆弧坐标（以 stage 为原点）
-        const px = cx + R * Math.cos(angle);  // 因 cos(π)=-1，px = cx-R （在stage左侧）
-        const py = cy + R * Math.sin(angle);  // sin(π)=0，中心竖直居中
-
-        // 缩放和透明度：d=0 最大
-        const absd = Math.abs(d);
-        const t = Math.max(0, 1 - absd);      // 1 → 0
-        const sc = 0.52 + 0.48 * t;
-        const al = 0.15 + 0.85 * t;
-
-        const imgW = baseW * sc;
-        const imgH = baseH * sc;
-
-        el.style.opacity       = al.toFixed(3);
-        el.style.pointerEvents = al > 0.25 ? 'all' : 'none';
-        el.style.width         = imgW + 'px';
-        el.style.left          = (px - imgW / 2) + 'px';
-        el.style.top           = (py - imgH / 2) + 'px';
-        el.style.zIndex        = Math.round(t * 10);
-        el.querySelector('.dial-item-img').style.width  = imgW + 'px';
-        el.querySelector('.dial-item-img').style.height = imgH + 'px';
-        const isActive = absd < 0.5;
-        el.classList.toggle('active', isActive);
-
-        const vid = el.querySelector('video');
-        const posterImg = el.querySelector('.dial-video-poster');
-        if (vid) {
-          if (isActive) {
-            if (vid.getAttribute('preload') === 'none') {
-              vid.setAttribute('preload', 'auto');
-              vid.load();
-            }
-            vid.play().then(() => {
-              if (posterImg) posterImg.style.opacity = '0';
-            }).catch(() => {
-              if (posterImg) posterImg.style.opacity = '1';
-            });
-          } else {
-            vid.pause();
-            vid.currentTime = 0;
-            if (posterImg) posterImg.style.opacity = '1';
+        const vid = item.querySelector('video');
+        const poster = item.querySelector('img');
+        item.addEventListener('mouseenter', () => {
+          if (vid.getAttribute('preload') === 'none') {
+            vid.setAttribute('preload', 'auto');
+            vid.load();
           }
-        }
-
-
-      });
-
-      // info panel
-      const wi = WORKS[activeIdx];
-      if (dipNum)   dipNum.textContent   = wi.num;
-      if (dipTitle) dipTitle.textContent = wi.title;
-      if (dipCat)   dipCat.textContent   = wi.cat;
-      getDots().forEach((dot, i) => dot.classList.toggle('active', i === activeIdx));
-    }
-
-    // ── easing 动画 ──
-    function animate() {
-      const diff = targetOffset - offset;
-      offset += diff * 0.1;
-      render();
-      if (Math.abs(diff) > 0.002) {
-        raf = requestAnimationFrame(animate);
-      } else {
-        offset = targetOffset;
-        render();
+          vid.play().then(() => { poster.style.opacity = '0'; }).catch(() => {});
+        });
+        item.addEventListener('mouseleave', () => {
+          vid.pause();
+          vid.currentTime = 0;
+          poster.style.opacity = '1';
+        });
       }
-    }
-    function kick() { cancelAnimationFrame(raf); raf = requestAnimationFrame(animate); }
 
-    function snapNearest() {
-      targetOffset = Math.round(offset);
-      kick();
-    }
+      if (isMobile()) {
+        item.addEventListener('click', () => {
+          if (item.classList.contains('tapped')) {
+            window.location.href = w.href;
+          } else {
+            grid.querySelectorAll('.wg-item.tapped')
+                .forEach(el => el.classList.remove('tapped'));
+            item.classList.add('tapped');
+          }
+        });
+      } else {
+        item.addEventListener('click', () => {
+          window.location.href = w.href;
+        });
+      }
 
-    function goTo(idx) {
-      let diff = idx - targetOffset;
-      while (diff >  N / 2) diff -= N;
-      while (diff < -N / 2) diff += N;
-      targetOffset += diff;
-      kick();
-    }
-
-    // ── 拖拽（上下拖动 → 转动） ──
-    function pDown(y) {
-      dragging  = true;
-      dragDelta = 0;
-      velY = 0; lastY = y; lastT = performance.now();
-      cancelAnimationFrame(raf);
-    }
-    function pMove(y) {
-      if (!dragging) return;
-      const now = performance.now();
-      const dy  = y - lastY;
-      velY = dy / Math.max(now - lastT, 1);
-      dragDelta += Math.abs(dy);
-      // 向下拖 → offset 增大（往下一项）
-      offset        += dy * 0.008;
-      targetOffset   = offset;
-      lastY = y; lastT = now;
-      render();
-    }
-    function pUp() {
-      if (!dragging) return;
-      dragging = false;
-      targetOffset = offset - velY * 80 * 0.008;
-      kick();
-      setTimeout(snapNearest, 550);
-    }
-
-    stage.addEventListener('mousedown',  e => { pDown(e.clientY); e.preventDefault(); });
-    window.addEventListener('mousemove', e => { if (dragging) pMove(e.clientY); });
-    window.addEventListener('mouseup',   () => pUp());
-    stage.addEventListener('touchstart', e => pDown(e.touches[0].clientY), { passive: true });
-    stage.addEventListener('touchmove',  e => { pMove(e.touches[0].clientY); e.preventDefault(); }, { passive: false });
-    stage.addEventListener('touchend',   () => pUp());
-
-    // 滚轮
-    const wrap = document.getElementById('worksDialWrap');
-    if (wrap) {
-      let wt = 0;
-      wrap.addEventListener('wheel', e => {
-        e.preventDefault();
-        const d = e.deltaMode === 1 ? e.deltaY * 30 : e.deltaY;
-        targetOffset += d * 0.004;
-        kick();
-        clearTimeout(wt);
-        wt = setTimeout(snapNearest, 400);
-      }, { passive: false });
-    }
-
-    // 键盘
-    window.addEventListener('keydown', e => {
-      const sec = document.getElementById('works');
-      if (!sec) return;
-      const r = sec.getBoundingClientRect();
-      if (r.top > window.innerHeight || r.bottom < 0) return;
-      if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  goTo(Math.round(targetOffset) - 1);
-      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') goTo(Math.round(targetOffset) + 1);
+      row.appendChild(item);
     });
+  });
+}
 
-    window.addEventListener('resize', render);
 
-    // ── 初始化 ──
-    goTo(0);
-  }
 
   // -------- SOUND WIDGET · 黑胶唱片版 --------
   function initAlbumPlayer() {
@@ -677,7 +688,7 @@
     initModal();
     initCursor();
     initMagneticBtn();
-    initWorksDial();
+    initWorksGrid();
     initAlbumPlayer();
   }
 

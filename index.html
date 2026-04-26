@@ -11,14 +11,50 @@
 </head>
 <body>
 
-  <!-- ========== LOADER ========== -->
-  <div id="loader">
-    <div class="loader-bg"></div>
-    <div class="loader-inner">
-      <span class="loader-text">LOADING</span>
-      <div class="loader-bar"><div class="loader-fill"></div></div>
-    </div>
+ <!-- ========== LOADER ========== -->
+<div id="loader">
+  <!-- 左半屏 -->
+  <div class="loader-panel loader-left">
+    <video id="loaderVideo" muted playsinline webkit-playsinline
+      style="position:absolute;inset:0;width:200%;height:100%;object-fit:cover;z-index:0;left:0;">
+      <source src="videos/Video-1777199486181.mp4" type="video/mp4" />
+    </video>
+    <div style="position:absolute;inset:0;background:rgba(0,0,0,0.35);z-index:1;"></div>
   </div>
+  <!-- 右半屏（镜像视频） -->
+  <div class="loader-panel loader-right">
+    <video id="loaderVideoR" muted playsinline webkit-playsinline
+      style="position:absolute;top:0;right:0;width:200%;height:100%;object-fit:cover;z-index:0;">
+      <source src="videos/Video-1777199486181.mp4" type="video/mp4" />
+    </video>
+    <div style="position:absolute;inset:0;background:rgba(0,0,0,0.35);z-index:1;"></div>
+  </div>
+
+  <!-- 截图用 canvas（隐藏） -->
+<canvas id="loaderSnapshot" style="display:none;"></canvas>
+<!-- 粒子爆发 canvas -->
+<canvas id="loaderParticles" style="position:fixed;inset:0;width:100%;height:100%;
+  z-index:20;pointer-events:none;opacity:0;"></canvas>
+
+  <!-- 中间内容（绝对居中浮在上面） -->
+  <div class="loader-inner" style="position:fixed;top:50%;left:50%;
+       transform:translate(-50%,-50%);z-index:10;">
+    <img src="images/抠图-1777199082258.png" alt="Guiping Mei"
+      style="width:200px;display:block;margin:0 auto 28px;mix-blend-mode:screen;opacity:0.9;" />
+    <span class="loader-text">Design with passion, fueled by the spirit of metal.</span>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+    <button id="loaderEnterBtn"
+      style="visibility:hidden;opacity:0;margin-top:32px;padding:10px 36px;
+             background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.35);
+             color:rgba(255,255,255,0.8);letter-spacing:0.3em;font-size:0.6rem;
+             cursor:pointer;backdrop-filter:blur(4px);font-family:inherit;
+             text-transform:uppercase;transition:opacity 0.8s ease,visibility 0.8s ease;">
+      EXPLORE
+    </button>
+  </div>
+</div>
+
+
 
   <!-- ========== NAVIGATION ========== -->
   <nav id="nav">
@@ -73,96 +109,74 @@
   </section>
 
   <!-- ========== WORKS SECTION ========== -->
-  <section id="works">
-    <div class="section-header">
-      <span class="section-num">01</span>
+<section id="works">
+  <div class="section-header">
+    <span class="section-num">01</span>
+  </div>
+
+  <div class="works-list-wrap" id="worksListWrap">
+
+    <!-- 左侧：作品网格 -->
+    <div class="works-grid" id="worksGrid">
+      <!-- 由 JS 动态生成 -->
     </div>
 
-    <!-- 圆盘主舞台 -->
-    <div class="works-dial-wrap" id="worksDialWrap">
-
-      <!-- 左侧作品信息面板 -->
-      <div class="dial-info-panel" id="dialInfoPanel">
-        <span class="dip-num" id="dipNum">01</span>
-        <div class="dip-title" id="dipTitle">The Sensitive Monsterology</div>
-        <div class="dip-cat" id="dipCat">Textile Art · 2026</div>
-      </div>
-
-      <!-- 圆盘容器 -->
-      <div class="dial-stage" id="dialStage">
-        <!-- items 由 JS 动态生成 -->
-      </div>
-
-      <!-- 圆点导航 -->
-      <div class="dial-dots" id="dialDots"></div>
-
-      <!-- ★ 黑胶唱片播放器（works 右侧居中悬浮） -->
-      <div class="sound-widget" id="soundWidget">
-
-        <!-- 唱片主体 -->
-        <div class="vinyl-wrap" id="vinylWrap">
-
-          <!-- 外圈纹路盘 -->
-          <div class="vinyl-disc" id="vinylDisc">
-            <div class="vinyl-grooves"></div>
-            <!-- 中心标签（切换显示专辑封面）-->
-            <div class="vinyl-label" id="vinylLabel">
-              <img src="images/album/album-1.jpg" alt="album" id="vinylLabelImg"/>
-              <div class="vinyl-center-hole"></div>
-            </div>
-          </div>
-
-          <!-- 唱针臂 -->
-          <div class="vinyl-arm-wrap" id="vinylArmWrap">
-            <div class="vinyl-arm">
-              <div class="vinyl-arm-needle"></div>
-            </div>
-          </div>
-
-          <!-- SOUND ARCHIVE 标签 -->
-          <div class="vinyl-title-tag">SOUND ARCHIVE</div>
-        </div>
-
-        <!-- 展开的曲目列表（点击唱片后出现） -->
-        <div class="vinyl-tracklist" id="vinylTracklist">
-          <div class="vtl-item" data-idx="0">
-            <span class="vtl-num">01</span>
-            <span class="vtl-name">NANCY TRIES TO TAKE THE NIGHT</span>
-            <span class="vtl-dot vtl-playable">▶&#xFE0E;</span>
-          </div>
-          <div class="vtl-item" data-idx="1">
-            <span class="vtl-num">02</span>
-            <span class="vtl-name">MEMORIES AND DREAMS</span>
-            <span class="vtl-dot vtl-playable">▶&#xFE0E;</span>
-          </div>
-          <div class="vtl-item" data-idx="2">
-            <span class="vtl-num">03</span>
-            <span class="vtl-name">BIOSPHERE</span>
-            <span class="vtl-dot vtl-playable">▶&#xFE0E;</span>
-          </div>
-          <div class="vtl-item" data-idx="3">
-            <span class="vtl-num">04</span>
-            <span class="vtl-name">暗叫</span>
-            <span class="vtl-dot vtl-playable">▶&#xFE0E;</span>
-          </div>
-          <!-- 进度条 & 时间 -->
-          <div class="vtl-progress">
-            <div class="vtl-prog-bar" id="swProgBar">
-              <div class="vtl-prog-fill" id="swProgFill"></div>
-            </div>
-            <div class="vtl-time-row">
-              <span id="swCurTime">0:00</span>
-              <span id="swStatus"></span>
-              <span id="swTotTime">0:00</span>
-            </div>
+    <!-- 右侧：播放器（完全不变，只换外层容器类名） -->
+    <div class="sound-widget" id="soundWidget">
+      <!-- 唱片主体 — 以下内容与原来完全一致，不改任何东西 -->
+      <div class="vinyl-wrap" id="vinylWrap">
+        <div class="vinyl-disc" id="vinylDisc">
+          <div class="vinyl-grooves"></div>
+          <div class="vinyl-label" id="vinylLabel">
+            <img src="images/album/album-1.jpg" alt="album" id="vinylLabelImg"/>
+            <div class="vinyl-center-hole"></div>
           </div>
         </div>
-
-        <audio id="albumAudio" preload="none"></audio>
+        <div class="vinyl-arm-wrap" id="vinylArmWrap">
+          <div class="vinyl-arm">
+            <div class="vinyl-arm-needle"></div>
+          </div>
+        </div>
+        <div class="vinyl-title-tag">SOUND ARCHIVE</div>
       </div>
-
+      <div class="vinyl-tracklist" id="vinylTracklist">
+        <div class="vtl-item" data-idx="0">
+          <span class="vtl-num">01</span>
+          <span class="vtl-name">NANCY TRIES TO TAKE THE NIGHT</span>
+          <span class="vtl-dot vtl-playable">▶&#xFE0E;</span>
+        </div>
+        <div class="vtl-item" data-idx="1">
+          <span class="vtl-num">02</span>
+          <span class="vtl-name">MEMORIES AND DREAMS</span>
+          <span class="vtl-dot vtl-playable">▶&#xFE0E;</span>
+        </div>
+        <div class="vtl-item" data-idx="2">
+          <span class="vtl-num">03</span>
+          <span class="vtl-name">BIOSPHERE</span>
+          <span class="vtl-dot vtl-playable">▶&#xFE0E;</span>
+        </div>
+        <div class="vtl-item" data-idx="3">
+          <span class="vtl-num">04</span>
+          <span class="vtl-name">暗叫</span>
+          <span class="vtl-dot vtl-playable">▶&#xFE0E;</span>
+        </div>
+        <div class="vtl-progress">
+          <div class="vtl-prog-bar" id="swProgBar">
+            <div class="vtl-prog-fill" id="swProgFill"></div>
+          </div>
+          <div class="vtl-time-row">
+            <span id="swCurTime">0:00</span>
+            <span id="swStatus"></span>
+            <span id="swTotTime">0:00</span>
+          </div>
+        </div>
+      </div>
+      <audio id="albumAudio" preload="none"></audio>
     </div>
-  </section>
+
+  </div>
+</section>
+
 
   <!-- ========== ABOUT SECTION ========== -->
   <section id="about">

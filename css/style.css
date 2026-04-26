@@ -143,7 +143,7 @@ ul { list-style: none; }
 
 /* 中间竖线 */
 #loader::after {
-  content: none;  ← 改成 none，伪元素完全不渲染，白线消失
+  content: none;  
 }
 
 

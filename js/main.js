@@ -51,42 +51,60 @@
   document.body.style.overflow = 'hidden';
 
   // 视频正放→倒放→正放循环
-  const vid = document.getElementById('loaderVideo');
-  if (vid) {
-    let revTimer = null;
+  // 第54–99行
+const vid = document.getElementById('loaderVideo');
+if (vid) {
+  let revTimer = null;
 
-function playForward() {
-  if (revTimer) { clearInterval(revTimer); revTimer = null; }
-  vid.playbackRate = 1;
-  vid.currentTime = 0;
-  vid.play();
-}
-
-function playReverse() {
-  vid.pause();
-  let t = vid.duration || 0;
-  revTimer = setInterval(() => {
-    t -= 0.033;
-    if (t <= 0) {
-      clearInterval(revTimer);
-      revTimer = null;
-      playForward();
-    } else {
-      vid.currentTime = t;
+    function playForward() {                      // ← 缩进统一整理
+      if (revTimer) { clearInterval(revTimer); revTimer = null; }
+      vid.playbackRate = 1;
+      vid.currentTime = 0;
+      vid.play().catch(() => {});                 // ← 加了 .catch()，手机报错不崩溃
     }
-  }, 33);
-}
 
-vid.addEventListener('ended', playReverse);
-vid.play().catch(() => {});
+    function playReverse() {
+      vid.pause();
+      let t = vid.duration || 0;
+      revTimer = setInterval(() => {
+        t -= 0.033;
+        if (t <= 0) {
+          clearInterval(revTimer);
+          revTimer = null;
+          playForward();
+        } else {
+          vid.currentTime = t;
+        }
+      }, 33);
+    }
 
+    vid.addEventListener('ended', playReverse);
+    // 手机端：等 canplay 后再播，避免缓冲未就绪调用 play() 失败
+    if (vid.readyState >= 3) {                    // ← 新增：先判断是否已缓冲好
+      vid.play().catch(() => {});
+    } else {
+      vid.addEventListener('canplay', () => {     // ← 新增：没缓冲好就等事件再播
+        vid.play().catch(() => {});
+      }, { once: true });
+    }
   }
+
+// 右视频（原来 1 行，改为等待缓冲）
+const vidR = document.getElementById('loaderVideoR');
+if (vidR) {
+    if (vidR.readyState >= 3) {                   // ← 新增：同样逻辑
+      vidR.play().catch(() => {});
+    } else {
+      vidR.addEventListener('canplay', () => {    // ← 新增：等缓冲再播
+        vidR.play().catch(() => {});
+      }, { once: true });
+    }
+  }
+
 
   // 加载完成后显示 EXPLORE 按钮
   const enterBtn = document.getElementById('loaderEnterBtn');
   // 同步右侧视频
-const vidR = document.getElementById('loaderVideoR');
-if (vidR) vidR.play().catch(() => {});
 
 setTimeout(() => {
   if (enterBtn) {

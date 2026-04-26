@@ -51,6 +51,7 @@
     document.body.style.overflow = 'hidden';
 
     const vid = document.getElementById('loaderVideo');
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
     const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     if (vid) {
@@ -79,25 +80,32 @@
         }, 33);
       }
 
+      function tryPlayVideo() {
+        const p = vid.play();
+        if (p !== undefined) { p.catch(() => {}); }
+      }
+
       if (isMobileDevice) {
-        // 移动端：直接普通循环播放，不做倒放（倒放会卡顿且耗性能）
+        // 移动端：普通循环，不做倒放
         vid.loop = true;
-        // 多重保险：立刻尝试播放 + canplay 时再播 + touchstart 用户手势触发
-        vid.play().catch(() => {});
-        vid.addEventListener('canplay', () => { vid.play().catch(() => {}); }, { once: true });
-        document.addEventListener('touchstart', function tryPlay() {
-          vid.play().catch(() => {});
-          document.removeEventListener('touchstart', tryPlay);
+        // iOS 必须先 load() 才能触发 canplay
+        if (isIOS) { vid.load(); }
+        // 三重保险触发播放
+        tryPlayVideo();
+        vid.addEventListener('canplay',      () => tryPlayVideo(), { once: true });
+        vid.addEventListener('loadeddata',   () => tryPlayVideo(), { once: true });
+        // 用户首次触摸时再尝试（应对严格的 autoplay 策略）
+        document.addEventListener('touchstart', function tryOnTouch() {
+          tryPlayVideo();
+          document.removeEventListener('touchstart', tryOnTouch);
         }, { once: true, passive: true });
       } else {
         // 桌面端：正放→倒放循环
         vid.addEventListener('ended', playReverse);
         if (vid.readyState >= 3) {
-          vid.play().catch(() => {});
+          tryPlayVideo();
         } else {
-          vid.addEventListener('canplay', () => {
-            vid.play().catch(() => {});
-          }, { once: true });
+          vid.addEventListener('canplay', () => tryPlayVideo(), { once: true });
         }
       }
     }

@@ -72,12 +72,9 @@ ul { list-style: none; }
 #loader {
   position: fixed;
   inset: 0;
-  background: var(--bg);
+  background: #000;           /* 视频未加载时的底色，视频盖在上面后自动隐藏 */
   z-index: 9990;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;           /* ← 新增这一行 */
+  overflow: hidden;
   transition: opacity 0.6s, visibility 0.6s;
 }
 

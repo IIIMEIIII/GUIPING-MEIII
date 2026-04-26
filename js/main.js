@@ -46,48 +46,61 @@
 
   // -------- LOADER --------
   function initLoader() {
-  const loader = document.getElementById('loader');
-  if (!loader) return;
-  document.body.style.overflow = 'hidden';
+    const loader = document.getElementById('loader');
+    if (!loader) return;
+    document.body.style.overflow = 'hidden';
 
-  // 视频正放→倒放→正放循环
-  // 第54–99行
-const vid = document.getElementById('loaderVideo');
-if (vid) {
-  let revTimer = null;
+    const vid = document.getElementById('loaderVideo');
+    const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    function playForward() {                      // ← 缩进统一整理
-      if (revTimer) { clearInterval(revTimer); revTimer = null; }
-      vid.playbackRate = 1;
-      vid.currentTime = 0;
-      vid.play().catch(() => {});                 // ← 加了 .catch()，手机报错不崩溃
-    }
+    if (vid) {
+      let revTimer = null;
 
-    function playReverse() {
-      vid.pause();
-      let t = vid.duration || 0;
-      revTimer = setInterval(() => {
-        t -= 0.033;
-        if (t <= 0) {
-          clearInterval(revTimer);
-          revTimer = null;
-          playForward();
-        } else {
-          vid.currentTime = t;
-        }
-      }, 33);
-    }
-
-    vid.addEventListener('ended', playReverse);
-    // 手机端：等 canplay 后再播，避免缓冲未就绪调用 play() 失败
-    if (vid.readyState >= 3) {                    // ← 新增：先判断是否已缓冲好
-      vid.play().catch(() => {});
-    } else {
-      vid.addEventListener('canplay', () => {     // ← 新增：没缓冲好就等事件再播
+      // 桌面端：正放→倒放→正放循环
+      function playForward() {
+        if (revTimer) { clearInterval(revTimer); revTimer = null; }
+        vid.playbackRate = 1;
+        vid.currentTime = 0;
         vid.play().catch(() => {});
-      }, { once: true });
+      }
+
+      function playReverse() {
+        vid.pause();
+        let t = vid.duration || 0;
+        revTimer = setInterval(() => {
+          t -= 0.033;
+          if (t <= 0) {
+            clearInterval(revTimer);
+            revTimer = null;
+            playForward();
+          } else {
+            vid.currentTime = t;
+          }
+        }, 33);
+      }
+
+      if (isMobileDevice) {
+        // 移动端：直接普通循环播放，不做倒放（倒放会卡顿且耗性能）
+        vid.loop = true;
+        // 多重保险：立刻尝试播放 + canplay 时再播 + touchstart 用户手势触发
+        vid.play().catch(() => {});
+        vid.addEventListener('canplay', () => { vid.play().catch(() => {}); }, { once: true });
+        document.addEventListener('touchstart', function tryPlay() {
+          vid.play().catch(() => {});
+          document.removeEventListener('touchstart', tryPlay);
+        }, { once: true, passive: true });
+      } else {
+        // 桌面端：正放→倒放循环
+        vid.addEventListener('ended', playReverse);
+        if (vid.readyState >= 3) {
+          vid.play().catch(() => {});
+        } else {
+          vid.addEventListener('canplay', () => {
+            vid.play().catch(() => {});
+          }, { once: true });
+        }
+      }
     }
-  }
 
 // 加载完成后显示 EXPLORE 按钮
 const enterBtn = document.getElementById('loaderEnterBtn');

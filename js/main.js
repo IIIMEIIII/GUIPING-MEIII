@@ -89,22 +89,9 @@ if (vid) {
     }
   }
 
-// 右视频（原来 1 行，改为等待缓冲）
-const vidR = document.getElementById('loaderVideoR');
-if (vidR) {
-    if (vidR.readyState >= 3) {                   // ← 新增：同样逻辑
-      vidR.play().catch(() => {});
-    } else {
-      vidR.addEventListener('canplay', () => {    // ← 新增：等缓冲再播
-        vidR.play().catch(() => {});
-      }, { once: true });
-    }
-  }
+// 加载完成后显示 EXPLORE 按钮
+const enterBtn = document.getElementById('loaderEnterBtn');
 
-
-  // 加载完成后显示 EXPLORE 按钮
-  const enterBtn = document.getElementById('loaderEnterBtn');
-  // 同步右侧视频
 
 setTimeout(() => {
   if (enterBtn) {
@@ -333,7 +320,7 @@ function initWorksGrid() {
       label: 'Virtual Digital Design',
       works: [
         { num:'06', title:'Am I Wasting The Cruelty?',   cat:'AI Video · 2026',  href:'work-6.html', img:'images/work-10-cover..png', video:'videos/work-6.mp4' },
-        { num:'07', title:'AI Project × Martine Rose',   cat:'AI Video · 2025',  href:'work-7.html', img:'images/WechatIMG947.jpg',  video:'videos/work-7.mp4' },
+        { num:'07', title:'AI Project × Martine Rose',   cat:'AI Video · 2025',  href:'work-7.html', img:'images/work-11-cover.jpg',  video:'videos/work-7.mp4' },
       ]
     },
     {

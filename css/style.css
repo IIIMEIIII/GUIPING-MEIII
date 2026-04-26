@@ -124,34 +124,11 @@ ul { list-style: none; }
   60%  { width: 70%; }
   100% { width: 100%; }
 }
-/* loader 分屏面板 */
-.loader-panel {
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 50%;
-  overflow: hidden;
-  transition: transform 1.1s cubic-bezier(0.76, 0, 0.24, 1);
-}
-/* 左半：视频从左边开始，显示左半部分 */
-.loader-left  { left: 0; }
-.loader-left video { left: 0 !important; right: auto !important; }
 
-/* 右半：视频向右对齐，显示右半部分 */
-.loader-right { right: 0; }
-.loader-right video { right: 0 !important; left: auto !important; }
+/* loader 分屏面板 — 已废弃，改为单视频全屏 */
 
+#loader.split-open { opacity: 0; pointer-events: none; }
 
-/* 中间竖线 */
-#loader::after {
-  content: none;  
-}
-
-
-/* 触发分屏滑出 */
-#loader.split-open .loader-left  { transform: translateX(-100%); }
-#loader.split-open .loader-right { transform: translateX(100%); }
-#loader.split-open::after        { opacity: 0; }
-#loader.split-open .loader-inner { opacity: 0; transition: opacity 0.3s; }
 
 /* ---------- NAVIGATION — always transparent ---------- */
 #nav {

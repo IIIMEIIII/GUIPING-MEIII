@@ -1142,6 +1142,12 @@ section:not(#hero) {
   max-width: 1140px;
 }
 
+/* ── About 3D 左列包裹容器 ── */
+.about-3d-col {
+  display: flex;
+  flex-direction: column;
+}
+
 /* ── About 3D canvas ── */
 .about-3d-wrap {
   width: 100%;
@@ -1157,7 +1163,17 @@ section:not(#hero) {
   border-radius: 4px;
 }
 
-
+/* 3D 模型下方提示文字 */
+.about-3d-hint {
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  text-align: center;
+  margin-top: 12px;
+  font-family: var(--font-main);
+  user-select: none;
+}
 
 .about-lead {
   font-size: clamp(1.3rem, 2.5vw, 2rem);

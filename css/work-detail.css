@@ -409,7 +409,6 @@ img  { display: block; max-width: 100%; }
   .work-info-item:nth-child(3) { border-top: 1px solid var(--border); border-right: 1px solid var(--border); }
   .work-info-item:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
   .work-body-inner { grid-template-columns: 1fr; gap: 40px; padding: 0 24px; }
-  .work-process-inner { padding: 0 24px; }
   .process-grid { grid-template-columns: 1fr; }
   .process-item { padding: 28px 0 !important; border-right: none !important; border-bottom: 1px solid var(--border) !important; }
   .process-item:last-child { border-bottom: none !important; }
@@ -418,4 +417,8 @@ img  { display: block; max-width: 100%; }
   .detail-footer { padding: 20px 24px; flex-direction: column; gap: 8px; text-align: center; }
   .work-body { padding: 64px 0; }
   .work-process { padding: 64px 0; }
+
+  /* 视频 & 图库 section：手机端内联 padding 覆盖，防止内容被左右压缩 */
+  .work-video-section { padding: 40px 16px !important; }
+  .work-gallery-section { padding: 40px 16px !important; }
 }

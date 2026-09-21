@@ -1174,10 +1174,11 @@ section:not(#hero) {
 
 .about-layout {
   display: grid;
-  grid-template-columns: minmax(460px, 1.05fr) minmax(0, 0.95fr);
-  gap: clamp(56px, 6vw, 96px);
-  align-items: center;
-  max-width: 1240px;
+  grid-template-columns: minmax(440px, 0.92fr) minmax(0, 1.08fr);
+  gap: clamp(62px, 7vw, 112px);
+  align-items: start;
+  max-width: 1320px;
+  margin: 0 auto;
 }
 
 /* ── About 3D 左列包裹容器 ── */
@@ -1214,32 +1215,108 @@ section:not(#hero) {
 }
 
 .about-text {
-  max-width: 590px;
+  width: 100%;
+  max-width: 680px;
 }
-.about-lead {
-  font-size: clamp(1.85rem, 3.1vw, 3rem);
-  font-weight: 500;
-  line-height: 1.14;
-  letter-spacing: -0.025em;
-  margin-bottom: 38px;
+
+.about-profile {
+  padding-top: 24px;
+}
+.about-hello-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: clamp(2.8rem, 5.2vw, 5rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
   color: var(--white);
 }
-.about-lead::after {
-  content: '';
-  display: block;
-  width: 48px;
-  height: 1px;
-  margin-top: 28px;
-  background: var(--accent-alt);
+.about-hello-row span:last-child {
+  font-weight: 400;
+  letter-spacing: -0.08em;
+}
+.about-here {
+  margin: 11px 0 34px;
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.34);
+}
+.about-name {
+  font-size: clamp(2.05rem, 3.8vw, 3.8rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--white);
+}
+.about-role {
+  margin-top: 10px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+.about-equations {
+  margin: 28px 0 0;
+  padding: 20px 0;
+  border-top: 1px solid rgba(255,255,255,0.16);
+  border-bottom: 1px solid rgba(255,255,255,0.09);
+}
+.about-equations p {
+  font-size: 0.73rem;
+  line-height: 1.75;
+  letter-spacing: 0.035em;
+  color: rgba(255,255,255,0.7);
+}
+.about-equations p span {
+  display: inline-block;
+  width: 20px;
+  color: var(--accent-alt);
+}
+.about-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 30px;
+  padding: 26px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.09);
+}
+.about-facts div {
+  min-width: 0;
+}
+.about-facts dt {
+  margin-bottom: 5px;
+  font-size: 0.48rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+}
+.about-facts dd {
+  font-size: 0.66rem;
+  line-height: 1.45;
+  letter-spacing: 0.035em;
+  color: rgba(255,255,255,0.72);
+  overflow-wrap: anywhere;
+}
+.about-facts a {
+  transition: color 0.25s ease;
+}
+.about-facts a:hover {
+  color: var(--white);
+}
+.about-copy {
+  padding-top: 26px;
 }
 .about-body {
-  font-size: 0.92rem;
-  line-height: 1.9;
-  color: rgba(255,255,255,0.58);
-  margin-bottom: 18px;
+  font-size: 0.78rem;
+  line-height: 1.85;
+  color: rgba(255,255,255,0.48);
+  margin-bottom: 14px;
 }
 .about-body:last-of-type {
-  margin-bottom: 38px;
+  margin-bottom: 28px;
 }
 
 .about-skills {
@@ -1247,14 +1324,14 @@ section:not(#hero) {
   flex-wrap: wrap;
   align-items: baseline;
   gap: 7px 9px;
-  padding-top: 22px;
+  padding-top: 18px;
   border-top: 1px solid rgba(255,255,255,0.11);
 }
 .about-skills span {
   display: inline-flex;
   align-items: baseline;
   gap: 9px;
-  font-size: 0.62rem;
+  font-size: 0.54rem;
   letter-spacing: 0.12em;
   font-weight: 600;
   line-height: 1.7;
@@ -1450,6 +1527,8 @@ section:not(#hero) {
   .hero-counter { right: 32px; }
   .about-layout { grid-template-columns: 1fr; gap: 48px; }
   .about-3d-wrap { height: 360px; }
+  .about-text { max-width: 760px; }
+  .about-profile { padding-top: 0; }
   .album-compact-wrap { gap: 40px; }
   .dial-info-panel { left: 40px; }
 }
@@ -1540,6 +1619,17 @@ section:not(#hero) {
 
   .about-layout { grid-template-columns: 1fr; gap: 40px; }
   .about-3d-wrap { height: 300px; }
+  .about-hello-row {
+    font-size: clamp(2.7rem, 14vw, 4.4rem);
+  }
+  .about-here { margin-bottom: 26px; }
+  .about-facts {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+  .about-equations p {
+    font-size: 0.66rem;
+  }
   .contact-social { gap: 20px; }
   .footer-inner { flex-direction: column; gap: 8px; text-align: center; }
 }

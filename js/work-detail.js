@@ -28,6 +28,13 @@
       '.work-section-label',
       '.next-label',
       '.next-title',
+      '.w5-statement-quote',
+      '.w5-statement-copy',
+      '.w5-film-heading',
+      '.w5-film-frame',
+      '.w5-section-heading',
+      '.w5-selected-page',
+      '.w5-reader-heading',
     ];
     targets.forEach(sel => {
       document.querySelectorAll(sel).forEach(el => {
@@ -110,6 +117,101 @@
 
       gallery.appendChild(fragment);
     });
+  }
+
+  // ---- WORK 05 · COMPLETE FASHION BOOK READER ----
+  function initFashionBookReader() {
+    const reader = document.querySelector('[data-fashion-reader]');
+    if (!reader) return;
+
+    const image = reader.querySelector('.w5-reader-image');
+    const stage = reader.querySelector('.w5-reader-stage');
+    const prev = reader.querySelector('.w5-reader-prev');
+    const next = reader.querySelector('.w5-reader-next');
+    const currentLabel = reader.querySelector('.w5-reader-count b');
+    const progress = reader.querySelector('.w5-reader-progress span');
+    const total = Number.parseInt(reader.dataset.pageCount, 10);
+    const prefix = reader.dataset.imagePrefix || '';
+    const extension = reader.dataset.imageExtension || '.jpg';
+
+    if (!image || !stage || !prev || !next || !Number.isInteger(total) || total < 1 || !prefix) return;
+
+    let currentPage = 1;
+    let changeTimer = null;
+
+    const pageSrc = (page) => `${prefix}${String(page).padStart(3, '0')}${extension}`;
+
+    function preload(page) {
+      if (page < 1 || page > total) return;
+      const preloadImage = new Image();
+      preloadImage.src = pageSrc(page);
+    }
+
+    function updateControls() {
+      currentLabel.textContent = String(currentPage).padStart(3, '0');
+      progress.style.width = `${(currentPage / total) * 100}%`;
+      prev.disabled = currentPage === 1;
+      next.disabled = currentPage === total;
+    }
+
+    function showPage(page, immediate = false) {
+      const targetPage = Math.max(1, Math.min(total, page));
+      if (targetPage === currentPage && !immediate) return;
+
+      window.clearTimeout(changeTimer);
+      if (!immediate) image.classList.add('is-changing');
+
+      changeTimer = window.setTimeout(() => {
+        currentPage = targetPage;
+        image.onload = () => image.classList.remove('is-changing');
+        image.src = pageSrc(currentPage);
+        image.alt = `Guiping Mei Fashion Book page ${currentPage}`;
+        updateControls();
+        preload(currentPage - 1);
+        preload(currentPage + 1);
+
+        if (image.complete) image.classList.remove('is-changing');
+      }, immediate ? 0 : 170);
+    }
+
+    prev.addEventListener('click', (event) => {
+      event.stopPropagation();
+      showPage(currentPage - 1);
+    });
+    next.addEventListener('click', (event) => {
+      event.stopPropagation();
+      showPage(currentPage + 1);
+    });
+
+    stage.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        showPage(currentPage - 1);
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        showPage(currentPage + 1);
+      }
+    });
+
+    image.addEventListener('click', () => {
+      const requestFullscreen = stage.requestFullscreen || stage.webkitRequestFullscreen;
+      if (!requestFullscreen) return;
+      const fullscreenResult = requestFullscreen.call(stage);
+      fullscreenResult?.catch?.(() => {});
+    });
+
+    document.querySelectorAll('[data-reader-page]').forEach(button => {
+      button.addEventListener('click', () => {
+        const page = Number.parseInt(button.dataset.readerPage, 10);
+        if (!Number.isInteger(page)) return;
+        showPage(page);
+        reader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    updateControls();
+    preload(2);
   }
 
   // ---- BACKGROUND MUSIC + VIDEO HANDOFF ----
@@ -260,6 +362,7 @@
   // ---- INIT ----
   function init() {
     initPdfGallery();
+    initFashionBookReader();
     initBackgroundMusic();
     initReveal();
     initParallax();

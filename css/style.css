@@ -392,144 +392,171 @@ ul { list-style: none; }
 .works-list-wrap {
   display: block;
   position: relative;
-  padding: 40px 80px 80px;
+  padding: 18px 80px 120px;
 }
 
-/* 左侧作品网格 — 外层改为 flex 列，每个分类独立一块 */
+/* Editorial archive: each category keeps its own irregular gallery rhythm. */
 .works-grid {
-  max-width: calc(100% - 300px);
-  margin-right: auto;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 0;
 }
 
-/* 分类标题行 */
 .wg-category-header {
   display: flex;
   align-items: center;
-  padding: 28px 0 10px;
+  padding: 0 0 22px;
   gap: 16px;
 }
-/* 第一组不加顶部横线；从第二组起在标题上方加淡线 */
 .wg-category-divider {
   border-top: 1px solid rgba(255,255,255,0.07);
-  margin-top: 16px;
-  padding-top: 24px;
+  margin-top: 0;
+  padding-top: 34px;
 }
 
-/* 分类名称文字 */
 .wg-category-label {
-  font-size: 0.55rem;
-  letter-spacing: 0.3em;
+  font-size: 0.58rem;
+  letter-spacing: 0.34em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.42);
   white-space: nowrap;
 }
 
-/* 每个分类下的卡片子网格 */
 .wg-category-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 64px 34px;
+  align-items: start;
+  margin-bottom: 96px;
 }
+.wg-category-row:last-child { margin-bottom: 0; }
 
+/* Fashion Design: one tall anchor, one landscape image and one offset portrait. */
+.wg-category-row--0 {
+  width: calc(100% - 270px);
+  grid-template-columns: minmax(230px, 0.86fr) minmax(340px, 1.38fr);
+  grid-template-rows: auto auto;
+  gap: 58px 40px;
+}
+.wg-category-row--0 .wg-item--0 { grid-row: 1 / span 2; }
+.wg-category-row--0 .wg-item--1 { grid-column: 2; grid-row: 1; }
+.wg-category-row--0 .wg-item--2 {
+  grid-column: 2;
+  grid-row: 2;
+  width: 58%;
+  justify-self: end;
+}
+.wg-category-row--0 .wg-item--0 .wg-media { aspect-ratio: 0.73; }
+.wg-category-row--0 .wg-item--1 .wg-media { aspect-ratio: 1.62; }
+.wg-category-row--0 .wg-item--2 .wg-media { aspect-ratio: 0.82; }
 
-/* 单个作品卡片 */
+/* The longer accessory archive alternates heights without forcing a rigid row. */
+.wg-category-row--1 .wg-item:nth-child(3n + 1) .wg-media { aspect-ratio: 0.82; }
+.wg-category-row--1 .wg-item:nth-child(3n + 2) { margin-top: 72px; }
+.wg-category-row--1 .wg-item:nth-child(3n + 2) .wg-media { aspect-ratio: 1.28; }
+.wg-category-row--1 .wg-item:nth-child(3n) .wg-media { aspect-ratio: 1 / 1; }
+
+.wg-category-row--2 {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 54px;
+}
+.wg-category-row--2 .wg-item--1 { margin-top: 110px; }
+.wg-category-row--2 .wg-item--0 .wg-media { aspect-ratio: 1.55; }
+.wg-category-row--2 .wg-item--1 .wg-media { aspect-ratio: 1.18; }
+
+.wg-category-row--3 {
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: 54px;
+}
+.wg-category-row--3 .wg-item--1 { margin-top: 92px; }
+.wg-category-row--3 .wg-item--0 .wg-media { aspect-ratio: 0.9; }
+.wg-category-row--3 .wg-item--1 .wg-media { aspect-ratio: 1.45; }
+
 .wg-item {
   position: relative;
   cursor: pointer;
-  aspect-ratio: 3/4;
+  min-width: 0;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.wg-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
-  border-radius: 4px;
-  background: #111;
+  background: #0d0d0d;
 }
 
-/* 图片 */
-.wg-item img {
+.wg-media img,
+.wg-media video {
   width: 100%; height: 100%;
   object-fit: cover;
   display: block;
-  filter: brightness(0.5) grayscale(0.3);
-  transform: scale(1.05);
-  transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94),
-              filter 0.6s ease,
-              box-shadow 0.6s ease;
+  filter: brightness(0.72) saturate(0.82);
+  transform: scale(1.015);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), filter 0.55s ease;
 }
 
-/* 悬浮信息覆盖层 */
 .wg-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 5;  
-  background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.1) 60%);
+  position: static;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 14px 12px;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 0 0;
+  background: none;
+  opacity: 1;
+  transform: none;
+}
+.wg-meta-main {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  min-width: 0;
 }
 .wg-num {
-  font-size: 0.5rem; font-weight: 700;
-  letter-spacing: 0.3em; color: #cc1111;
-  margin-bottom: 5px;
+  flex-shrink: 0;
+  font-size: 0.48rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.9);
 }
 .wg-title {
-  font-size: 0.78rem; font-weight: 700;
-  color: #fff; line-height: 1.2;
-  margin-bottom: 4px;
+  font-size: 0.61rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.86);
+  line-height: 1.35;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
 }
 .wg-cat {
-  font-size: 0.58rem; color: rgba(255,255,255,0.6);
+  flex-shrink: 0;
+  max-width: 48%;
+  text-align: right;
+  font-size: 0.48rem;
+  line-height: 1.45;
+  color: rgba(255,255,255,0.3);
   letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-/* 桌面悬浮效果 */
 @media (hover: hover) {
   .wg-item:hover {
     z-index: 10;
-    transform: translateY(-6px) scale(1.06);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-    transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94),
-                box-shadow 0.5s ease;
+    transform: translateY(-4px);
   }
-  .wg-item:hover img {
-    filter: brightness(0.85) grayscale(0);
+  .wg-item:hover .wg-media img,
+  .wg-item:hover .wg-media video {
+    filter: brightness(0.92) saturate(1);
     transform: scale(1);
   }
-  .wg-item:hover .wg-overlay {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
-/* 手机：点击激活态 */
-.wg-item.tapped img {
-  filter: brightness(0.75) grayscale(0);
+.wg-item.tapped .wg-media img {
+  filter: brightness(0.9) saturate(1);
   transform: scale(1);
-}
-.wg-item.tapped .wg-overlay {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* 播放器右侧固定，不变 */
-
-
-/* 移动端：网格变 2 列，播放器移到下方 */
-@media (max-width: 768px) {
-  .works-list-wrap {
-    padding: 24px 20px 240px;
-  }
-  .works-grid {
-    max-width: 100%;
-  }
-  .wg-category-row {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
 }
 
 
@@ -790,7 +817,7 @@ ul { list-style: none; }
 .sound-widget {
   position: absolute;
   right: 80px;
-  top: 40px;
+  top: 210px;
   transform: none;
   z-index: 50;
   display: flex;
@@ -1413,7 +1440,10 @@ section:not(#hero) {
   #albums { padding: 48px 48px 32px; }
   #works { padding: 64px 0 0; }
   #works .section-header { padding: 0 48px; }
-  .sound-widget { right: 48px; }
+  .works-list-wrap { padding-left: 48px; padding-right: 48px; }
+  .wg-category-row--0 { width: calc(100% - 220px); }
+  .sound-widget { right: 48px; top: 190px; }
+  .sound-widget .vinyl-wrap { width: 160px; height: 160px; }
   #footer { padding: 32px 48px; }
   #nav { padding: 0 32px; }
   .hero-info { left: 32px; }
@@ -1438,9 +1468,10 @@ section:not(#hero) {
     align-items: center;
   }
   .portfolio-pdf-btn {
-    position: static;
-    transform: none;
-    margin-left: auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: 0;
     font-size: 0.52rem;
     padding: 6px 14px;
     letter-spacing: 0.15em;
@@ -1462,12 +1493,50 @@ section:not(#hero) {
   .dial-info-panel { left: 20px; max-width: 200px; }
   .dip-title { font-size: 1.6rem; }
   .sound-widget {
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: max-content;
+    margin: 30px auto 40px;
   }
   .vinyl-wrap { width: 160px; height: 160px; }
   .vinyl-label { width: 60px; height: 60px; }
+
+  .works-list-wrap {
+    padding: 24px 24px 72px;
+  }
+  .wg-category-header {
+    padding-bottom: 18px;
+  }
+  .wg-category-divider {
+    padding-top: 28px;
+  }
+  .wg-category-row,
+  .wg-category-row--0,
+  .wg-category-row--2,
+  .wg-category-row--3 {
+    width: 100%;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 46px;
+    margin-bottom: 72px;
+  }
+  .wg-category-row .wg-item,
+  .wg-category-row--0 .wg-item--0,
+  .wg-category-row--0 .wg-item--1,
+  .wg-category-row--0 .wg-item--2 {
+    grid-column: auto;
+    grid-row: auto;
+    width: 100%;
+    margin-top: 0;
+    justify-self: stretch;
+  }
+  .wg-overlay {
+    gap: 12px;
+  }
+  .wg-title { font-size: 0.58rem; }
+  .wg-cat { font-size: 0.44rem; }
 
   .about-layout { grid-template-columns: 1fr; gap: 40px; }
   .about-3d-wrap { height: 300px; }

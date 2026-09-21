@@ -83,8 +83,38 @@
     io.observe(fullImg);
   }
 
+  // ---- PDF PAGE GALLERY ----
+  // Turns a compact page definition in the HTML into a lazy-loaded image list.
+  function initPdfGallery() {
+    document.querySelectorAll('[data-pdf-gallery]').forEach(gallery => {
+      const pageCount = Number.parseInt(gallery.dataset.pageCount, 10);
+      const prefix = gallery.dataset.imagePrefix || '';
+      const extension = gallery.dataset.imageExtension || '.jpg';
+      const altPrefix = gallery.dataset.altPrefix || 'PDF page';
+
+      if (!Number.isInteger(pageCount) || pageCount < 1 || !prefix) return;
+
+      const fragment = document.createDocumentFragment();
+
+      for (let page = 1; page <= pageCount; page += 1) {
+        const image = document.createElement('img');
+        const pageNumber = String(page).padStart(3, '0');
+
+        image.src = `${prefix}${pageNumber}${extension}`;
+        image.alt = `${altPrefix} ${page}`;
+        image.loading = page <= 2 ? 'eager' : 'lazy';
+        image.decoding = 'async';
+
+        fragment.appendChild(image);
+      }
+
+      gallery.appendChild(fragment);
+    });
+  }
+
   // ---- INIT ----
   function init() {
+    initPdfGallery();
     initReveal();
     initParallax();
     initFullImg();

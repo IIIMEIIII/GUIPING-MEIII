@@ -13,33 +13,39 @@
 
  <!-- ========== LOADER ========== -->
 <div id="loader">
-  <!-- 单视频全屏背景 -->
-  <video id="loaderVideo" autoplay muted playsinline webkit-playsinline preload="auto"
-    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;">
+  <!-- 全屏视频背景：用 top/left/right/bottom 代替 inset，兼容旧版 iOS Safari -->
+  <video id="loaderVideo"
+    autoplay muted playsinline webkit-playsinline preload="auto"
+    style="position:absolute;top:0;left:0;right:0;bottom:0;
+           width:100%;height:100%;object-fit:cover;z-index:1;">
     <source src="videos/Video-1777199486181.mp4" type="video/mp4" />
   </video>
+
   <!-- 暗色遮罩 -->
-  <div style="position:absolute;inset:0;background:rgba(0,0,0,0.35);z-index:1;"></div>
+  <div style="position:absolute;top:0;left:0;right:0;bottom:0;
+              background:rgba(0,0,0,0.4);z-index:2;"></div>
 
   <!-- 截图用 canvas（隐藏） -->
   <canvas id="loaderSnapshot" style="display:none;"></canvas>
-  <!-- 粒子爆发 canvas -->
-  <canvas id="loaderParticles" style="position:fixed;inset:0;width:100%;height:100%;
-    z-index:20;pointer-events:none;opacity:0;"></canvas>
 
-  <!-- 中间内容（绝对居中浮在上面） -->
-  <div class="loader-inner" style="position:fixed;top:50%;left:50%;
-       transform:translate(-50%,-50%);z-index:10;">
+  <!-- 粒子爆发 canvas（在 loader 退出时出现） -->
+  <canvas id="loaderParticles"
+    style="position:fixed;top:0;left:0;width:100%;height:100%;
+           z-index:9995;pointer-events:none;opacity:0;"></canvas>
+
+  <!-- 中间内容：logo + 进度条 + 按钮 -->
+  <div class="loader-inner">
     <img src="images/抠图-1777199082258.png" alt="Guiping Mei"
-      style="width:200px;display:block;margin:0 auto 28px;mix-blend-mode:screen;opacity:0.9;" />
-    <span class="loader-text">Design with passion, fueled by the spirit of metal.</span>
+      style="width:180px;display:block;margin:0 auto 24px;
+             mix-blend-mode:screen;opacity:0.92;" />
     <div class="loader-bar"><div class="loader-fill"></div></div>
     <button id="loaderEnterBtn"
-      style="visibility:hidden;opacity:0;margin-top:32px;padding:10px 36px;
+      style="visibility:hidden;opacity:0;margin-top:28px;padding:10px 36px;
              background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.35);
-             color:rgba(255,255,255,0.8);letter-spacing:0.3em;font-size:0.6rem;
-             cursor:pointer;backdrop-filter:blur(4px);font-family:inherit;
-             text-transform:uppercase;transition:opacity 0.8s ease,visibility 0.8s ease;">
+             color:rgba(255,255,255,0.85);letter-spacing:0.3em;font-size:0.6rem;
+             cursor:pointer;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+             font-family:inherit;text-transform:uppercase;
+             transition:opacity 0.8s ease,visibility 0.8s ease;">
       EXPLORE
     </button>
   </div>
@@ -105,7 +111,7 @@
   <div class="section-header">
     <span class="section-num">01</span>
 
-     <!-- PDF 作品集入口 -->
+    <!-- PDF 作品集入口 -->
     <a href="assets/portfolio-guiping-mei.pdf"
        target="_blank"
        rel="noopener"
@@ -114,7 +120,6 @@
       <span class="pdf-btn-label">FULL PORTFOLIO</span>
       <span class="pdf-btn-arrow">↗&#xFE0E;</span>
     </a>
-    
   </div>
 
   <div class="works-list-wrap" id="worksListWrap">
@@ -189,8 +194,11 @@
     </div>
     <div class="about-layout">
 
-      <!-- 左侧：3D 场景（电视机 + 骷髅水杯） -->
-      <div class="about-3d-wrap" id="aboutCanvas3D"></div>
+      <!-- 左侧：3D 场景 + 提示文字 -->
+      <div class="about-3d-col">
+        <div class="about-3d-wrap" id="aboutCanvas3D"></div>
+        <p class="about-3d-hint">I can rotate freely!</p>
+      </div>
 
       <!-- 右侧：文字信息 -->
       <div class="about-text">

@@ -789,9 +789,9 @@ ul { list-style: none; }
 /* 整体容器：works 右侧竖向居中 */
 .sound-widget {
   position: absolute;
-  right: 40px;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 80px;
+  top: 40px;
+  transform: none;
   z-index: 50;
   display: flex;
   flex-direction: column;
@@ -1096,15 +1096,19 @@ section:not(#hero) {
 
 /* ---- PDF 作品集入口按钮 ---- */
 .portfolio-pdf-btn {
-  margin-left: auto;              /* 推到右侧 */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-left: 0;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 18px;
-  border: 1px solid rgba(255,255,255,0.22);
-  background: transparent;
-  color: rgba(255,255,255,0.6);
-  font-size: 0.58rem;
+  padding: 11px 28px;
+  border: 1px solid rgba(255,255,255,0.48);
+  background: rgba(255,255,255,0.045);
+  color: rgba(255,255,255,0.9);
+  font-size: 0.68rem;
+  font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   font-family: var(--font-main);
@@ -1112,11 +1116,12 @@ section:not(#hero) {
   transition: color 0.3s, border-color 0.3s, background 0.3s;
   cursor: pointer;
   text-decoration: none;
+  box-shadow: 0 0 24px rgba(255,255,255,0.04);
 }
 .portfolio-pdf-btn:hover {
   color: #fff;
-  border-color: rgba(255,255,255,0.7);
-  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.1);
 }
 .pdf-btn-arrow {
   font-size: 0.75rem;
@@ -1129,7 +1134,13 @@ section:not(#hero) {
 
 /* ---------- WORKS SECTION ---------- */
 #works { background: var(--bg); padding: 80px 0 0; }
-#works .section-header { padding: 0 80px; margin-bottom: 40px; }
+#works .section-header {
+  position: relative;
+  min-height: 42px;
+  padding: 0 80px;
+  margin-bottom: 40px;
+  align-items: center;
+}
 
 /* ---------- ABOUT SECTION ---------- */
 #about { background: var(--bg); }
@@ -1377,6 +1388,7 @@ section:not(#hero) {
   #albums { padding: 48px 48px 32px; }
   #works { padding: 64px 0 0; }
   #works .section-header { padding: 0 48px; }
+  .sound-widget { right: 48px; }
   #footer { padding: 32px 48px; }
   #nav { padding: 0 32px; }
   .hero-info { left: 32px; }
@@ -1401,6 +1413,9 @@ section:not(#hero) {
     align-items: center;
   }
   .portfolio-pdf-btn {
+    position: static;
+    transform: none;
+    margin-left: auto;
     font-size: 0.52rem;
     padding: 6px 14px;
     letter-spacing: 0.15em;
@@ -1421,7 +1436,11 @@ section:not(#hero) {
   .dial-stage { height: 60vh; min-height: 380px; }
   .dial-info-panel { left: 20px; max-width: 200px; }
   .dip-title { font-size: 1.6rem; }
-  .sound-widget { right: 16px; }
+  .sound-widget {
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
   .vinyl-wrap { width: 160px; height: 160px; }
   .vinyl-label { width: 60px; height: 60px; }
 

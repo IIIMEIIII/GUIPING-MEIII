@@ -9,6 +9,22 @@
   <link rel="stylesheet" href="css/work-detail.css" />
 </head>
 <body>
+  <audio id="workBackgroundMusic" loop preload="auto">
+    <source src="audio/work-5-background.mp3" type="audio/mpeg" />
+  </audio>
+
+  <button
+    class="music-toggle"
+    id="musicToggle"
+    type="button"
+    aria-label="Turn off background music"
+    aria-pressed="true"
+    title="Background music"
+  >
+    <span class="music-toggle-on" aria-hidden="true">×</span>
+    <span class="music-toggle-off" aria-hidden="true">♪</span>
+  </button>
+
   <nav class="detail-nav" id="detailNav">
     <a href="index.html" class="nav-back"><span class="nav-back-arrow">←</span><span>PORTFOLIO</span></a>
     <div class="nav-work-title">The Sensitive Monsterology</div>
@@ -53,7 +69,7 @@
   <!-- VIDEO SECTION -->
 <section class="work-video-section" style="padding:60px 80px;background:#000;">
   <div style="width:100%;max-width:960px;margin:0 auto;aspect-ratio:16/9;background:#000;overflow:hidden;">
-    <video controls playsinline webkit-playsinline
+    <video id="projectVideo" controls playsinline webkit-playsinline
   style="width:100%; height:100%; display:block; object-fit:contain;">
     <source src="videos/4月24日.mp4" type="video/mp4" />
     </video>

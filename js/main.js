@@ -364,12 +364,12 @@ function initWorksGrid() {
 
     // ── 该分类下的卡片容器（独立一行的子网格）
     const row = document.createElement('div');
-    row.className = 'wg-category-row';
+    row.className = `wg-category-row wg-category-row--${catIdx}`;
     grid.appendChild(row);
 
-    cat.works.forEach(w => {
+    cat.works.forEach((w, workIdx) => {
       const item = document.createElement('div');
-      item.className = 'wg-item';
+      item.className = `wg-item wg-item--${workIdx}`;
 
       const mediaHTML = w.video ? `
         <div style="position:relative;width:100%;height:100%;">
@@ -381,10 +381,12 @@ function initWorksGrid() {
           </video>
         </div>` : `<img src="${w.img}" alt="${w.title}" loading="lazy" />`;
 
-      item.innerHTML = mediaHTML + `
+      item.innerHTML = `<div class="wg-media">${mediaHTML}</div>` + `
         <div class="wg-overlay">
-          <span class="wg-num">${w.num}</span>
-          <div class="wg-title">${w.title}</div>
+          <div class="wg-meta-main">
+            <span class="wg-num">${w.num}</span>
+            <div class="wg-title">${w.title}</div>
+          </div>
           <div class="wg-cat">${w.cat}</div>
         </div>`;
 

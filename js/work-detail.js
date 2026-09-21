@@ -112,9 +112,155 @@
     });
   }
 
+  // ---- BACKGROUND MUSIC + VIDEO HANDOFF ----
+  function initBackgroundMusic() {
+    const music = document.getElementById('workBackgroundMusic');
+    const toggle = document.getElementById('musicToggle');
+    const videos = Array.from(document.querySelectorAll('.work-video-section video'));
+
+    if (!music || !toggle) return;
+
+    const targetVolume = 0.28;
+    const fadeInDuration = 850;
+    const fadeOutDuration = 650;
+    const playingVideos = new Set();
+    let musicEnabled = true;
+    let fadeFrame = null;
+    let unlockArmed = false;
+
+    function cancelFade() {
+      if (fadeFrame !== null) {
+        window.cancelAnimationFrame(fadeFrame);
+        fadeFrame = null;
+      }
+    }
+
+    function fadeTo(target, duration, onComplete) {
+      cancelFade();
+
+      const startVolume = music.volume;
+      const startedAt = performance.now();
+
+      function step(now) {
+        const progress = Math.min((now - startedAt) / duration, 1);
+        const eased = progress * (2 - progress);
+        music.volume = Math.max(0, Math.min(1,
+          startVolume + ((target - startVolume) * eased)
+        ));
+
+        if (progress < 1) {
+          fadeFrame = window.requestAnimationFrame(step);
+        } else {
+          fadeFrame = null;
+          if (onComplete) onComplete();
+        }
+      }
+
+      fadeFrame = window.requestAnimationFrame(step);
+    }
+
+    function updateToggle() {
+      toggle.classList.toggle('is-off', !musicEnabled);
+      toggle.setAttribute('aria-pressed', String(musicEnabled));
+      toggle.setAttribute(
+        'aria-label',
+        musicEnabled ? 'Turn off background music' : 'Turn on background music'
+      );
+    }
+
+    function disarmUnlock() {
+      if (!unlockArmed) return;
+      document.removeEventListener('pointerdown', unlockAudio, true);
+      document.removeEventListener('keydown', unlockAudio, true);
+      unlockArmed = false;
+      toggle.classList.remove('is-waiting');
+    }
+
+    function armUnlock() {
+      if (unlockArmed || !musicEnabled) return;
+      unlockArmed = true;
+      toggle.classList.add('is-waiting');
+      document.addEventListener('pointerdown', unlockAudio, true);
+      document.addEventListener('keydown', unlockAudio, true);
+    }
+
+    async function startMusic() {
+      if (!musicEnabled || playingVideos.size > 0) return false;
+
+      cancelFade();
+      if (music.paused) music.volume = 0;
+
+      try {
+        await music.play();
+        disarmUnlock();
+
+        if (!musicEnabled || playingVideos.size > 0) {
+          music.pause();
+          music.volume = 0;
+          return true;
+        }
+
+        fadeTo(targetVolume, fadeInDuration);
+        return true;
+      } catch (error) {
+        armUnlock();
+        return false;
+      }
+    }
+
+    function unlockAudio() {
+      startMusic();
+    }
+
+    function pauseMusicWithFade() {
+      cancelFade();
+
+      if (music.paused) {
+        music.volume = 0;
+        return;
+      }
+
+      fadeTo(0, fadeOutDuration, () => {
+        music.pause();
+      });
+    }
+
+    videos.forEach(video => {
+      video.addEventListener('play', () => {
+        playingVideos.add(video);
+        pauseMusicWithFade();
+      });
+
+      const resumeMusic = () => {
+        const wasPlaying = playingVideos.delete(video);
+        if (wasPlaying && playingVideos.size === 0) startMusic();
+      };
+
+      video.addEventListener('pause', resumeMusic);
+      video.addEventListener('ended', resumeMusic);
+    });
+
+    toggle.addEventListener('click', () => {
+      musicEnabled = !musicEnabled;
+      updateToggle();
+
+      if (musicEnabled) {
+        startMusic();
+      } else {
+        disarmUnlock();
+        pauseMusicWithFade();
+      }
+    });
+
+    music.volume = 0;
+    updateToggle();
+    startMusic();
+  }
+
   // ---- INIT ----
   function init() {
     initPdfGallery();
+    initBackgroundMusic();
     initReveal();
     initParallax();
     initFullImg();

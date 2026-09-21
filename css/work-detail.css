@@ -533,6 +533,26 @@ img  { display: block; max-width: 100%; }
   display: block;
   filter: grayscale(1) invert(1) contrast(1.65);
   mix-blend-mode: screen;
+  opacity: 0.94;
+  animation: w5LogoBreathe 7.5s ease-in-out infinite;
+  will-change: opacity;
+}
+.w5-title-logo:hover img {
+  opacity: 1;
+  animation-play-state: paused;
+}
+@keyframes w5LogoBreathe {
+  0%, 100% { opacity: 0.94; }
+  24% { opacity: 0.62; }
+  46% { opacity: 0.82; }
+  68% { opacity: 0.38; }
+  84% { opacity: 0.72; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .w5-title-logo img {
+    animation: none;
+    opacity: 0.94;
+  }
 }
 .w5-accent-line {
   width: 38px;

@@ -159,26 +159,52 @@
        零反光、零高光，照片 1:1 原色显示                    */
     const screenMat = new THREE.MeshBasicMaterial({
       map: screenTex,
+      toneMapped: false,
     });
 
-    /* 加载照片：进一步放大，偏左裁剪聚焦人脸 */
+    /* 加载照片：cover 裁剪，铺满电视屏幕并聚焦面部与上半身 */
     const photoImg = new Image();
     photoImg.crossOrigin = 'anonymous';
     photoImg.onload = () => {
       const iW = photoImg.width;
       const iH = photoImg.height;
 
-      // 只取上方 52% 高度（更放大），正方形裁剪
-      const cropH = iH * 0.52;
-      const cropW = cropH;
-      // 水平偏右：从左边 18% 开始，往右移
-      const sx = iW * 0.18;
-      const sy = iH * 0.05;  // 往下移 5%
+      const targetAspect = screenW / screenH;
+      let cropW = iW;
+      let cropH = cropW / targetAspect;
+      let sx = 0;
+      let sy = Math.min(iH - cropH, iH * 0.1);
 
+      if (cropH > iH) {
+        cropH = iH;
+        cropW = cropH * targetAspect;
+        sx = (iW - cropW) / 2;
+        sy = 0;
+      }
+
+      sCtx.clearRect(0, 0, screenW, screenH);
       sCtx.drawImage(photoImg, sx, sy, cropW, cropH, 0, 0, screenW, screenH);
+
+      // Very subtle glass sheen and vignette so the portrait belongs to the TV.
+      const sheen = sCtx.createLinearGradient(0, 0, screenW, screenH);
+      sheen.addColorStop(0, 'rgba(255,255,255,0.10)');
+      sheen.addColorStop(0.3, 'rgba(255,255,255,0.015)');
+      sheen.addColorStop(0.55, 'rgba(255,255,255,0)');
+      sCtx.fillStyle = sheen;
+      sCtx.fillRect(0, 0, screenW, screenH);
+
+      const vignette = sCtx.createRadialGradient(
+        screenW * 0.5, screenH * 0.46, screenW * 0.16,
+        screenW * 0.5, screenH * 0.5, screenW * 0.72
+      );
+      vignette.addColorStop(0.62, 'rgba(0,0,0,0)');
+      vignette.addColorStop(1, 'rgba(0,0,0,0.24)');
+      sCtx.fillStyle = vignette;
+      sCtx.fillRect(0, 0, screenW, screenH);
+
       screenTex.needsUpdate = true;
     };
-    photoImg.src = 'images/about-photo.jpg';
+    photoImg.src = 'images/about-portrait-tv.jpg';
 
     /* screenGlow 保留（位置占位用，强度极低不影响照片观感） */
     const screenGlow = new THREE.PointLight(0xffffff, 0.0, 0.1);

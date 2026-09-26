@@ -48,6 +48,30 @@
   function initLoader() {
     const loader = document.getElementById('loader');
     if (!loader) return;
+
+    const introSessionKey = 'guipingPortfolioIntroSeen';
+    let hasSeenIntro = false;
+    try {
+      hasSeenIntro = sessionStorage.getItem(introSessionKey) === '1';
+    } catch (error) {}
+
+    if (hasSeenIntro) {
+      loader.classList.add('hidden');
+      loader.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+
+      const skippedVideo = document.getElementById('loaderVideo');
+      if (skippedVideo) {
+        skippedVideo.pause();
+        skippedVideo.removeAttribute('autoplay');
+        skippedVideo.preload = 'none';
+      }
+      return;
+    }
+
+    try {
+      sessionStorage.setItem(introSessionKey, '1');
+    } catch (error) {}
     document.body.style.overflow = 'hidden';
 
     const vid = document.getElementById('loaderVideo');

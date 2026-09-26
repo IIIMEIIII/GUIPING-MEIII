@@ -6,7 +6,7 @@
   <title>The Sensitive Monsterology — Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Space+Grotesk:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/work-detail.css?v=20260926-w5-bilingual" />
+  <link rel="stylesheet" href="css/work-detail.css?v=20260926-w5-chapters" />
 </head>
 <body class="work-5-page">
   <audio id="workBackgroundMusic" loop preload="auto">
@@ -152,9 +152,25 @@
         <button class="w5-reader-arrow w5-reader-next" type="button" aria-label="Next page / 下一页">→</button>
         <span class="w5-fullscreen-hint">CLICK PAGE TO VIEW FULLSCREEN <span class="w5-zh-inline">点击页面全屏查看</span></span>
       </div>
-      <div class="w5-reader-controls">
-        <span class="w5-reader-count"><b>001</b> / 133</span>
-        <div class="w5-reader-progress" aria-hidden="true"><span></span></div>
+      <div class="w5-reader-navigator" aria-label="Book chapter navigation / 书籍章节导航">
+        <nav class="w5-reader-chapters" aria-label="Jump to chapter / 跳转至章节">
+          <button type="button" data-reader-page="1" data-reader-chapter><small>001</small><span>COVER <em>封面</em></span></button>
+          <button type="button" data-reader-page="6" data-reader-chapter><small>006</small><span>THE BIRTH <em>诞生</em></span></button>
+          <button type="button" data-reader-page="12" data-reader-chapter><small>012</small><span>SIGNALS <em>信号</em></span></button>
+          <button type="button" data-reader-page="27" data-reader-chapter><small>027</small><span>MONSTER LANGUAGE <em>怪物语言</em></span></button>
+          <button type="button" data-reader-page="40" data-reader-chapter><small>040</small><span>GIVING FORM <em>赋予形态</em></span></button>
+          <button type="button" data-reader-page="53" data-reader-chapter><small>053</small><span>THE PROCESS <em>制作过程</em></span></button>
+          <button type="button" data-reader-page="100" data-reader-chapter><small>100</small><span>THE MONSTERS <em>怪物们</em></span></button>
+          <button type="button" data-reader-page="127" data-reader-chapter><small>127</small><span>BETWEEN YOU &amp; ME <em>你我之间</em></span></button>
+        </nav>
+        <div class="w5-reader-controls">
+          <span class="w5-reader-count" aria-live="polite"><b>001</b> / 133</span>
+          <div class="w5-reader-scrubber">
+            <input class="w5-reader-range" id="w5ReaderRange" type="range" min="1" max="133" value="1" step="1" aria-label="Drag to select a page / 拖动选择页码" />
+            <output class="w5-reader-range-preview" for="w5ReaderRange">001</output>
+          </div>
+          <span class="w5-reader-drag-hint">DRAG TO SEEK <small>拖动跳页</small></span>
+        </div>
       </div>
       <noscript>Please enable JavaScript to browse all 133 pages. 请启用 JavaScript 浏览全部 133 页。</noscript>
     </section>
@@ -181,6 +197,6 @@
     <a href="index.html" class="footer-back">← Back to Portfolio <span class="w5-zh-inline">返回作品集</span></a>
     <span>© 2026 GUIPING MEI</span>
   </footer>
-  <script src="js/work-detail.js?v=20260926-w5-ghost"></script>
+  <script src="js/work-detail.js?v=20260926-w5-chapters"></script>
 </body>
 </html>

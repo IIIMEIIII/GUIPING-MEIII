@@ -129,12 +129,15 @@
     const prev = reader.querySelector('.w5-reader-prev');
     const next = reader.querySelector('.w5-reader-next');
     const currentLabel = reader.querySelector('.w5-reader-count b');
-    const progress = reader.querySelector('.w5-reader-progress span');
+    const range = reader.querySelector('.w5-reader-range');
+    const scrubber = reader.querySelector('.w5-reader-scrubber');
+    const rangePreview = reader.querySelector('.w5-reader-range-preview');
+    const chapterButtons = Array.from(reader.querySelectorAll('[data-reader-chapter]'));
     const total = Number.parseInt(reader.dataset.pageCount, 10);
     const prefix = reader.dataset.imagePrefix || '';
     const extension = reader.dataset.imageExtension || '.jpg';
 
-    if (!image || !stage || !prev || !next || !Number.isInteger(total) || total < 1 || !prefix) return;
+    if (!image || !stage || !prev || !next || !currentLabel || !range || !scrubber || !Number.isInteger(total) || total < 1 || !prefix) return;
 
     let currentPage = 1;
     let changeTimer = null;
@@ -147,9 +150,35 @@
       preloadImage.src = pageSrc(page);
     }
 
+    const progressPercent = (page) => total === 1 ? 100 : ((page - 1) / (total - 1)) * 100;
+
+    function updateChapterState(page) {
+      let activeChapter = null;
+      chapterButtons.forEach(button => {
+        const chapterPage = Number.parseInt(button.dataset.readerPage, 10);
+        if (Number.isInteger(chapterPage) && chapterPage <= page) activeChapter = button;
+      });
+
+      chapterButtons.forEach(button => {
+        const isActive = button === activeChapter;
+        button.classList.toggle('is-active', isActive);
+        if (isActive) button.setAttribute('aria-current', 'true');
+        else button.removeAttribute('aria-current');
+      });
+    }
+
+    function updateRange(page) {
+      const pageLabel = String(page).padStart(3, '0');
+      const percent = `${progressPercent(page)}%`;
+      range.value = String(page);
+      scrubber.style.setProperty('--reader-progress', percent);
+      currentLabel.textContent = pageLabel;
+      if (rangePreview) rangePreview.textContent = pageLabel;
+      updateChapterState(page);
+    }
+
     function updateControls() {
-      currentLabel.textContent = String(currentPage).padStart(3, '0');
-      progress.style.width = `${(currentPage / total) * 100}%`;
+      updateRange(currentPage);
       prev.disabled = currentPage === 1;
       next.disabled = currentPage === total;
     }
@@ -181,6 +210,25 @@
     next.addEventListener('click', (event) => {
       event.stopPropagation();
       showPage(currentPage + 1);
+    });
+
+    range.max = String(total);
+    range.addEventListener('pointerdown', () => scrubber.classList.add('is-scrubbing'));
+    range.addEventListener('input', () => {
+      const targetPage = Number.parseInt(range.value, 10);
+      if (!Number.isInteger(targetPage)) return;
+      scrubber.classList.add('is-scrubbing');
+      updateRange(targetPage);
+    });
+    range.addEventListener('change', () => {
+      const targetPage = Number.parseInt(range.value, 10);
+      if (Number.isInteger(targetPage)) showPage(targetPage);
+      scrubber.classList.remove('is-scrubbing');
+    });
+    range.addEventListener('pointerup', () => scrubber.classList.remove('is-scrubbing'));
+    range.addEventListener('blur', () => {
+      scrubber.classList.remove('is-scrubbing');
+      updateControls();
     });
 
     stage.addEventListener('keydown', (event) => {

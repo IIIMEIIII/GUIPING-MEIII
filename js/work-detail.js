@@ -214,6 +214,91 @@
     preload(2);
   }
 
+  // ---- WORK 05 · GHOST LOOK LIGHTBOX ----
+  function initLookLightbox() {
+    const lightbox = document.getElementById('w5LookLightbox');
+    const looks = Array.from(document.querySelectorAll('.w5-look'));
+    if (!lightbox || looks.length === 0) return;
+
+    const image = lightbox.querySelector('.w5-look-lightbox-image');
+    const ghost = lightbox.querySelector('.w5-look-lightbox-ghost');
+    const closeButton = lightbox.querySelector('.w5-look-lightbox-close');
+    const captionEn = lightbox.querySelector('.w5-look-lightbox-caption span');
+    const captionZh = lightbox.querySelector('.w5-look-lightbox-caption small');
+    let activeLook = null;
+    let closeTimer = null;
+
+    function captionParts(figure) {
+      const caption = figure.querySelector('figcaption');
+      const zh = caption?.querySelector('.w5-zh-inline')?.textContent.trim() || '';
+      const en = caption
+        ? Array.from(caption.childNodes)
+            .filter(node => node.nodeType === Node.TEXT_NODE)
+            .map(node => node.textContent.trim())
+            .filter(Boolean)
+            .join(' ')
+        : '';
+      return { en, zh };
+    }
+
+    function openLook(figure) {
+      const source = figure.querySelector('img');
+      if (!source || !image || !ghost) return;
+
+      window.clearTimeout(closeTimer);
+      activeLook = figure;
+      const src = source.currentSrc || source.src;
+      const captions = captionParts(figure);
+
+      image.src = src;
+      image.alt = source.alt;
+      ghost.src = src;
+      if (captionEn) captionEn.textContent = captions.en;
+      if (captionZh) captionZh.textContent = captions.zh;
+
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('w5-look-open');
+      closeButton?.focus({ preventScroll: true });
+    }
+
+    function closeLook() {
+      if (!lightbox.classList.contains('is-open')) return;
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('w5-look-open');
+
+      closeTimer = window.setTimeout(() => {
+        image?.removeAttribute('src');
+        ghost?.removeAttribute('src');
+      }, 500);
+
+      activeLook?.focus({ preventScroll: true });
+      activeLook = null;
+    }
+
+    looks.forEach((figure, index) => {
+      figure.setAttribute('role', 'button');
+      figure.setAttribute('tabindex', '0');
+      figure.setAttribute('aria-label', `Open Look ${String(index + 1).padStart(2, '0')} / 放大造型 ${String(index + 1).padStart(2, '0')}`);
+      figure.addEventListener('click', () => openLook(figure));
+      figure.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openLook(figure);
+        }
+      });
+    });
+
+    closeButton?.addEventListener('click', closeLook);
+    lightbox.addEventListener('click', event => {
+      if (event.target === lightbox) closeLook();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && lightbox.classList.contains('is-open')) closeLook();
+    });
+  }
+
   // ---- BACKGROUND MUSIC + VIDEO HANDOFF ----
   function initBackgroundMusic() {
     const music = document.getElementById('workBackgroundMusic');
@@ -363,6 +448,7 @@
   function init() {
     initPdfGallery();
     initFashionBookReader();
+    initLookLightbox();
     initBackgroundMusic();
     initReveal();
     initParallax();

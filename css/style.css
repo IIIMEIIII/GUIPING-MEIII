@@ -87,6 +87,11 @@ ul { list-style: none; }
   pointer-events: none;
 }
 
+/* Returning from a work page in the same tab skips the intro without a flash. */
+.skip-loader #loader {
+  display: none !important;
+}
+
 .loader-inner {
   position: relative;
   z-index: 5;                  /* 在视频(z:1)和遮罩(z:2)之上 */

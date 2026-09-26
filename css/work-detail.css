@@ -669,6 +669,9 @@ img  { display: block; max-width: 100%; }
   justify-self: end;
   overflow: hidden;
   background: transparent;
+  transform-origin: 52% 44%;
+  animation: w5HeroFloat 9.5s ease-in-out 1.15s infinite;
+  will-change: transform, filter;
 }
 .w5-hero-visual img {
   width: 100%;
@@ -682,6 +685,32 @@ img  { display: block; max-width: 100%; }
 @keyframes w5HeroReveal {
   from { opacity: 0; transform: scale(1.035); }
   to { opacity: 1; transform: scale(1); }
+}
+@keyframes w5HeroFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(-0.18deg);
+    filter: drop-shadow(0 20px 34px rgba(0,0,0,0.2));
+  }
+  24% {
+    transform: translate3d(2px, -5px, 0) rotate(0.28deg);
+    filter: drop-shadow(-3px 28px 42px rgba(0,0,0,0.28));
+  }
+  52% {
+    transform: translate3d(-2px, -8px, 0) rotate(-0.1deg);
+    filter: drop-shadow(3px 31px 48px rgba(0,0,0,0.32));
+  }
+  76% {
+    transform: translate3d(1px, -3px, 0) rotate(0.2deg);
+    filter: drop-shadow(-2px 24px 38px rgba(0,0,0,0.25));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .w5-hero-visual {
+    animation: none;
+    transform: none;
+    filter: drop-shadow(0 20px 34px rgba(0,0,0,0.2));
+  }
 }
 
 /* Statement */

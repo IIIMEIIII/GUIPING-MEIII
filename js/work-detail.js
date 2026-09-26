@@ -262,10 +262,10 @@
     preload(2);
   }
 
-  // ---- WORK 05 · GHOST LOOK LIGHTBOX ----
+  // ---- GHOST IMAGE LIGHTBOX (WORK 02 + WORK 05) ----
   function initLookLightbox() {
     const lightbox = document.getElementById('w5LookLightbox');
-    const looks = Array.from(document.querySelectorAll('.w5-look'));
+    const looks = Array.from(document.querySelectorAll('.w5-look, [data-ghost-item]'));
     if (!lightbox || looks.length === 0) return;
 
     const image = lightbox.querySelector('.w5-look-lightbox-image');
@@ -278,7 +278,7 @@
 
     function captionParts(figure) {
       const caption = figure.querySelector('figcaption');
-      const zh = caption?.querySelector('.w5-zh-inline')?.textContent.trim() || '';
+      const zh = caption?.querySelector('.w5-zh-inline, .w2-zh-inline')?.textContent.trim() || '';
       const en = caption
         ? Array.from(caption.childNodes)
             .filter(node => node.nodeType === Node.TEXT_NODE)
@@ -326,9 +326,16 @@
     }
 
     looks.forEach((figure, index) => {
+      const isEditorial = figure.hasAttribute('data-ghost-item');
+      const itemNumber = String(index + 1).padStart(2, '0');
       figure.setAttribute('role', 'button');
       figure.setAttribute('tabindex', '0');
-      figure.setAttribute('aria-label', `Open Look ${String(index + 1).padStart(2, '0')} / 放大造型 ${String(index + 1).padStart(2, '0')}`);
+      figure.setAttribute(
+        'aria-label',
+        isEditorial
+          ? `Open editorial image ${itemNumber} / 放大时装影像 ${itemNumber}`
+          : `Open Look ${itemNumber} / 放大造型 ${itemNumber}`
+      );
       figure.addEventListener('click', () => openLook(figure));
       figure.addEventListener('keydown', event => {
         if (event.key === 'Enter' || event.key === ' ') {

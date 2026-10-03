@@ -403,8 +403,9 @@
     function captionParts(figure) {
       const caption = figure.querySelector('figcaption');
       const zh = caption?.querySelector('.w5-zh-inline, .w2-zh-inline')?.textContent.trim() || '';
-      const en = caption
-        ? Array.from(caption.childNodes)
+      const englishRoot = caption?.querySelector(':scope > span') || caption;
+      const en = englishRoot
+        ? Array.from(englishRoot.childNodes)
             .filter(node => node.nodeType === Node.TEXT_NODE)
             .map(node => node.textContent.trim())
             .filter(Boolean)
@@ -635,7 +636,6 @@
     const lineup = document.querySelector('[data-w2-lineup]');
     const characterLabel = lineup?.querySelector('.w2-character-label');
     const characterButtons = Array.from(lineup?.querySelectorAll('[data-character]') || []);
-    const editorialItems = Array.from(document.querySelectorAll('.w2-editorial-item'));
     const reveals = Array.from(document.querySelectorAll('.w2-act-marker, .w2-spread, .w2-lineup-intro, .w2-editorial-item'));
 
     if (hero && finePointer && !reducedMotion) {
@@ -702,12 +702,14 @@
       const activate = () => {
         lineup?.classList.add('is-casting');
         lineup?.style.setProperty('--character-x', `${Number.parseFloat(button.style.getPropertyValue('--character-left')) || 50}%`);
-        if (characterLabel) characterLabel.innerHTML = `CHARACTER ${button.dataset.character} <small>角色 ${button.dataset.character}</small>`;
+        const [statusEn, statusZh] = (button.dataset.status || 'DESIGN STUDY / 设计提案').split('/').map(value => value.trim());
+        if (characterLabel) characterLabel.innerHTML = `LOOK ${button.dataset.character} — ${statusEn} <small>造型 ${button.dataset.character} · ${statusZh || ''}</small>`;
       };
       button.addEventListener('pointerenter', activate);
       button.addEventListener('focus', activate);
       button.addEventListener('click', () => {
-        const target = editorialItems[Math.min(editorialItems.length - 1, index + 2)];
+        if (index > 1) return;
+        const target = document.querySelector(`[data-realized-look="${index + 1}"]`);
         if (!target) return;
         target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' });
         target.classList.add('is-character-target');
@@ -718,6 +720,64 @@
       lineup.classList.remove('is-casting');
       if (characterLabel) characterLabel.innerHTML = 'SELECT A CHARACTER <small>选择一个角色</small>';
     });
+  }
+
+  function initWork2ConstructionArchive() {
+    const archive = document.getElementById('w2ConstructionArchive');
+    if (!archive) return;
+    const image = archive.querySelector('figure img');
+    const title = archive.querySelector('h2');
+    const closeButton = archive.querySelector('.w2-construction-close');
+    const selectors = Array.from(archive.querySelectorAll('[data-construction-select]'));
+    const triggers = Array.from(document.querySelectorAll('[data-construction-look]'));
+    let activeTrigger = null;
+
+    const archives = {
+      1: { src: 'images/work-2-construction-look-01.jpg', alt: 'Look 01 construction, materials and fitting board' },
+      2: { src: 'images/work-2-construction-look-02.jpg', alt: 'Look 02 construction, materials and fitting board' }
+    };
+
+    function selectLook(look) {
+      const entry = archives[look];
+      if (!entry || !image) return;
+      image.src = entry.src;
+      image.alt = entry.alt;
+      if (title) title.textContent = `LOOK ${String(look).padStart(2, '0')}`;
+      selectors.forEach(button => {
+        const active = Number.parseInt(button.dataset.constructionSelect, 10) === look;
+        button.classList.toggle('is-active', active);
+        if (active) button.setAttribute('aria-current', 'true');
+        else button.removeAttribute('aria-current');
+      });
+    }
+
+    function openArchive(look, trigger) {
+      activeTrigger = trigger || null;
+      selectLook(look);
+      archive.classList.add('is-open');
+      archive.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('w2-construction-open');
+      closeButton?.focus({ preventScroll: true });
+    }
+
+    function closeArchive() {
+      if (!archive.classList.contains('is-open')) return;
+      archive.classList.remove('is-open');
+      archive.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('w2-construction-open');
+      activeTrigger?.focus({ preventScroll: true });
+      activeTrigger = null;
+    }
+
+    triggers.forEach(trigger => trigger.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      openArchive(Number.parseInt(trigger.dataset.constructionLook, 10), trigger);
+    }));
+    selectors.forEach(button => button.addEventListener('click', () => selectLook(Number.parseInt(button.dataset.constructionSelect, 10))));
+    closeButton?.addEventListener('click', closeArchive);
+    archive.addEventListener('click', event => { if (event.target === archive) closeArchive(); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && archive.classList.contains('is-open')) closeArchive(); });
   }
 
   // ---- BACKGROUND MUSIC + VIDEO HANDOFF ----
@@ -865,6 +925,45 @@
     startMusic();
   }
 
+  // ---- WORK 1: FRAGMENTED SELF REVEAL + EMOTIONAL INDEX ----
+  function initWork1Experience() {
+    const hero = document.querySelector('.w1-hero');
+    if (!hero) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!reducedMotion) {
+      hero.addEventListener('pointermove', event => {
+        const rect = hero.getBoundingClientRect();
+        const position = Math.max(22, Math.min(78, ((event.clientX - rect.left) / rect.width) * 100));
+        hero.style.setProperty('--w1-split', `${position}%`);
+      });
+      hero.addEventListener('pointerleave', () => hero.style.setProperty('--w1-split', '54%'));
+    }
+
+    const stateButtons = Array.from(document.querySelectorAll('[data-w1-state]'));
+    const readout = document.querySelector('.w1-state-readout');
+    const activateState = button => {
+      stateButtons.forEach(item => item.classList.toggle('is-active', item === button));
+      if (readout) readout.innerHTML = `<b>${button.dataset.w1State} — ${button.dataset.w1StateName}</b><small>${button.dataset.w1StateZh}</small>`;
+    };
+    stateButtons.forEach(button => {
+      button.addEventListener('click', () => activateState(button));
+      button.addEventListener('mouseenter', () => activateState(button));
+    });
+
+    const railLinks = Array.from(document.querySelectorAll('.w1-chapter-rail a'));
+    const sections = railLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    if ('IntersectionObserver' in window && sections.length) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          railLinks.forEach(link => link.classList.toggle('is-active', link.getAttribute('href') === `#${entry.target.id}`));
+        });
+      }, { rootMargin: '-38% 0px -52% 0px', threshold: 0 });
+      sections.forEach(section => observer.observe(section));
+    }
+  }
+
   // ---- INIT ----
   function init() {
     initPdfGallery();
@@ -873,6 +972,8 @@
     initBackgroundMusic();
     initWork5SensoryInteractions();
     initWork2DigitalStage();
+    initWork2ConstructionArchive();
+    initWork1Experience();
     initReveal();
     initParallax();
     initFullImg();

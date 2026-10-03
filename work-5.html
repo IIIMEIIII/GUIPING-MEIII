@@ -6,7 +6,7 @@
   <title>The Sensitive Monsterology — Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Space+Grotesk:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/work-detail.css?v=20260926-w5-floating-hero" />
+  <link rel="stylesheet" href="css/work-detail.css?v=20261003-w5-lineup" />
 </head>
 <body class="work-5-page">
   <audio id="workBackgroundMusic" loop preload="auto">
@@ -79,6 +79,10 @@
       </div>
     </section>
 
+    <figure class="w5-lineup-image" id="collectionLineup">
+      <img src="images/work-5-lineup.jpg" alt="The Sensitive Monsterology six-look line up" loading="lazy" decoding="async" />
+    </figure>
+
     <section class="w5-looks" aria-label="Six collection looks / 六套系列造型">
       <div class="w5-looks-strip">
         <figure class="w5-look">
@@ -143,12 +147,16 @@
       aria-labelledby="readerTitle"
     >
       <div class="w5-reader-heading">
-        <h2 id="readerTitle">COMPLETE FASHION BOOK <small class="w5-zh-heading">完整时装作品集</small></h2>
+        <h2 id="readerTitle">FASHION BOOK <small class="w5-zh-heading">时装作品集</small></h2>
         <span>133 PAGES <span class="w5-zh-inline">133 页</span></span>
       </div>
       <div class="w5-reader-stage" tabindex="0" aria-label="Fashion Book page reader. Use the arrow keys to change pages. 时装作品集阅读器，可使用方向键翻页。">
         <button class="w5-reader-arrow w5-reader-prev" type="button" aria-label="Previous page / 上一页">←</button>
-        <img class="w5-reader-image" src="images/work-5-fashion-book/page-001.jpg" alt="Guiping Mei Fashion Book page 1" />
+        <div class="w5-reader-book">
+          <img class="w5-reader-image" src="images/work-5-fashion-book/page-001.jpg" alt="Guiping Mei Fashion Book page 1" />
+          <img class="w5-reader-turning-page" src="images/work-5-fashion-book/page-001.jpg" alt="" aria-hidden="true" />
+          <span class="w5-reader-spine" aria-hidden="true"></span>
+        </div>
         <button class="w5-reader-arrow w5-reader-next" type="button" aria-label="Next page / 下一页">→</button>
         <span class="w5-fullscreen-hint">CLICK PAGE TO VIEW FULLSCREEN <span class="w5-zh-inline">点击页面全屏查看</span></span>
       </div>
@@ -197,6 +205,6 @@
     <a href="index.html" class="footer-back">← Back to Portfolio <span class="w5-zh-inline">返回作品集</span></a>
     <span>© 2026 GUIPING MEI</span>
   </footer>
-  <script src="js/work-detail.js?v=20260926-w5-chapters"></script>
+  <script src="js/work-detail.js?v=20261003-w5-book-flip"></script>
 </body>
 </html>

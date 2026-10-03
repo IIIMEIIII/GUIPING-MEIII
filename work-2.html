@@ -6,7 +6,7 @@
   <title>Stay On Stage — Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Space+Grotesk:wght@300;400;500;700&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/work-detail.css?v=20260926-w2-logo-hero" />
+  <link rel="stylesheet" href="css/work-detail.css?v=20261003-w2-digital-stage" />
 </head>
 <body class="work-2-page">
 
@@ -21,7 +21,7 @@
   </nav>
 
   <main>
-    <section class="w2-hero" aria-labelledby="w2Title">
+    <section class="w2-hero" id="w2Opening" data-w2-act-section="opening" aria-labelledby="w2Title">
       <figure class="w2-hero-backdrop" aria-hidden="true">
         <img src="images/work-2-hero.jpg" alt="" />
       </figure>
@@ -41,7 +41,7 @@
       </div>
     </section>
 
-    <section class="w2-statement" aria-labelledby="w2StatementTitle">
+    <section class="w2-statement" id="w2Statement" data-w2-act-section="concept" aria-labelledby="w2StatementTitle">
       <div class="w2-statement-title">
         <span class="w2-kicker" id="w2StatementTitle">PROJECT STATEMENT <small class="w2-zh-inline">项目陈述</small></span>
         <blockquote>“BETWEEN STRUCTURE AND SOFTNESS, CONCEALMENT AND EXPOSURE.”<small>“在结构与柔软、隐藏与显露之间。”</small></blockquote>
@@ -57,27 +57,43 @@
       </div>
     </section>
 
-    <section class="w2-direction" aria-label="Research and development / 研究与设计发展">
+    <section class="w2-direction" id="w2Concept" aria-label="Research and development / 研究与设计发展">
       <div class="w2-spread-grid">
+        <header class="w2-act-marker" data-w2-act-section="concept"><small>ACT I / 第一幕</small><h2>CONCEPT</h2><span>THE WORLD BEFORE THE CURTAIN RISES.<em>幕布升起前的世界。</em></span></header>
         <figure class="w2-spread w2-spread--hero"><img src="images/paiban. mei427_00.jpg" alt="Stay On Stage title and concept spread" loading="lazy" /><figcaption>001 / TITLE &amp; CONCEPT <small>标题与概念</small></figcaption></figure>
         <figure class="w2-spread w2-spread--left"><img src="images/paiban. mei427_01.jpg" alt="Stay On Stage project concept spread" loading="lazy" /><figcaption>002 / CONCEPT <small>概念</small></figcaption></figure>
         <figure class="w2-spread w2-spread--right"><img src="images/paiban. mei427_02.jpg" alt="Stay On Stage keywords spread" loading="lazy" /><figcaption>003 / KEYWORDS <small>关键词</small></figcaption></figure>
         <figure class="w2-spread w2-spread--wide"><img src="images/paiban. mei427_03.jpg" alt="Stay On Stage moodboard" loading="lazy" /><figcaption>004 / MOODBOARD <small>情绪板</small></figcaption></figure>
+        <header class="w2-act-marker"><small>ACT II / 第二幕</small><h2>IDENTITY &amp; MATERIAL</h2><span>THE CHARACTER TAKES FORM.<em>角色逐渐成形。</em></span></header>
         <figure class="w2-spread w2-spread--offset"><img src="images/paiban. mei427_04.jpg" alt="Stay On Stage branding development" loading="lazy" /><figcaption>005 / IDENTITY <small>视觉识别</small></figcaption></figure>
         <figure class="w2-spread w2-spread--left"><img src="images/paiban. mei427_05.jpg" alt="Stay On Stage colour and textile direction" loading="lazy" /><figcaption>006 / MATERIAL LANGUAGE <small>材料语言</small></figcaption></figure>
+        <header class="w2-act-marker"><small>ACT III / 第三幕</small><h2>CONSTRUCTION</h2><span>STRUCTURE MEETS PERFORMANCE.<em>结构与表演相遇。</em></span></header>
         <figure class="w2-spread w2-spread--right"><img src="images/paiban. mei427_06.jpg" alt="Stay On Stage garment details" loading="lazy" /><figcaption>007 / DETAILS <small>细节</small></figcaption></figure>
         <figure class="w2-spread w2-spread--wide"><img src="images/paiban. mei427_07.jpg" alt="Stay On Stage reference and comparison" loading="lazy" /><figcaption>008 / REFERENCES <small>参考与对照</small></figcaption></figure>
       </div>
     </section>
 
-    <section class="w2-lineup" aria-label="Collection line-up / 系列阵容">
-      <figure>
+    <section class="w2-lineup" id="w2Characters" data-w2-act-section="characters" aria-label="Collection line-up / 系列阵容">
+      <div class="w2-lineup-intro"><small>ACT IV / 第四幕</small><h2>CHARACTERS</h2><p>NINE CHARACTERS WAITING TO ENTER THE STAGE.<span>九个等待登场的角色。</span></p></div>
+      <figure data-w2-lineup>
         <img src="images/paiban. mei427_08.jpg" alt="Stay On Stage collection line-up" loading="lazy" />
+        <div class="w2-character-hotspots" aria-label="Select a character / 选择角色">
+          <button type="button" data-character="01" style="--character-left:8%" aria-label="Character 01"></button>
+          <button type="button" data-character="02" style="--character-left:18.5%" aria-label="Character 02"></button>
+          <button type="button" data-character="03" style="--character-left:29%" aria-label="Character 03"></button>
+          <button type="button" data-character="04" style="--character-left:39.5%" aria-label="Character 04"></button>
+          <button type="button" data-character="05" style="--character-left:50%" aria-label="Character 05"></button>
+          <button type="button" data-character="06" style="--character-left:60.5%" aria-label="Character 06"></button>
+          <button type="button" data-character="07" style="--character-left:71%" aria-label="Character 07"></button>
+          <button type="button" data-character="08" style="--character-left:81.5%" aria-label="Character 08"></button>
+          <button type="button" data-character="09" style="--character-left:92%" aria-label="Character 09"></button>
+        </div>
+        <output class="w2-character-label" aria-live="polite">SELECT A CHARACTER <small>选择一个角色</small></output>
         <figcaption>NINE CHARACTERS / ONE STAGE <small>九个角色 / 同一舞台</small></figcaption>
       </figure>
     </section>
 
-    <section class="w2-editorial" aria-labelledby="w2EditorialTitle">
+    <section class="w2-editorial" id="w2Editorial" data-w2-act-section="editorial" aria-labelledby="w2EditorialTitle">
       <header class="w2-section-head">
         <span>03 / CAMPAIGN <small>时装影像</small></span>
         <h2 id="w2EditorialTitle">EDITORIAL OUTCOMES <small>视觉呈现</small></h2>
@@ -111,12 +127,22 @@
     </section>
   </main>
 
+  <nav class="w2-act-rail" aria-label="Project acts / 项目章节">
+    <a href="#w2Opening" data-w2-act-link="opening"><b>01</b><span>OPENING<small>开场</small></span></a>
+    <a href="#w2Concept" data-w2-act-link="concept"><b>02</b><span>CONCEPT<small>概念</small></span></a>
+    <a href="#w2Characters" data-w2-act-link="characters"><b>03</b><span>CHARACTERS<small>角色</small></span></a>
+    <a href="#w2Editorial" data-w2-act-link="editorial"><b>04</b><span>EDITORIAL<small>影像</small></span></a>
+  </nav>
+
   <div class="w5-look-lightbox" id="w5LookLightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Editorial image preview / 时装影像预览">
     <button class="w5-look-lightbox-close" type="button" aria-label="Close image / 关闭图片">×</button>
+    <button class="w5-look-lightbox-nav w5-look-lightbox-prev" type="button" aria-label="Previous image / 上一张图片">←</button>
+    <button class="w5-look-lightbox-nav w5-look-lightbox-next" type="button" aria-label="Next image / 下一张图片">→</button>
     <div class="w5-look-lightbox-inner">
       <img class="w5-look-lightbox-ghost" src="" alt="" aria-hidden="true" />
       <img class="w5-look-lightbox-image" src="" alt="" />
       <div class="w5-look-lightbox-caption"><span></span><small></small></div>
+      <span class="w5-look-detail-hint">HOLD TO INSPECT <small>长按查看细节</small></span>
     </div>
   </div>
 
@@ -125,6 +151,6 @@
     <span>© 2026 GUIPING MEI</span>
   </footer>
 
-  <script src="js/work-detail.js?v=20260926-w2-editorial"></script>
+  <script src="js/work-detail.js?v=20261003-w2-digital-stage"></script>
 </body>
 </html>

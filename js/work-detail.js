@@ -392,7 +392,9 @@
     const inner = lightbox.querySelector('.w5-look-lightbox-inner');
     const previousButton = lightbox.querySelector('.w5-look-lightbox-prev');
     const nextButton = lightbox.querySelector('.w5-look-lightbox-next');
-    const collectionLooks = looks.filter(figure => figure.classList.contains('w5-look'));
+    const navigableLooks = document.body.classList.contains('work-2-page')
+      ? looks.filter(figure => figure.hasAttribute('data-ghost-item'))
+      : looks.filter(figure => figure.classList.contains('w5-look'));
     let activeLook = null;
     let closeTimer = null;
     let holdTimer = null;
@@ -429,7 +431,7 @@
       lightbox.classList.add('is-open');
       lightbox.setAttribute('aria-hidden', 'false');
       document.body.classList.add('w5-look-open');
-      const collectionIndex = collectionLooks.indexOf(figure);
+      const collectionIndex = navigableLooks.indexOf(figure);
       lightbox.classList.toggle('has-look-navigation', collectionIndex !== -1);
       closeButton?.focus({ preventScroll: true });
     }
@@ -451,9 +453,9 @@
     }
 
     function showAdjacent(delta) {
-      const index = collectionLooks.indexOf(activeLook);
-      if (index === -1 || collectionLooks.length < 2) return;
-      openLook(collectionLooks[(index + delta + collectionLooks.length) % collectionLooks.length]);
+      const index = navigableLooks.indexOf(activeLook);
+      if (index === -1 || navigableLooks.length < 2) return;
+      openLook(navigableLooks[(index + delta + navigableLooks.length) % navigableLooks.length]);
     }
 
     looks.forEach((figure, index) => {
@@ -486,7 +488,7 @@
     }
 
     inner?.addEventListener('pointerdown', event => {
-      if (!activeLook || collectionLooks.indexOf(activeLook) === -1) return;
+      if (!activeLook || navigableLooks.indexOf(activeLook) === -1) return;
       detailStart = { x: event.clientX, y: event.clientY, time: performance.now(), pointerId: event.pointerId };
       inner.setPointerCapture?.(event.pointerId);
       clearDetailHold();
@@ -617,6 +619,105 @@
         mist.addEventListener('animationend', () => mist.remove(), { once: true });
       }, { passive: true });
     }
+  }
+
+  // ---- WORK 02 · DIGITAL STAGE ----
+  function initWork2DigitalStage() {
+    if (!document.body.classList.contains('work-2-page')) return;
+    document.body.classList.add('w2-stage-ready');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const hero = document.querySelector('.w2-hero');
+    const heroBackdrop = hero?.querySelector('.w2-hero-backdrop img');
+    const heroCopy = hero?.querySelector('.w2-hero-copy');
+    const railLinks = Array.from(document.querySelectorAll('[data-w2-act-link]'));
+    const actSections = Array.from(document.querySelectorAll('[data-w2-act-section]'));
+    const lineup = document.querySelector('[data-w2-lineup]');
+    const characterLabel = lineup?.querySelector('.w2-character-label');
+    const characterButtons = Array.from(lineup?.querySelectorAll('[data-character]') || []);
+    const editorialItems = Array.from(document.querySelectorAll('.w2-editorial-item'));
+    const reveals = Array.from(document.querySelectorAll('.w2-act-marker, .w2-spread, .w2-lineup-intro, .w2-editorial-item'));
+
+    if (hero && finePointer && !reducedMotion) {
+      hero.addEventListener('pointermove', event => {
+        const rect = hero.getBoundingClientRect();
+        const x = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+        const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+        hero.style.setProperty('--stage-x', `${x * 100}%`);
+        hero.style.setProperty('--stage-y', `${y * 100}%`);
+        heroBackdrop?.style.setProperty('--stage-shift-x', `${(x - 0.5) * 10}px`);
+        heroBackdrop?.style.setProperty('--stage-shift-y', `${(y - 0.5) * 6}px`);
+      });
+    }
+
+    if (hero && !reducedMotion) {
+      let ticking = false;
+      const updateHeroScroll = () => {
+        const progress = Math.max(0, Math.min(1, -hero.getBoundingClientRect().top / Math.max(1, hero.offsetHeight * 0.8)));
+        heroCopy?.style.setProperty('--w2-scroll', progress.toFixed(3));
+        ticking = false;
+      };
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(updateHeroScroll);
+      }, { passive: true });
+      updateHeroScroll();
+    }
+
+    const actObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const act = entry.target.dataset.w2ActSection;
+        railLinks.forEach(link => {
+          const active = link.dataset.w2ActLink === act;
+          link.classList.toggle('is-active', active);
+          if (active) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        });
+      });
+    }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+    actSections.forEach(section => actObserver.observe(section));
+
+    railLinks.forEach(link => link.addEventListener('click', event => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+    }));
+
+    if (!reducedMotion) {
+      const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-on-stage');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      reveals.forEach(element => revealObserver.observe(element));
+    } else reveals.forEach(element => element.classList.add('is-on-stage'));
+
+    characterButtons.forEach((button, index) => {
+      const activate = () => {
+        lineup?.classList.add('is-casting');
+        lineup?.style.setProperty('--character-x', `${Number.parseFloat(button.style.getPropertyValue('--character-left')) || 50}%`);
+        if (characterLabel) characterLabel.innerHTML = `CHARACTER ${button.dataset.character} <small>角色 ${button.dataset.character}</small>`;
+      };
+      button.addEventListener('pointerenter', activate);
+      button.addEventListener('focus', activate);
+      button.addEventListener('click', () => {
+        const target = editorialItems[Math.min(editorialItems.length - 1, index + 2)];
+        if (!target) return;
+        target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' });
+        target.classList.add('is-character-target');
+        window.setTimeout(() => target.classList.remove('is-character-target'), 1200);
+      });
+    });
+    lineup?.addEventListener('pointerleave', () => {
+      lineup.classList.remove('is-casting');
+      if (characterLabel) characterLabel.innerHTML = 'SELECT A CHARACTER <small>选择一个角色</small>';
+    });
   }
 
   // ---- BACKGROUND MUSIC + VIDEO HANDOFF ----
@@ -771,6 +872,7 @@
     initLookLightbox();
     initBackgroundMusic();
     initWork5SensoryInteractions();
+    initWork2DigitalStage();
     initReveal();
     initParallax();
     initFullImg();

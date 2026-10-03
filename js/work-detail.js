@@ -119,12 +119,14 @@
     });
   }
 
-  // ---- WORK 05 · COMPLETE FASHION BOOK READER ----
+  // ---- WORK 05 · FASHION BOOK READER ----
   function initFashionBookReader() {
     const reader = document.querySelector('[data-fashion-reader]');
     if (!reader) return;
 
     const image = reader.querySelector('.w5-reader-image');
+    const book = reader.querySelector('.w5-reader-book');
+    const turningPage = reader.querySelector('.w5-reader-turning-page');
     const stage = reader.querySelector('.w5-reader-stage');
     const prev = reader.querySelector('.w5-reader-prev');
     const next = reader.querySelector('.w5-reader-next');
@@ -137,10 +139,11 @@
     const prefix = reader.dataset.imagePrefix || '';
     const extension = reader.dataset.imageExtension || '.jpg';
 
-    if (!image || !stage || !prev || !next || !currentLabel || !range || !scrubber || !Number.isInteger(total) || total < 1 || !prefix) return;
+    if (!image || !book || !turningPage || !stage || !prev || !next || !currentLabel || !range || !scrubber || !Number.isInteger(total) || total < 1 || !prefix) return;
 
     let currentPage = 1;
-    let changeTimer = null;
+    let flipTimer = null;
+    let pageRequest = 0;
 
     const pageSrc = (page) => `${prefix}${String(page).padStart(3, '0')}${extension}`;
 
@@ -187,20 +190,42 @@
       const targetPage = Math.max(1, Math.min(total, page));
       if (targetPage === currentPage && !immediate) return;
 
-      window.clearTimeout(changeTimer);
-      if (!immediate) image.classList.add('is-changing');
+      const previousPage = currentPage;
+      const previousSrc = image.currentSrc || image.src;
+      const direction = targetPage > previousPage ? 'next' : 'prev';
+      const request = ++pageRequest;
+      const targetSrc = pageSrc(targetPage);
 
-      changeTimer = window.setTimeout(() => {
-        currentPage = targetPage;
-        image.onload = () => image.classList.remove('is-changing');
-        image.src = pageSrc(currentPage);
+      currentPage = targetPage;
+      updateControls();
+      preload(currentPage - 1);
+      preload(currentPage + 1);
+
+      if (immediate) {
+        image.src = targetSrc;
         image.alt = `Guiping Mei Fashion Book page ${currentPage}`;
-        updateControls();
-        preload(currentPage - 1);
-        preload(currentPage + 1);
+        return;
+      }
 
-        if (image.complete) image.classList.remove('is-changing');
-      }, immediate ? 0 : 170);
+      const incomingPage = new Image();
+      incomingPage.onload = () => {
+        if (request !== pageRequest) return;
+
+        window.clearTimeout(flipTimer);
+        book.classList.remove('is-flipping-next', 'is-flipping-prev');
+        turningPage.src = previousSrc;
+        image.src = targetSrc;
+        image.alt = `Guiping Mei Fashion Book page ${currentPage}`;
+
+        // Restart the 3D page-turn animation even during quick navigation.
+        void book.offsetWidth;
+        book.classList.add(direction === 'next' ? 'is-flipping-next' : 'is-flipping-prev');
+
+        flipTimer = window.setTimeout(() => {
+          book.classList.remove('is-flipping-next', 'is-flipping-prev');
+        }, 860);
+      };
+      incomingPage.src = targetSrc;
     }
 
     prev.addEventListener('click', (event) => {

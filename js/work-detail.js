@@ -142,9 +142,20 @@
 
     if (!image || !book || !turningPage || !stationaryPage || !stage || !prev || !next || !currentLabel || !range || !scrubber || !Number.isInteger(total) || total < 1 || !prefix) return;
 
+    const pageStorageKey = 'w5FashionBookLastPage';
     let currentPage = 1;
     let flipTimer = null;
     let pageRequest = 0;
+    let pageAudioContext = null;
+    let dragState = null;
+    let suppressFullscreen = false;
+
+    try {
+      const rememberedPage = Number.parseInt(window.sessionStorage.getItem(pageStorageKey), 10);
+      if (Number.isInteger(rememberedPage) && rememberedPage >= 1 && rememberedPage <= total) currentPage = rememberedPage;
+    } catch (error) {
+      // Private browsing can disable storage; the reader still works normally.
+    }
 
     const pageSrc = (page) => `${prefix}${String(page).padStart(3, '0')}${extension}`;
 
@@ -187,6 +198,35 @@
       next.disabled = currentPage === total;
     }
 
+    function playPageSound() {
+      const musicToggle = document.getElementById('musicToggle');
+      if (musicToggle && musicToggle.getAttribute('aria-pressed') === 'false') return;
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        pageAudioContext ||= new AudioContext();
+        if (pageAudioContext.state === 'suspended') pageAudioContext.resume();
+        const duration = 0.13;
+        const buffer = pageAudioContext.createBuffer(1, pageAudioContext.sampleRate * duration, pageAudioContext.sampleRate);
+        const channel = buffer.getChannelData(0);
+        for (let i = 0; i < channel.length; i += 1) channel[i] = (Math.random() * 2 - 1) * (1 - i / channel.length);
+        const source = pageAudioContext.createBufferSource();
+        const filter = pageAudioContext.createBiquadFilter();
+        const gain = pageAudioContext.createGain();
+        filter.type = 'bandpass';
+        filter.frequency.value = 1100;
+        filter.Q.value = 0.6;
+        gain.gain.setValueAtTime(0.0001, pageAudioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.032, pageAudioContext.currentTime + 0.018);
+        gain.gain.exponentialRampToValueAtTime(0.0001, pageAudioContext.currentTime + duration);
+        source.buffer = buffer;
+        source.connect(filter).connect(gain).connect(pageAudioContext.destination);
+        source.start();
+      } catch (error) {
+        // Sound is an enhancement and should never block page navigation.
+      }
+    }
+
     function showPage(page, immediate = false) {
       const targetPage = Math.max(1, Math.min(total, page));
       if (targetPage === currentPage && !immediate) return;
@@ -198,6 +238,7 @@
       const targetSrc = pageSrc(targetPage);
 
       currentPage = targetPage;
+      try { window.sessionStorage.setItem(pageStorageKey, String(currentPage)); } catch (error) {}
       updateControls();
       preload(currentPage - 1);
       preload(currentPage + 1);
@@ -222,6 +263,7 @@
         // Restart the 3D page-turn animation even during quick navigation.
         void book.offsetWidth;
         book.classList.add(direction === 'next' ? 'is-flipping-next' : 'is-flipping-prev');
+        playPageSound();
 
         flipTimer = window.setTimeout(() => {
           book.classList.remove('is-flipping-next', 'is-flipping-prev');
@@ -269,7 +311,55 @@
       }
     });
 
+    function finishDrag(commit = false) {
+      if (!dragState) return;
+      const direction = dragState.direction;
+      const progress = dragState.progress || 0;
+      dragState = null;
+      book.classList.remove('is-dragging-next', 'is-dragging-prev');
+      book.style.removeProperty('--w5-drag-angle');
+      if (commit && progress > 0.28) showPage(currentPage + (direction === 'next' ? 1 : -1));
+    }
+
+    book.addEventListener('pointerdown', event => {
+      if (event.button !== undefined && event.button !== 0) return;
+      const rect = book.getBoundingClientRect();
+      const localX = event.clientX - rect.left;
+      const direction = localX > rect.width * 0.66 && currentPage < total
+        ? 'next'
+        : localX < rect.width * 0.34 && currentPage > 1 ? 'prev' : null;
+      if (!direction) return;
+      dragState = { direction, startX: event.clientX, width: rect.width, progress: 0 };
+      suppressFullscreen = false;
+      const currentSrc = image.currentSrc || image.src;
+      turningPage.src = currentSrc;
+      stationaryPage.src = currentSrc;
+      book.classList.add(`is-dragging-${direction}`);
+      book.setPointerCapture?.(event.pointerId);
+    });
+
+    book.addEventListener('pointermove', event => {
+      if (!dragState) return;
+      const distance = dragState.direction === 'next' ? dragState.startX - event.clientX : event.clientX - dragState.startX;
+      const progress = Math.max(0, Math.min(1, distance / (dragState.width * 0.46)));
+      dragState.progress = progress;
+      if (progress > 0.04) suppressFullscreen = true;
+      const angle = progress * 150 * (dragState.direction === 'next' ? -1 : 1);
+      book.style.setProperty('--w5-drag-angle', `${angle}deg`);
+    });
+
+    book.addEventListener('pointerup', event => {
+      if (!dragState) return;
+      book.releasePointerCapture?.(event.pointerId);
+      finishDrag(true);
+    });
+    book.addEventListener('pointercancel', () => finishDrag(false));
+
     image.addEventListener('click', () => {
+      if (suppressFullscreen) {
+        suppressFullscreen = false;
+        return;
+      }
       const requestFullscreen = stage.requestFullscreen || stage.webkitRequestFullscreen;
       if (!requestFullscreen) return;
       const fullscreenResult = requestFullscreen.call(stage);
@@ -285,8 +375,7 @@
       });
     });
 
-    updateControls();
-    preload(2);
+    showPage(currentPage, true);
   }
 
   // ---- GHOST IMAGE LIGHTBOX (WORK 02 + WORK 05) ----
@@ -300,8 +389,14 @@
     const closeButton = lightbox.querySelector('.w5-look-lightbox-close');
     const captionEn = lightbox.querySelector('.w5-look-lightbox-caption span');
     const captionZh = lightbox.querySelector('.w5-look-lightbox-caption small');
+    const inner = lightbox.querySelector('.w5-look-lightbox-inner');
+    const previousButton = lightbox.querySelector('.w5-look-lightbox-prev');
+    const nextButton = lightbox.querySelector('.w5-look-lightbox-next');
+    const collectionLooks = looks.filter(figure => figure.classList.contains('w5-look'));
     let activeLook = null;
     let closeTimer = null;
+    let holdTimer = null;
+    let detailStart = null;
 
     function captionParts(figure) {
       const caption = figure.querySelector('figcaption');
@@ -334,6 +429,8 @@
       lightbox.classList.add('is-open');
       lightbox.setAttribute('aria-hidden', 'false');
       document.body.classList.add('w5-look-open');
+      const collectionIndex = collectionLooks.indexOf(figure);
+      lightbox.classList.toggle('has-look-navigation', collectionIndex !== -1);
       closeButton?.focus({ preventScroll: true });
     }
 
@@ -350,6 +447,13 @@
 
       activeLook?.focus({ preventScroll: true });
       activeLook = null;
+      lightbox.classList.remove('is-detail-view', 'has-look-navigation');
+    }
+
+    function showAdjacent(delta) {
+      const index = collectionLooks.indexOf(activeLook);
+      if (index === -1 || collectionLooks.length < 2) return;
+      openLook(collectionLooks[(index + delta + collectionLooks.length) % collectionLooks.length]);
     }
 
     looks.forEach((figure, index) => {
@@ -373,12 +477,146 @@
     });
 
     closeButton?.addEventListener('click', closeLook);
+    previousButton?.addEventListener('click', event => { event.stopPropagation(); showAdjacent(-1); });
+    nextButton?.addEventListener('click', event => { event.stopPropagation(); showAdjacent(1); });
+
+    function clearDetailHold() {
+      window.clearTimeout(holdTimer);
+      holdTimer = null;
+    }
+
+    inner?.addEventListener('pointerdown', event => {
+      if (!activeLook || collectionLooks.indexOf(activeLook) === -1) return;
+      detailStart = { x: event.clientX, y: event.clientY, time: performance.now(), pointerId: event.pointerId };
+      inner.setPointerCapture?.(event.pointerId);
+      clearDetailHold();
+      holdTimer = window.setTimeout(() => lightbox.classList.add('is-detail-view'), 340);
+    });
+
+    inner?.addEventListener('pointermove', event => {
+      if (!detailStart) return;
+      const dx = event.clientX - detailStart.x;
+      const dy = event.clientY - detailStart.y;
+      if (!lightbox.classList.contains('is-detail-view') && Math.hypot(dx, dy) > 12) clearDetailHold();
+      if (lightbox.classList.contains('is-detail-view')) {
+        const rect = inner.getBoundingClientRect();
+        const x = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+        const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+        inner.style.setProperty('--detail-x', `${50 + (0.5 - x) * 32}%`);
+        inner.style.setProperty('--detail-y', `${50 + (0.5 - y) * 32}%`);
+      }
+    });
+
+    function finishDetail(event) {
+      if (!detailStart) return;
+      clearDetailHold();
+      const dx = event.clientX - detailStart.x;
+      const wasDetail = lightbox.classList.contains('is-detail-view');
+      lightbox.classList.remove('is-detail-view');
+      inner?.releasePointerCapture?.(detailStart.pointerId);
+      detailStart = null;
+      if (!wasDetail && Math.abs(dx) > 54) showAdjacent(dx < 0 ? 1 : -1);
+    }
+
+    inner?.addEventListener('pointerup', finishDetail);
+    inner?.addEventListener('pointercancel', event => {
+      clearDetailHold();
+      lightbox.classList.remove('is-detail-view');
+      detailStart = null;
+    });
     lightbox.addEventListener('click', event => {
       if (event.target === lightbox) closeLook();
     });
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape' && lightbox.classList.contains('is-open')) closeLook();
+      if (event.key === 'ArrowLeft' && lightbox.classList.contains('is-open')) showAdjacent(-1);
+      if (event.key === 'ArrowRight' && lightbox.classList.contains('is-open')) showAdjacent(1);
     });
+  }
+
+  // ---- WORK 05 · SENSORY INTERACTIONS ----
+  function initWork5SensoryInteractions() {
+    if (!document.body.classList.contains('work-5-page')) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const hero = document.querySelector('.w5-hero');
+    const heroImage = hero?.querySelector('.w5-hero-visual img');
+    const logo = hero?.querySelector('.w5-title-logo img');
+    const filmFrame = document.querySelector('.w5-film-frame');
+    const video = document.getElementById('projectVideo');
+    const filmCue = document.querySelector('[data-scroll-lineup]');
+    const lineup = document.querySelector('[data-w5-lineup]');
+    const lineupCaption = lineup?.querySelector('.w5-lineup-caption');
+    const hotspots = Array.from(lineup?.querySelectorAll('[data-look-index]') || []);
+
+    if (!reducedMotion && finePointer && hero && heroImage) {
+      hero.addEventListener('pointermove', event => {
+        const rect = hero.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width;
+        const y = (event.clientY - rect.top) / rect.height;
+        heroImage.style.setProperty('--sense-x', `${(x - 0.5) * 16}px`);
+        heroImage.style.setProperty('--sense-y', `${(y - 0.5) * 11}px`);
+        hero.style.setProperty('--hero-glow-x', `${x * 100}%`);
+        hero.style.setProperty('--hero-glow-y', `${y * 100}%`);
+        if (logo) logo.style.setProperty('--logo-breath-speed', `${5.6 - Math.min(2.2, Math.hypot(x - 0.5, y - 0.5) * 4)}s`);
+      });
+      hero.addEventListener('pointerleave', () => {
+        heroImage.style.setProperty('--sense-x', '0px');
+        heroImage.style.setProperty('--sense-y', '0px');
+      });
+    }
+
+    if (filmFrame && !reducedMotion) {
+      new IntersectionObserver(entries => entries.forEach(entry => filmFrame.classList.toggle('is-in-view', entry.isIntersecting)), { threshold: 0.28 }).observe(filmFrame);
+    } else filmFrame?.classList.add('is-in-view');
+
+    video?.addEventListener('play', () => filmCue?.classList.remove('is-visible'));
+    video?.addEventListener('ended', () => filmCue?.classList.add('is-visible'));
+    filmCue?.addEventListener('click', () => lineup?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' }));
+
+    if (lineup && !reducedMotion) {
+      new IntersectionObserver(entries => entries.forEach(entry => entry.target.classList.toggle('is-revealed', entry.isIntersecting)), { threshold: 0.24 }).observe(lineup);
+    } else lineup?.classList.add('is-revealed');
+
+    hotspots.forEach(hotspot => {
+      const activate = () => {
+        lineup?.classList.add('is-exploring');
+        lineup?.style.setProperty('--lineup-x', hotspot.style.getPropertyValue('--spot-x'));
+        lineup?.style.setProperty('--lineup-y', hotspot.style.getPropertyValue('--spot-y'));
+        if (lineupCaption) {
+          lineupCaption.querySelector('span').textContent = hotspot.dataset.label || 'LOOK';
+          lineupCaption.querySelector('small').textContent = hotspot.dataset.description || '';
+        }
+      };
+      hotspot.addEventListener('pointerenter', activate);
+      hotspot.addEventListener('focus', activate);
+      hotspot.addEventListener('click', () => {
+        const target = document.querySelector(`.w5-look[data-look-index="${hotspot.dataset.lookIndex}"]`);
+        target?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center', inline: 'center' });
+      });
+    });
+    lineup?.addEventListener('pointerleave', () => {
+      lineup.classList.remove('is-exploring');
+      if (lineupCaption) {
+        lineupCaption.querySelector('span').textContent = 'MOVE ACROSS THE LINE UP';
+        lineupCaption.querySelector('small').textContent = '移动探索六套造型';
+      }
+    });
+
+    if (!reducedMotion && finePointer) {
+      let lastTrail = 0;
+      document.addEventListener('pointermove', event => {
+        const now = performance.now();
+        if (now - lastTrail < 52 || document.body.classList.contains('w5-look-open')) return;
+        lastTrail = now;
+        const mist = document.createElement('span');
+        mist.className = 'w5-cursor-mist';
+        mist.style.left = `${event.clientX}px`;
+        mist.style.top = `${event.clientY}px`;
+        document.body.appendChild(mist);
+        mist.addEventListener('animationend', () => mist.remove(), { once: true });
+      }, { passive: true });
+    }
   }
 
   // ---- BACKGROUND MUSIC + VIDEO HANDOFF ----
@@ -532,6 +770,7 @@
     initFashionBookReader();
     initLookLightbox();
     initBackgroundMusic();
+    initWork5SensoryInteractions();
     initReveal();
     initParallax();
     initFullImg();

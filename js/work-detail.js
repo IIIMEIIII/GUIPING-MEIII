@@ -470,8 +470,14 @@
           ? `Open editorial image ${itemNumber} / 放大时装影像 ${itemNumber}`
           : `Open Look ${itemNumber} / 放大造型 ${itemNumber}`
       );
-      figure.addEventListener('click', () => openLook(figure));
+      figure.addEventListener('click', event => {
+        // Work 02 technical-file controls live inside editorial figures. Do not
+        // let their click fall through to the editorial image lightbox.
+        if (event.target.closest('[data-construction-look]')) return;
+        openLook(figure);
+      });
       figure.addEventListener('keydown', event => {
+        if (event.target.closest('[data-construction-look]')) return;
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           openLook(figure);
@@ -754,6 +760,12 @@
     function openArchive(look, trigger) {
       activeTrigger = trigger || null;
       selectLook(look);
+      // Close the editorial preview defensively in case an older cached event
+      // handler opened it from the surrounding figure.
+      const editorialLightbox = document.getElementById('w5LookLightbox');
+      editorialLightbox?.classList.remove('is-open', 'is-detail-view', 'has-look-navigation');
+      editorialLightbox?.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('w5-look-open');
       archive.classList.add('is-open');
       archive.setAttribute('aria-hidden', 'false');
       document.body.classList.add('w2-construction-open');
@@ -769,11 +781,14 @@
       activeTrigger = null;
     }
 
-    triggers.forEach(trigger => trigger.addEventListener('click', event => {
-      event.preventDefault();
-      event.stopPropagation();
-      openArchive(Number.parseInt(trigger.dataset.constructionLook, 10), trigger);
-    }));
+    triggers.forEach(trigger => {
+      trigger.addEventListener('pointerdown', event => event.stopPropagation());
+      trigger.addEventListener('click', event => {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        openArchive(Number.parseInt(trigger.dataset.constructionLook, 10), trigger);
+      });
+    });
     selectors.forEach(button => button.addEventListener('click', () => selectLook(Number.parseInt(button.dataset.constructionSelect, 10))));
     closeButton?.addEventListener('click', closeArchive);
     archive.addEventListener('click', event => { if (event.target === archive) closeArchive(); });

@@ -127,6 +127,7 @@
     const image = reader.querySelector('.w5-reader-image');
     const book = reader.querySelector('.w5-reader-book');
     const turningPage = reader.querySelector('.w5-reader-turning-page');
+    const stationaryPage = reader.querySelector('.w5-reader-stationary-page');
     const stage = reader.querySelector('.w5-reader-stage');
     const prev = reader.querySelector('.w5-reader-prev');
     const next = reader.querySelector('.w5-reader-next');
@@ -139,7 +140,7 @@
     const prefix = reader.dataset.imagePrefix || '';
     const extension = reader.dataset.imageExtension || '.jpg';
 
-    if (!image || !book || !turningPage || !stage || !prev || !next || !currentLabel || !range || !scrubber || !Number.isInteger(total) || total < 1 || !prefix) return;
+    if (!image || !book || !turningPage || !stationaryPage || !stage || !prev || !next || !currentLabel || !range || !scrubber || !Number.isInteger(total) || total < 1 || !prefix) return;
 
     let currentPage = 1;
     let flipTimer = null;
@@ -214,6 +215,7 @@
         window.clearTimeout(flipTimer);
         book.classList.remove('is-flipping-next', 'is-flipping-prev');
         turningPage.src = previousSrc;
+        stationaryPage.src = previousSrc;
         image.src = targetSrc;
         image.alt = `Guiping Mei Fashion Book page ${currentPage}`;
 
@@ -223,7 +225,7 @@
 
         flipTimer = window.setTimeout(() => {
           book.classList.remove('is-flipping-next', 'is-flipping-prev');
-        }, 860);
+        }, 940);
       };
       incomingPage.src = targetSrc;
     }

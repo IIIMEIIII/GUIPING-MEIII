@@ -612,6 +612,101 @@
       }
     });
 
+    const sensoryStage = document.querySelector('[data-w5-sensory-stage]');
+    const sensoryModes = Array.from(document.querySelectorAll('[data-sensory-mode]'));
+    const sensoryStatus = sensoryStage?.querySelector('.w5-sensory-status');
+    const sensoryLightbox = document.getElementById('w5SensoryLightbox');
+    const sensoryLightboxImage = sensoryLightbox?.querySelector('img');
+    const sensoryLightboxCaption = sensoryLightbox?.querySelector('figcaption');
+    const sensoryClose = sensoryLightbox?.querySelector('.w5-sensory-lightbox-close');
+    const sensoryOpeners = Array.from(document.querySelectorAll('[data-sensory-open]'));
+    const sensoryCopy = {
+      body: ['BODY', '身体留下情绪经过的痕迹。'],
+      memory: ['MEMORY', '碎片化笔记在记忆中反复浮现。'],
+      monster: ['MONSTER', '感知过载，让内在怪物显形。'],
+      material: ['MATERIAL', '触摸、拖动并重新排列怪物的皮肤。']
+    };
+
+    sensoryModes.forEach(button => button.addEventListener('click', () => {
+      const mode = button.dataset.sensoryMode;
+      sensoryModes.forEach(item => item.classList.toggle('is-active', item === button));
+      sensoryStage?.setAttribute('data-mode', mode);
+      if (sensoryStatus && sensoryCopy[mode]) sensoryStatus.innerHTML = `<b>${sensoryCopy[mode][0]}</b><span>${sensoryCopy[mode][1]}</span>`;
+    }));
+
+    if (sensoryStage && finePointer && !reducedMotion) {
+      sensoryStage.addEventListener('pointermove', event => {
+        const rect = sensoryStage.getBoundingClientRect();
+        const x = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+        const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+        sensoryStage.style.setProperty('--sense-x', `${(x - .5) * 48}px`);
+        sensoryStage.style.setProperty('--sense-y', `${(y - .5) * 34}px`);
+        sensoryStage.style.setProperty('--cursor-x', `${x * 100}%`);
+        sensoryStage.style.setProperty('--cursor-y', `${y * 100}%`);
+      });
+      sensoryStage.addEventListener('pointerleave', () => {
+        sensoryStage.style.setProperty('--sense-x', '0px');
+        sensoryStage.style.setProperty('--sense-y', '0px');
+      });
+    }
+
+    Array.from(document.querySelectorAll('[data-w5-drag]')).forEach(object => {
+      let activePointer = null;
+      let originX = 0;
+      let originY = 0;
+      let startX = 0;
+      let startY = 0;
+      let x = 0;
+      let y = 0;
+      object.addEventListener('pointerdown', event => {
+        activePointer = event.pointerId;
+        startX = event.clientX;
+        startY = event.clientY;
+        originX = x;
+        originY = y;
+        object.dataset.didDrag = 'false';
+        object.setPointerCapture?.(event.pointerId);
+      });
+      object.addEventListener('pointermove', event => {
+        if (activePointer !== event.pointerId || !sensoryStage) return;
+        const dx = event.clientX - startX;
+        const dy = event.clientY - startY;
+        if (Math.hypot(dx, dy) > 5) object.dataset.didDrag = 'true';
+        x = Math.max(-sensoryStage.clientWidth * .34, Math.min(sensoryStage.clientWidth * .34, originX + dx));
+        y = Math.max(-sensoryStage.clientHeight * .3, Math.min(sensoryStage.clientHeight * .3, originY + dy));
+        object.style.setProperty('--drag-x', `${x}px`);
+        object.style.setProperty('--drag-y', `${y}px`);
+      });
+      const endDrag = event => {
+        if (activePointer !== event.pointerId) return;
+        object.releasePointerCapture?.(event.pointerId);
+        activePointer = null;
+      };
+      object.addEventListener('pointerup', endDrag);
+      object.addEventListener('pointercancel', endDrag);
+    });
+
+    const openSensoryImage = opener => {
+      if (!sensoryLightbox || !sensoryLightboxImage || opener.dataset.didDrag === 'true') return;
+      sensoryLightboxImage.src = opener.dataset.sensoryOpen;
+      sensoryLightboxImage.alt = opener.dataset.sensoryTitle || 'Sensory archive image';
+      if (sensoryLightboxCaption) sensoryLightboxCaption.textContent = opener.dataset.sensoryTitle || '';
+      sensoryLightbox.classList.add('is-open');
+      sensoryLightbox.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('w5-sensory-open');
+      sensoryClose?.focus({ preventScroll: true });
+    };
+    const closeSensoryImage = () => {
+      if (!sensoryLightbox?.classList.contains('is-open')) return;
+      sensoryLightbox.classList.remove('is-open');
+      sensoryLightbox.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('w5-sensory-open');
+    };
+    sensoryOpeners.forEach(opener => opener.addEventListener('click', () => openSensoryImage(opener)));
+    sensoryClose?.addEventListener('click', closeSensoryImage);
+    sensoryLightbox?.addEventListener('click', event => { if (event.target === sensoryLightbox) closeSensoryImage(); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeSensoryImage(); });
+
     if (!reducedMotion && finePointer) {
       let lastTrail = 0;
       document.addEventListener('pointermove', event => {

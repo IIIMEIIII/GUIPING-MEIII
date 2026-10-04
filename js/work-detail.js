@@ -620,6 +620,17 @@
     const sensoryLightboxCaption = sensoryLightbox?.querySelector('figcaption');
     const sensoryClose = sensoryLightbox?.querySelector('.w5-sensory-lightbox-close');
     const sensoryOpeners = Array.from(document.querySelectorAll('[data-sensory-open]'));
+    const skinComposer = document.querySelector('[data-skin-composer]');
+    const composerLook = skinComposer?.querySelector('.w5-composer-look');
+    const composerPrint = skinComposer?.querySelector('.w5-composer-print');
+    const composerLabel = skinComposer?.querySelector('.w5-composer-label');
+    const skinLookButtons = Array.from(document.querySelectorAll('[data-skin-look]'));
+    const skinPatternButtons = Array.from(document.querySelectorAll('[data-skin-pattern]'));
+    const skinStrength = document.getElementById('w5SkinStrength');
+    let activeLookSource = composerLook?.getAttribute('src') || '';
+    let activePatternSource = skinPatternButtons.find(button => button.classList.contains('is-active'))?.dataset.skinPattern || '';
+    let skinRenderRevision = 0;
+    const skinImageCache = new Map();
     const sensoryCopy = {
       body: ['BODY', '身体留下情绪经过的痕迹。'],
       memory: ['MEMORY', '碎片化笔记在记忆中反复浮现。'],
@@ -633,6 +644,99 @@
       sensoryStage?.setAttribute('data-mode', mode);
       if (sensoryStatus && sensoryCopy[mode]) sensoryStatus.innerHTML = `<b>${sensoryCopy[mode][0]}</b><span>${sensoryCopy[mode][1]}</span>`;
     }));
+
+    const enterMaterialMode = () => {
+      const materialButton = sensoryModes.find(button => button.dataset.sensoryMode === 'material');
+      if (materialButton && !materialButton.classList.contains('is-active')) materialButton.click();
+    };
+
+    const loadSkinImage = source => {
+      if (skinImageCache.has(source)) return skinImageCache.get(source);
+      const pending = new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+        image.src = source;
+      });
+      skinImageCache.set(source, pending);
+      return pending;
+    };
+
+    const renderSkinPrint = async () => {
+      if (!composerPrint || !activeLookSource || !activePatternSource) return;
+      const revision = ++skinRenderRevision;
+      try {
+        const [lookImage, patternImage] = await Promise.all([loadSkinImage(activeLookSource), loadSkinImage(activePatternSource)]);
+        if (revision !== skinRenderRevision) return;
+        const rect = composerPrint.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        const ratio = Math.min(2, window.devicePixelRatio || 1);
+        const width = Math.max(1, Math.round(rect.width * ratio));
+        const height = Math.max(1, Math.round(rect.height * ratio));
+        if (composerPrint.width !== width || composerPrint.height !== height) {
+          composerPrint.width = width;
+          composerPrint.height = height;
+        }
+        const context = composerPrint.getContext('2d');
+        context.clearRect(0, 0, width, height);
+        const lookScale = Math.min(width / lookImage.naturalWidth, height / lookImage.naturalHeight);
+        const lookWidth = lookImage.naturalWidth * lookScale;
+        const lookHeight = lookImage.naturalHeight * lookScale;
+        const lookX = (width - lookWidth) / 2;
+        const lookY = height - lookHeight;
+        context.drawImage(lookImage, lookX, lookY, lookWidth, lookHeight);
+        context.globalCompositeOperation = 'source-in';
+        context.globalAlpha = Number(skinStrength?.value || 48) / 100;
+        const patternScale = Math.max(width / patternImage.naturalWidth, height / patternImage.naturalHeight);
+        const patternWidth = patternImage.naturalWidth * patternScale;
+        const patternHeight = patternImage.naturalHeight * patternScale;
+        context.drawImage(patternImage, (width - patternWidth) / 2, (height - patternHeight) / 2, patternWidth, patternHeight);
+        context.globalAlpha = 1;
+        context.globalCompositeOperation = 'source-over';
+      } catch (_) {
+        // The original look remains visible if an optional print layer fails.
+      }
+    };
+
+    skinLookButtons.forEach(button => button.addEventListener('click', () => {
+      if (!skinComposer || !composerLook) return;
+      const source = button.dataset.lookSrc;
+      const look = button.dataset.skinLook;
+      activeLookSource = source;
+      skinLookButtons.forEach(item => item.classList.toggle('is-active', item === button));
+      enterMaterialMode();
+      composerLook.classList.add('is-changing');
+      window.setTimeout(() => {
+        composerLook.src = source;
+        composerLook.alt = `Selected figure: Look ${String(look).padStart(2, '0')}`;
+        skinComposer.style.setProperty('--look-mask', `url("${source}")`);
+        composerLabel?.querySelector('span')?.replaceChildren(document.createTextNode(`LOOK ${String(look).padStart(2, '0')}`));
+        composerLook.classList.remove('is-changing');
+        renderSkinPrint();
+      }, reducedMotion ? 0 : 170);
+    }));
+
+    skinPatternButtons.forEach(button => button.addEventListener('click', () => {
+      if (!skinComposer) return;
+      const source = button.dataset.skinPattern;
+      const name = button.querySelector('b')?.textContent?.trim() || 'CUSTOM';
+      activePatternSource = source;
+      skinPatternButtons.forEach(item => item.classList.toggle('is-active', item === button));
+      enterMaterialMode();
+      skinComposer.style.setProperty('--skin-texture', `url("${source}")`);
+      const label = composerLabel?.querySelector('small');
+      if (label) label.textContent = `${name} SKIN / ${name === 'CYANOTYPE' ? '蓝晒皮肤' : name === 'SIGNAL' ? '信号皮肤' : name === 'VOICE' ? '文字皮肤' : '怪物皮肤'}`;
+      renderSkinPrint();
+    }));
+
+    skinStrength?.addEventListener('input', () => {
+      if (!skinComposer) return;
+      skinComposer.style.setProperty('--skin-opacity', `${Number(skinStrength.value) / 100}`);
+      enterMaterialMode();
+      renderSkinPrint();
+    });
+    window.requestAnimationFrame(renderSkinPrint);
+    window.addEventListener('resize', () => window.requestAnimationFrame(renderSkinPrint), { passive: true });
 
     if (sensoryStage && finePointer && !reducedMotion) {
       sensoryStage.addEventListener('pointermove', event => {
@@ -650,21 +754,39 @@
       });
     }
 
-    Array.from(document.querySelectorAll('[data-w5-drag]')).forEach(object => {
+    Array.from(document.querySelectorAll('[data-w5-transform]')).forEach(object => {
       let activePointer = null;
+      let interaction = 'move';
       let originX = 0;
       let originY = 0;
       let startX = 0;
       let startY = 0;
       let x = 0;
       let y = 0;
+      let rotation = Number.parseFloat(object.style.getPropertyValue('--object-rotate')) || 0;
+      let originRotation = rotation;
+      let startAngle = 0;
+      const updateTransform = () => {
+        object.style.setProperty('--object-x', `${x}px`);
+        object.style.setProperty('--object-y', `${y}px`);
+        object.style.setProperty('--object-rotate', `${rotation}deg`);
+      };
       object.addEventListener('pointerdown', event => {
         activePointer = event.pointerId;
+        interaction = event.target.closest('[data-w5-rotate]') ? 'rotate' : 'move';
         startX = event.clientX;
         startY = event.clientY;
         originX = x;
         originY = y;
+        originRotation = rotation;
+        if (interaction === 'rotate') {
+          const rect = object.getBoundingClientRect();
+          startAngle = Math.atan2(event.clientY - (rect.top + rect.height / 2), event.clientX - (rect.left + rect.width / 2));
+          event.preventDefault();
+          event.stopPropagation();
+        }
         object.dataset.didDrag = 'false';
+        object.classList.add('is-transforming');
         object.setPointerCapture?.(event.pointerId);
       });
       object.addEventListener('pointermove', event => {
@@ -672,18 +794,46 @@
         const dx = event.clientX - startX;
         const dy = event.clientY - startY;
         if (Math.hypot(dx, dy) > 5) object.dataset.didDrag = 'true';
-        x = Math.max(-sensoryStage.clientWidth * .34, Math.min(sensoryStage.clientWidth * .34, originX + dx));
-        y = Math.max(-sensoryStage.clientHeight * .3, Math.min(sensoryStage.clientHeight * .3, originY + dy));
-        object.style.setProperty('--drag-x', `${x}px`);
-        object.style.setProperty('--drag-y', `${y}px`);
+        if (interaction === 'rotate') {
+          const rect = object.getBoundingClientRect();
+          const angle = Math.atan2(event.clientY - (rect.top + rect.height / 2), event.clientX - (rect.left + rect.width / 2));
+          rotation = originRotation + ((angle - startAngle) * 180 / Math.PI);
+        } else {
+          x = Math.max(-sensoryStage.clientWidth * .4, Math.min(sensoryStage.clientWidth * .4, originX + dx));
+          y = Math.max(-sensoryStage.clientHeight * .38, Math.min(sensoryStage.clientHeight * .38, originY + dy));
+        }
+        updateTransform();
       });
       const endDrag = event => {
         if (activePointer !== event.pointerId) return;
         object.releasePointerCapture?.(event.pointerId);
         activePointer = null;
+        object.classList.remove('is-transforming');
       };
       object.addEventListener('pointerup', endDrag);
       object.addEventListener('pointercancel', endDrag);
+      object.addEventListener('wheel', event => {
+        event.preventDefault();
+        rotation += event.deltaY > 0 ? 4 : -4;
+        object.dataset.didDrag = 'true';
+        updateTransform();
+      }, { passive: false });
+      object.addEventListener('keydown', event => {
+        const step = event.shiftKey ? 14 : 6;
+        if ((event.target.closest('[data-w5-rotate]') || event.shiftKey) && ['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+          event.preventDefault();
+          rotation += event.key === 'ArrowRight' ? step : -step;
+          updateTransform();
+          return;
+        }
+        if (event.target !== object || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+        event.preventDefault();
+        if (event.key === 'ArrowLeft') x -= step;
+        if (event.key === 'ArrowRight') x += step;
+        if (event.key === 'ArrowUp') y -= step;
+        if (event.key === 'ArrowDown') y += step;
+        updateTransform();
+      });
     });
 
     const openSensoryImage = opener => {
@@ -702,7 +852,14 @@
       sensoryLightbox.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('w5-sensory-open');
     };
-    sensoryOpeners.forEach(opener => opener.addEventListener('click', () => openSensoryImage(opener)));
+    sensoryOpeners.forEach(opener => {
+      opener.addEventListener('click', () => openSensoryImage(opener));
+      opener.addEventListener('keydown', event => {
+        if (!['Enter', ' '].includes(event.key) || event.target.closest('[data-w5-rotate]')) return;
+        event.preventDefault();
+        openSensoryImage(opener);
+      });
+    });
     sensoryClose?.addEventListener('click', closeSensoryImage);
     sensoryLightbox?.addEventListener('click', event => { if (event.target === sensoryLightbox) closeSensoryImage(); });
     document.addEventListener('keydown', event => { if (event.key === 'Escape') closeSensoryImage(); });

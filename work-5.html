@@ -6,7 +6,7 @@
   <title>The Sensitive Monsterology — Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Space+Grotesk:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/work-detail.css?v=20261004-sensory-archive" />
+  <link rel="stylesheet" href="css/work-detail.css?v=20261004-skin-lab-c" />
 </head>
 <body class="work-5-page">
   <audio id="workBackgroundMusic" loop preload="auto">
@@ -80,24 +80,60 @@
         <button type="button" class="is-active" data-sensory-mode="material"><b>04</b><span>MATERIAL <small>材料</small></span></button>
       </div>
 
+      <div class="w5-skin-tools" aria-label="Monster skin composition controls / 怪物皮肤组合工具">
+        <div class="w5-character-picker" role="group" aria-label="Select a look / 选择造型">
+          <span>SELECT A FIGURE <small>选择人物</small></span>
+          <div>
+            <button type="button" class="is-active" data-skin-look="1" data-look-src="images/work-5-look-cutout-01.png" aria-label="Select Look 01"><img src="images/work-5-look-cutout-01.png" alt="" /><b>01</b></button>
+            <button type="button" data-skin-look="2" data-look-src="images/work-5-look-cutout-02.png" aria-label="Select Look 02"><img src="images/work-5-look-cutout-02.png" alt="" /><b>02</b></button>
+            <button type="button" data-skin-look="3" data-look-src="images/work-5-look-cutout-03.png" aria-label="Select Look 03"><img src="images/work-5-look-cutout-03.png" alt="" /><b>03</b></button>
+            <button type="button" data-skin-look="4" data-look-src="images/work-5-look-cutout-04.png" aria-label="Select Look 04"><img src="images/work-5-look-cutout-04.png" alt="" /><b>04</b></button>
+            <button type="button" data-skin-look="5" data-look-src="images/work-5-look-cutout-05.png" aria-label="Select Look 05"><img src="images/work-5-look-cutout-05.png" alt="" /><b>05</b></button>
+            <button type="button" data-skin-look="6" data-look-src="images/work-5-look-cutout-06.png" aria-label="Select Look 06"><img src="images/work-5-look-cutout-06.png" alt="" /><b>06</b></button>
+          </div>
+        </div>
+        <div class="w5-pattern-picker" role="group" aria-label="Select a print / 选择印花">
+          <span>APPLY A SKIN <small>选择印花</small></span>
+          <div>
+            <button type="button" class="is-active" data-skin-pattern="images/work-5-sensory-cyanotypes.jpg"><img src="images/work-5-sensory-cyanotypes.jpg" alt="" /><b>CYANOTYPE</b></button>
+            <button type="button" data-skin-pattern="images/work-5-sensory-textile.jpg"><img src="images/work-5-sensory-textile.jpg" alt="" /><b>SIGNAL</b></button>
+            <button type="button" data-skin-pattern="images/work-5-sensory-red-text.jpg"><img src="images/work-5-sensory-red-text.jpg" alt="" /><b>VOICE</b></button>
+            <button type="button" data-skin-pattern="images/work-5-sensory-monsters.jpg"><img src="images/work-5-sensory-monsters.jpg" alt="" /><b>MONSTER</b></button>
+          </div>
+        </div>
+        <label class="w5-skin-strength" for="w5SkinStrength"><span>SKIN INTENSITY <small>叠加强度</small></span><input id="w5SkinStrength" type="range" min="0" max="100" value="48" step="1" /></label>
+      </div>
+
       <div class="w5-sensory-stage" data-w5-sensory-stage data-mode="material">
         <div class="w5-sensory-layer w5-sensory-hypnosis" aria-hidden="true"><img src="images/work-5-sensory-hypnosis.jpg" alt="" /></div>
         <div class="w5-sensory-layer w5-sensory-monsters" aria-hidden="true"><img src="images/work-5-sensory-monsters.jpg" alt="" /></div>
         <div class="w5-sensory-layer w5-sensory-red" aria-hidden="true"><img src="images/work-5-sensory-red-text.jpg" alt="" /></div>
         <div class="w5-sensory-layer w5-sensory-notes" aria-hidden="true"><img src="images/work-5-sensory-notes.jpg" alt="" /></div>
-        <button class="w5-sensory-frame" type="button" data-sensory-open="images/work-5-sensory-box.jpg" data-sensory-title="SPECIMEN 01 / 感知标本 01">
-          <img src="images/work-5-sensory-box.jpg" alt="Experimental monster figure presented inside a constructed box" />
-          <span>OPEN SPECIMEN <small>打开标本</small></span>
-        </button>
+        <div class="w5-skin-composer" data-skin-composer style="--look-mask:url('images/work-5-look-cutout-01.png');--skin-texture:url('images/work-5-sensory-cyanotypes.jpg');--skin-opacity:.48">
+          <img class="w5-composer-box" src="images/work-5-hero-frame.jpg" alt="Empty exhibition frame" />
+          <div class="w5-composer-subject w5-transform-object" data-w5-transform style="--object-rotate:0deg" tabindex="0" aria-label="Selected look — drag to move, use handle to rotate / 当前造型—拖动移动，使用圆点旋转">
+            <img class="w5-composer-look" src="images/work-5-look-cutout-01.png" alt="Selected figure: Look 01" />
+            <canvas class="w5-composer-print" aria-hidden="true"></canvas>
+            <span class="w5-rotate-handle" data-w5-rotate role="button" tabindex="0" aria-label="Rotate selected look / 旋转当前造型">↻</span>
+          </div>
+          <div class="w5-box-figure-cutout w5-transform-object" data-w5-transform style="--object-rotate:-7deg" tabindex="0" aria-label="Seated monster assemblage — drag to move, use handle to rotate / 坐姿怪物装置—拖动移动，使用圆点旋转">
+            <img src="images/work-5-box-figure-cutout.png" alt="Transparent cutout of seated blue fashion monster assemblage" />
+            <span class="w5-object-tag">FOUND MONSTER</span>
+            <span class="w5-rotate-handle" data-w5-rotate role="button" tabindex="0" aria-label="Rotate seated monster / 旋转坐姿怪物">↻</span>
+          </div>
+          <div class="w5-composer-label"><span>LOOK 01</span><small>CYANOTYPE SKIN / 蓝晒皮肤</small></div>
+        </div>
         <div class="w5-sensory-arms" aria-hidden="true"><img src="images/work-5-sensory-arms.jpg" alt="" /></div>
-        <button class="w5-drag-object w5-drag-textile" type="button" data-w5-drag data-sensory-open="images/work-5-sensory-textile.jpg" data-sensory-title="TEXTILE SIGNAL / 面料信号" aria-label="Drag textile; click to enlarge">
+        <div class="w5-drag-object w5-drag-textile w5-transform-object" role="button" tabindex="0" data-w5-transform style="--object-rotate:-6deg" data-sensory-open="images/work-5-sensory-textile.jpg" data-sensory-title="TEXTILE SIGNAL / 面料信号" aria-label="Drag textile; use handle to rotate; click to enlarge">
           <img src="images/work-5-textile-cutout.png" alt="Indigo textile sample with distorted striped dye pattern" />
           <span>DRAG ME</span>
-        </button>
-        <button class="w5-drag-object w5-drag-cyanotypes" type="button" data-w5-drag data-sensory-open="images/work-5-sensory-cyanotypes.jpg" data-sensory-title="CYANOTYPE ARCHIVE / 蓝晒档案" aria-label="Drag cyanotype samples; click to enlarge">
+          <span class="w5-rotate-handle" data-w5-rotate role="button" tabindex="0" aria-label="Rotate textile / 旋转面料">↻</span>
+        </div>
+        <div class="w5-drag-object w5-drag-cyanotypes w5-transform-object" role="button" tabindex="0" data-w5-transform style="--object-rotate:4deg" data-sensory-open="images/work-5-sensory-cyanotypes.jpg" data-sensory-title="CYANOTYPE ARCHIVE / 蓝晒档案" aria-label="Drag cyanotype samples; use handle to rotate; click to enlarge">
           <img src="images/work-5-cyanotypes-cutout.png" alt="Nine cyanotype textile samples" />
           <span>DRAG ME</span>
-        </button>
+          <span class="w5-rotate-handle" data-w5-rotate role="button" tabindex="0" aria-label="Rotate cyanotype samples / 旋转蓝晒样本">↻</span>
+        </div>
         <div class="w5-sensory-status" aria-live="polite"><b>MATERIAL</b><span>触摸、拖动并重新排列怪物的皮肤。</span></div>
         <span class="w5-sensory-cursor" aria-hidden="true"></span>
       </div>
@@ -273,6 +309,6 @@
     <a href="index.html" class="footer-back">← Back to Portfolio <span class="w5-zh-inline">返回作品集</span></a>
     <span>© 2026 GUIPING MEI</span>
   </footer>
-  <script src="js/work-detail.js?v=20261004-sensory-archive"></script>
+  <script src="js/work-detail.js?v=20261004-skin-lab-c"></script>
 </body>
 </html>

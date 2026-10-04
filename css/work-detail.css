@@ -1626,7 +1626,7 @@ body.w5-look-open { overflow: hidden; }
 .w5-sensory-modes button.is-active b { color: #54b8d8; }
 .w5-sensory-stage { --sense-x: 0px; --sense-y: 0px; min-height: min(76vw, 920px); margin-top: 28px; overflow: hidden; isolation: isolate; background: #080808; cursor: crosshair; }
 .w5-sensory-layer,
-.w5-sensory-frame,
+.w5-skin-composer,
 .w5-sensory-arms,
 .w5-drag-object { position: absolute; transition: opacity .7s ease, filter .7s ease; }
 .w5-sensory-layer { inset: 0; opacity: 0; }
@@ -1635,38 +1635,73 @@ body.w5-look-open { overflow: hidden; }
 .w5-sensory-monsters { transform: translate(calc(var(--sense-x) * .22), calc(var(--sense-y) * .22)) scale(1.04); mix-blend-mode: luminosity; }
 .w5-sensory-red { transform: translate(calc(var(--sense-x) * -.18), calc(var(--sense-y) * .12)) scale(1.04); mix-blend-mode: screen; }
 .w5-sensory-notes { left: 8%; right: auto; width: 48%; transform: translate(calc(var(--sense-x) * .2), calc(var(--sense-y) * -.2)) rotate(-2deg); mix-blend-mode: screen; }
-.w5-sensory-frame { z-index: 3; inset: 8% auto auto 50%; width: 43%; padding: 0; transform: translateX(-50%) translate(calc(var(--sense-x) * .08), calc(var(--sense-y) * .08)); border: 0; background: transparent; cursor: zoom-in; }
-.w5-sensory-frame img { display: block; width: 100%; height: auto; filter: saturate(.78) contrast(1.08); }
-.w5-sensory-frame > span { position: absolute; right: 12px; bottom: 12px; padding: 8px 10px; background: rgba(0,0,0,.72); color: #fff; font-size: .46rem; letter-spacing: .14em; opacity: 0; transition: opacity .25s; }
-.w5-sensory-frame > span small { margin-left: .5em; color: rgba(255,255,255,.55); }
-.w5-sensory-frame:hover > span { opacity: 1; }
+.w5-skin-tools { display: grid; grid-template-columns: 1.25fr .95fr minmax(150px,.35fr); gap: 18px; align-items: end; padding: 22px 0 6px; }
+.w5-character-picker > span,
+.w5-pattern-picker > span,
+.w5-skin-strength > span { display: block; margin-bottom: 10px; color: rgba(255,255,255,.5); font-size: .46rem; letter-spacing: .16em; }
+.w5-character-picker > span small,
+.w5-pattern-picker > span small,
+.w5-skin-strength > span small { margin-left: .55em; color: rgba(255,255,255,.25); font-family: 'PingFang SC', sans-serif; letter-spacing: .06em; }
+.w5-character-picker > div { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 6px; }
+.w5-pattern-picker > div { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 6px; }
+.w5-character-picker button,
+.w5-pattern-picker button { position: relative; min-height: 72px; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.13); background: #101010; color: #fff; cursor: pointer; }
+.w5-character-picker button::after,
+.w5-pattern-picker button::after { content: ''; position: absolute; inset: 0; border: 1px solid transparent; pointer-events: none; transition: border-color .25s; }
+.w5-character-picker button:is(:hover,:focus-visible,.is-active)::after,
+.w5-pattern-picker button:is(:hover,:focus-visible,.is-active)::after { border-color: #69c2de; }
+.w5-character-picker img { width: 100%; height: 72px; object-fit: contain; filter: grayscale(1) brightness(.72); transition: filter .25s, transform .3s; }
+.w5-pattern-picker img { width: 100%; height: 72px; object-fit: cover; filter: grayscale(1) brightness(.58); transition: filter .25s, transform .3s; }
+.w5-character-picker button:is(:hover,:focus-visible,.is-active) img,
+.w5-pattern-picker button:is(:hover,:focus-visible,.is-active) img { filter: none; transform: scale(1.04); }
+.w5-character-picker button b,
+.w5-pattern-picker button b { position: absolute; right: 5px; bottom: 4px; padding: 2px 4px; background: rgba(0,0,0,.72); font-size: .4rem; font-weight: 500; letter-spacing: .1em; }
+.w5-skin-strength { display: block; padding: 0 2px 19px; }
+.w5-skin-strength input { width: 100%; height: 1px; accent-color: #6bc0dc; cursor: ew-resize; }
+.w5-skin-composer { z-index: 5; inset: 4% auto 5% 50%; width: min(45%, 610px); transform: translateX(-50%) translate(calc(var(--sense-x) * .08), calc(var(--sense-y) * .08)); }
+.w5-composer-box { display: block; width: 100%; height: 100%; object-fit: fill; filter: grayscale(1) brightness(.73) contrast(1.08); }
+.w5-composer-subject { position: absolute; z-index: 3; inset: 8% 8% 7%; transform: translate(var(--object-x,0px),var(--object-y,0px)) rotate(var(--object-rotate,0deg)); transform-origin: 50% 72%; }
+.w5-composer-look { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; filter: drop-shadow(0 16px 20px rgba(0,0,0,.62)); transition: opacity .18s, transform .55s cubic-bezier(.2,.72,.2,1); }
+.w5-composer-look.is-changing { opacity: 0; transform: translateY(12px) scale(.97); }
+.w5-composer-print { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; transition: opacity .2s; }
+.w5-box-figure-cutout { position: absolute; z-index: 4; left: 9%; bottom: 9%; width: 43%; transform: translate(var(--object-x,0px),var(--object-y,0px)) rotate(var(--object-rotate,0deg)); transform-origin: 50% 65%; }
+.w5-box-figure-cutout > img { display: block; width: 100%; height: auto; pointer-events: none; filter: drop-shadow(0 18px 22px rgba(0,0,0,.62)); }
+.w5-object-tag { position: absolute; left: 8%; bottom: 3%; padding: 5px 7px; background: rgba(0,0,0,.72); color: rgba(255,255,255,.72); font-size: .37rem; letter-spacing: .13em; pointer-events: none; }
+.w5-composer-label { position: absolute; right: 5%; bottom: 4%; display: grid; justify-items: end; gap: 4px; padding: 8px 10px; background: rgba(0,0,0,.76); color: #fff; }
+.w5-composer-label span { font-size: .55rem; letter-spacing: .16em; }
+.w5-composer-label small { color: rgba(255,255,255,.5); font-size: .42rem; letter-spacing: .08em; }
 .w5-sensory-arms { z-index: 4; inset: 0; opacity: 0; transform: translate(calc(var(--sense-x) * .28), calc(var(--sense-y) * .28)) scale(1.08); mix-blend-mode: screen; pointer-events: none; }
 .w5-sensory-arms img { width: 100%; height: 100%; object-fit: cover; }
-.w5-drag-object { --drag-x: 0px; --drag-y: 0px; z-index: 7; padding: 0; border: 0; background: transparent; touch-action: none; cursor: grab; user-select: none; }
-.w5-drag-object:active { cursor: grabbing; }
+.w5-transform-object { --object-x: 0px; --object-y: 0px; touch-action: none; cursor: grab; user-select: none; outline: 1px solid transparent; outline-offset: 5px; transition: outline-color .2s; }
+.w5-transform-object:is(:focus-visible,.is-transforming) { outline-color: rgba(105,194,222,.72); }
+.w5-transform-object:active { cursor: grabbing; }
+.w5-drag-object { z-index: 7; padding: 0; border: 0; background: transparent; }
 .w5-drag-object img { display: block; width: 100%; height: auto; pointer-events: none; filter: drop-shadow(0 24px 32px rgba(0,0,0,.65)); }
-.w5-drag-object span { position: absolute; right: 3%; bottom: 4%; padding: 6px 9px; background: #fff; color: #050505; font-size: .42rem; letter-spacing: .14em; opacity: .78; }
-.w5-drag-textile { left: 4%; top: 19%; width: 29%; transform: translate(var(--drag-x), var(--drag-y)) rotate(-6deg); }
-.w5-drag-cyanotypes { right: 2%; bottom: 4%; width: 35%; transform: translate(var(--drag-x), var(--drag-y)) rotate(4deg); }
+.w5-drag-object > span:not(.w5-rotate-handle) { position: absolute; right: 3%; bottom: 4%; padding: 6px 9px; background: #fff; color: #050505; font-size: .42rem; letter-spacing: .14em; opacity: .78; }
+.w5-drag-textile { left: 4%; top: 19%; width: 29%; transform: translate(var(--object-x),var(--object-y)) rotate(var(--object-rotate)); }
+.w5-drag-cyanotypes { right: 2%; bottom: 4%; width: 35%; transform: translate(var(--object-x),var(--object-y)) rotate(var(--object-rotate)); }
+.w5-rotate-handle { position: absolute; z-index: 12; top: -13px; right: -13px; display: grid; place-items: center; width: 27px; height: 27px; padding: 0; border: 1px solid rgba(255,255,255,.82); border-radius: 50%; background: #090909; color: #fff; font: 500 .7rem/1 Arial,sans-serif; cursor: alias; opacity: .42; transition: opacity .2s, transform .2s, background .2s; }
+.w5-transform-object:is(:hover,:focus-within,.is-transforming) > .w5-rotate-handle { opacity: 1; }
+.w5-rotate-handle:is(:hover,:focus-visible) { outline: none; background: #65bad5; color: #020202; transform: scale(1.12); }
 .w5-sensory-status { position: absolute; z-index: 10; left: 22px; bottom: 20px; display: flex; gap: 22px; align-items: baseline; padding: 10px 12px; background: rgba(0,0,0,.78); color: #fff; pointer-events: none; }
 .w5-sensory-status b { font: 500 .65rem/1 var(--w5-title-font); letter-spacing: .18em; }
 .w5-sensory-status span { color: rgba(255,255,255,.5); font-size: .58rem; letter-spacing: .06em; }
 .w5-sensory-cursor { position: absolute; z-index: 9; left: var(--cursor-x, 50%); top: var(--cursor-y, 50%); width: 130px; height: 130px; transform: translate(-50%,-50%); border: 1px solid rgba(125,220,244,.28); border-radius: 50%; box-shadow: 0 0 60px rgba(53,151,180,.2); pointer-events: none; transition: width .2s, height .2s; }
 .w5-sensory-stage[data-mode='body'] .w5-sensory-arms { opacity: .88; }
 .w5-sensory-stage[data-mode='body'] .w5-sensory-monsters { opacity: .22; }
-.w5-sensory-stage[data-mode='body'] .w5-sensory-frame { opacity: .42; }
+.w5-sensory-stage[data-mode='body'] .w5-skin-composer { opacity: .52; }
 .w5-sensory-stage[data-mode='body'] .w5-drag-object { opacity: .18; filter: grayscale(1); }
 .w5-sensory-stage[data-mode='memory'] .w5-sensory-notes { opacity: .82; }
 .w5-sensory-stage[data-mode='memory'] .w5-sensory-red { opacity: .45; }
-.w5-sensory-stage[data-mode='memory'] .w5-sensory-frame { opacity: .28; }
+.w5-sensory-stage[data-mode='memory'] .w5-skin-composer { opacity: .34; }
 .w5-sensory-stage[data-mode='memory'] .w5-drag-object { opacity: .08; }
 .w5-sensory-stage[data-mode='monster'] .w5-sensory-hypnosis { opacity: .62; }
 .w5-sensory-stage[data-mode='monster'] .w5-sensory-monsters { opacity: .68; }
-.w5-sensory-stage[data-mode='monster'] .w5-sensory-frame { opacity: .58; mix-blend-mode: screen; }
+.w5-sensory-stage[data-mode='monster'] .w5-skin-composer { opacity: .58; mix-blend-mode: screen; }
 .w5-sensory-stage[data-mode='monster'] .w5-sensory-arms { opacity: .28; }
 .w5-sensory-stage[data-mode='monster'] .w5-drag-object { opacity: .15; }
 .w5-sensory-stage[data-mode='material'] .w5-sensory-hypnosis { opacity: .16; }
-.w5-sensory-stage[data-mode='material'] .w5-sensory-frame { opacity: .44; }
+.w5-sensory-stage[data-mode='material'] .w5-skin-composer { opacity: 1; }
 .w5-sensory-stage[data-mode='material'] .w5-drag-object { opacity: 1; }
 .w5-evidence-strip { display: grid; grid-template-columns: repeat(8, minmax(150px,1fr)); gap: 8px; margin-top: 12px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.22) transparent; }
 .w5-evidence-strip button { position: relative; min-height: 190px; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.1); background: #111; color: #fff; cursor: zoom-in; }
@@ -1752,7 +1787,9 @@ body.w5-sensory-open { overflow: hidden; }
   .w5-sensory-head { grid-template-columns: 1fr; }
   .w5-sensory-head > p { max-width: 600px; margin-left: auto; }
   .w5-sensory-stage { min-height: 92vw; }
-  .w5-sensory-frame { width: 52%; }
+  .w5-skin-tools { grid-template-columns: 1fr; }
+  .w5-skin-strength { padding-bottom: 10px; }
+  .w5-skin-composer { width: 56%; }
   .w5-drag-textile { width: 36%; }
   .w5-drag-cyanotypes { width: 42%; }
 }
@@ -1810,7 +1847,13 @@ body.w5-sensory-open { overflow: hidden; }
   .w5-sensory-modes button:nth-child(2) { border-right: 0; }
   .w5-sensory-modes button:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,.12); }
   .w5-sensory-stage { min-height: 146vw; }
-  .w5-sensory-frame { inset: 18% auto auto 50%; width: 76%; }
+  .w5-character-picker,
+  .w5-pattern-picker { overflow-x: auto; }
+  .w5-character-picker > div { min-width: 520px; }
+  .w5-pattern-picker > div { min-width: 380px; }
+  .w5-skin-composer { inset: 12% auto 10% 50%; width: 84%; }
+  .w5-box-figure-cutout { left: 12%; bottom: 8%; width: 50%; }
+  .w5-rotate-handle { width: 30px; height: 30px; opacity: .8; }
   .w5-drag-textile { left: -7%; top: 12%; width: 48%; }
   .w5-drag-cyanotypes { right: -9%; bottom: 7%; width: 56%; }
   .w5-sensory-status { right: 12px; left: 12px; align-items: center; justify-content: space-between; }

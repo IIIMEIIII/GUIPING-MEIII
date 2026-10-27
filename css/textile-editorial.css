@@ -1,0 +1,167 @@
+/* Textile case studies — print atlas + material laboratory */
+.textile-case {
+  --bag-paper: #ecebe5;
+  --bag-paper-2: #d7d6cf;
+  --bag-ink: #111310;
+  --bag-line: rgba(236, 235, 229, .18);
+  --accent: #ecebe5;
+}
+
+.textile-case .work-hero-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .22;
+  background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.08) 0 1px, transparent 1px 5px);
+  mix-blend-mode: soft-light;
+}
+
+.textile-case .work-hero-title {
+  font-size: clamp(3.2rem, 7.8vw, 7rem);
+  font-style: normal;
+  text-transform: none;
+}
+
+.textile-case .work-hero-sub {
+  font-style: normal;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.textile-case .bag-story:nth-child(even) { background: #dfded7; }
+.textile-case .bag-story--dark { background: #111310 !important; }
+
+.textile-index {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 48px;
+  background: rgba(17,19,16,.18);
+  border: 1px solid rgba(17,19,16,.18);
+}
+.textile-index div {
+  min-height: 116px;
+  padding: 22px;
+  background: var(--bag-paper);
+}
+.textile-index span {
+  display: block;
+  margin-bottom: 24px;
+  font-size: .54rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  opacity: .48;
+}
+.textile-index strong {
+  display: block;
+  max-width: 22ch;
+  font-size: .82rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.textile-case .bag-story-head h2 {
+  max-width: 10ch;
+  font-size: clamp(2.7rem, 6.6vw, 6.8rem);
+}
+
+.textile-case .bag-page img { display: block; }
+
+.textile-spread-pair {
+  grid-column: span 12;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: clamp(16px, 2vw, 30px);
+  align-items: start;
+}
+
+.textile-spread-pair .bag-page { grid-column: auto; }
+
+.textile-caption {
+  width: min(1380px, calc(100% - 96px));
+  margin: 54px auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  padding-top: 18px;
+  border-top: 1px solid currentColor;
+  font-size: .72rem;
+  line-height: 1.65;
+}
+.textile-caption strong {
+  font-size: .58rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.textile-caption p { max-width: 64ch; opacity: .58; }
+
+.rust-case {
+  --bag-paper: #e8e6df;
+  --bag-paper-2: #d3d0c7;
+  --bag-ink: #141512;
+}
+.rust-case .work-hero-img img {
+  object-position: center 58%;
+  filter: grayscale(.12) contrast(1.08) brightness(.78);
+}
+.rust-case .work-hero-overlay {
+  background: linear-gradient(90deg, rgba(5,6,5,.88) 0%, rgba(5,6,5,.2) 56%, rgba(5,6,5,.56) 100%),
+              linear-gradient(0deg, rgba(5,6,5,.96) 0%, transparent 62%);
+}
+.rust-case .bag-story:nth-child(even) { background: #d8d4ca; }
+
+.rust-sample-grid .bag-page { grid-column: span 4; }
+.rust-sample-grid .bag-page:nth-child(4) { grid-column: 3 / span 4; }
+.rust-sample-grid .bag-page:nth-child(5) { grid-column: 7 / span 4; }
+.rust-sample-grid .bag-page img { width: 100%; }
+
+.rust-final-grid .bag-page { grid-column: span 3; }
+
+.process-line {
+  width: min(1380px, calc(100% - 96px));
+  margin: 0 auto clamp(48px, 7vw, 92px);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0,1fr));
+  border: 1px solid currentColor;
+}
+.process-line span {
+  padding: 15px 12px;
+  border-right: 1px solid currentColor;
+  font-size: .56rem;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-align: center;
+  text-transform: uppercase;
+}
+.process-line span:last-child { border-right: 0; }
+
+.clang-case .work-hero-img img { object-position: center 44%; }
+.clang-case .work-hero-overlay {
+  background: linear-gradient(90deg, rgba(4,5,5,.9) 0%, rgba(4,5,5,.18) 58%, rgba(4,5,5,.48) 100%),
+              linear-gradient(0deg, rgba(4,5,5,.96) 0%, transparent 60%);
+}
+
+@media (max-width: 900px) {
+  .rust-sample-grid .bag-page,
+  .rust-sample-grid .bag-page:nth-child(4),
+  .rust-sample-grid .bag-page:nth-child(5),
+  .rust-final-grid .bag-page { grid-column: span 6; }
+  .process-line { grid-template-columns: 1fr; }
+  .process-line span { border-right: 0; border-bottom: 1px solid currentColor; }
+  .process-line span:last-child { border-bottom: 0; }
+}
+
+@media (max-width: 640px) {
+  .textile-case .work-hero-title { font-size: clamp(2.8rem, 14vw, 4.8rem); }
+  .textile-index { grid-template-columns: 1fr; }
+  .textile-spread-pair { grid-template-columns: 1fr; gap: 12px; }
+  .textile-caption,
+  .process-line { width: calc(100% - 40px); }
+  .textile-caption { grid-template-columns: 1fr; }
+  .rust-sample-grid .bag-page,
+  .rust-sample-grid .bag-page:nth-child(4),
+  .rust-sample-grid .bag-page:nth-child(5),
+  .rust-final-grid .bag-page { grid-column: span 12; }
+}

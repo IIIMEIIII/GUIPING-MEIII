@@ -357,8 +357,9 @@ function initWorksGrid() {
         { num:'05', title:'Acupuncture',                 cat:'Wearable Bag And Accessory Design · 2024', href:'work-4.html',  img:'images/work-4.jpg' },
         { num:'10', title:'Help Me Out A Little!',       cat:'Bag Design · 2023',                        href:'work-10.html', img:'images/work-8.jpg' },
         { num:'11', title:'Infinite Loop',               cat:'Fashion Research · 2022',                  href:'work-11.html', img:'images/work-9.jpg' },
-        { num:'12', title:'Leather Craftsmanship',       cat:'Craft · 2023',                             href:'work-12.html', img:'images/work-13.jpg' },
-        { num:'13', title:'Metalworking',                cat:'Craft · 2026',                             href:'work-13.html', img:'images/work-12.jpg' },
+        { num:'12', title:'Leather & Bag Lab',           cat:'Leathercraft · Bag Engineering',           href:'work-12.html', img:'images/bag-portfolio/page-16.jpg' },
+        { num:'13', title:'悦己 · Natural',               cat:'Natural Material Bag Collection',           href:'work-14.html', img:'images/bag-portfolio/natural-final.jpg' },
+        { num:'14', title:'Metalworking',                cat:'Craft · 2026',                             href:'work-13.html', img:'images/work-12.jpg' },
       ]
     },
     {

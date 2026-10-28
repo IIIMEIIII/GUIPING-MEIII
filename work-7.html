@@ -5,514 +5,161 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Project × Martine Rose — Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/work-detail.css" />
-  <link rel="stylesheet" href="css/work-7.css?v=3" />
+  <link rel="stylesheet" href="css/work-7.css?v=4" />
   <script>document.documentElement.classList.add('js');</script>
-  <style>
-    .work-video-section {
-      padding: 60px 80px;
-      background: #000;
-    }
-    .work-video-section + .work-video-section {
-      padding-top: 20px;
-    }
-    .work-video-wrap {
-      width: 100%;
-      max-width: 960px;
-      margin: 0 auto;
-      background: #000;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    .work-video-wrap.portrait {
-      max-width: 480px;
-      aspect-ratio: 9/16;
-    }
-    .work-video-wrap.landscape {
-      aspect-ratio: 16/9;
-    }
-    .work-video-wrap video {
-      width: 100%; height: 100%;
-      object-fit: contain;
-      display: block;
-    }
-    .video-label {
-      max-width: 960px;
-      margin: 0 auto 16px;
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      color: rgba(255,255,255,0.3);
-      padding: 0 4px;
-    }
-
-    /* ── Cap gallery grid ── */
-    .cap-gallery {
-      padding: 60px 80px;
-      background: var(--bg, #050505);
-    }
-    .cap-gallery-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
-      color: rgba(255,255,255,0.3);
-      margin-bottom: 24px;
-    }
-    .cap-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      max-width: 960px;
-    }
-    .cap-grid-item {
-      aspect-ratio: 3/4;
-      overflow: hidden;
-      cursor: pointer;
-      background: #111;
-    }
-    .cap-grid-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: grayscale(10%);
-      transition: transform 0.5s ease, filter 0.4s ease;
-    }
-    .cap-grid-item:hover img {
-      transform: scale(1.06);
-      filter: grayscale(0%);
-    }
-
-    /* lightbox */
-    .cap-lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.92);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-    .cap-lightbox.open { display: flex; }
-    .cap-lightbox img {
-      max-width: 90vw;
-      max-height: 90vh;
-      object-fit: contain;
-      border-radius: 2px;
-      box-shadow: 0 0 60px rgba(0,0,0,0.8);
-    }
-    .cap-lightbox-close {
-      position: absolute;
-      top: 20px; right: 28px;
-      font-size: 1.8rem;
-      color: rgba(255,255,255,0.6);
-      cursor: pointer;
-      line-height: 1;
-      background: none; border: none;
-      transition: color 0.2s;
-    }
-    .cap-lightbox-close:hover { color: #fff; }
-
-    @media(max-width:768px){
-      .work-video-section { padding: 40px 20px; }
-      .cap-gallery { padding: 40px 20px; }
-      .cap-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    }
-    /* Hero video */
-    .work-hero-video-wrap {
-      position: relative; width: 100%; height: 100vh; min-height: 480px;
-      overflow: hidden; background: #000;
-    }
-    .work-hero-video-wrap video {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      object-fit: cover; display: block;
-    }
-    .work-hero-video-wrap .work-hero-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
-      pointer-events: none;
-    }
-    .work-hero-video-wrap .work-hero-meta {
-      position: absolute; bottom: 60px; left: 60px; z-index: 2;
-    }
-    @media(max-width:768px){
-      .work-hero-video-wrap .work-hero-meta { left: 24px; bottom: 40px; }
-    }
-  </style>
 </head>
 <body class="work-7-page">
   <nav class="detail-nav" id="detailNav">
     <a href="index.html" class="nav-back"><span class="nav-back-arrow">←</span><span>PORTFOLIO</span></a>
     <div class="nav-work-title">AI Project × Martine Rose</div>
-    <div class="nav-pagination">
-      <a href="work-6.html" class="nav-page-btn">PREV</a>
-      <span class="nav-page-sep">/</span>
-      <a href="work-8.html" class="nav-page-btn">NEXT</a>
-    </div>
+    <div class="nav-pagination"><a href="work-6.html" class="nav-page-btn">PREV</a><span class="nav-page-sep">/</span><a href="work-8.html" class="nav-page-btn">NEXT</a></div>
   </nav>
 
-  <!-- HERO: work-7.mp4 静音自动播放 -->
   <section class="work-hero-video-wrap">
-    <video autoplay muted loop playsinline webkit-playsinline>
+    <video autoplay muted loop playsinline webkit-playsinline preload="auto">
       <source src="videos/work-7.mp4" type="video/mp4" />
     </video>
     <div class="work-hero-overlay"></div>
     <div class="work-hero-meta">
-      <div class="work-meta-tag">AI Video · 2025</div>
-      <h1 class="work-hero-title">AI Project ×<br/>Martine Rose</h1>
-      <p class="work-hero-sub">AI · Collaboration · Cap · Craft</p>
+      <div class="work-meta-tag">AI VIDEO · FASHION IMAGE · 2025</div>
+      <h1 class="work-hero-title">AI Project ×<br />Martine Rose</h1>
+      <p class="work-hero-sub">AI · COLLABORATION · CAP · CRAFT</p>
     </div>
+    <a class="w7-scroll-cue" href="#motion"><span>Enter the moving archive</span><b>↓</b></a>
+  </section>
+
+  <section class="work-info-row w7-top-facts">
+    <div class="work-info-item"><span class="info-label">CATEGORY</span><span class="info-value">AI Video · Fashion Image</span></div>
+    <div class="work-info-item"><span class="info-label">YEAR</span><span class="info-value">2025–2026</span></div>
+    <div class="work-info-item"><span class="info-label">MEDIUM</span><span class="info-value">AI · Styling · Craft · Film</span></div>
+    <div class="work-info-item"><span class="info-label">ROLE</span><span class="info-value">Concept · Direction · Making</span></div>
   </section>
 
   <nav class="w7-chapter-nav" aria-label="Project chapters">
-    <a href="#looks">01 Looks</a>
-    <a href="#motion">02 Motion</a>
-    <a href="#celebrity">03 Celebrity</a>
-    <a href="#music">04 Music</a>
-    <a href="#craft">05 Craft</a>
-    <a href="#project">06 Project</a>
+    <a href="#motion">01 Motion</a><a href="#looks">02 Looks</a><a href="#celebrity">03 Celebrity</a><a href="#music">04 Music</a><a href="#craft">05 Craft</a><a href="#project">06 Project</a>
+    <span class="w7-progress" aria-hidden="true"><i></i></span>
   </nav>
 
   <main class="w7-archive">
+    <section class="w7-section w7-dark w7-motion" id="motion">
+      <header class="w7-section-head w7-reveal">
+        <div class="w7-kicker">01 / Film First</div>
+        <div><h2 class="w7-heading">Enter through<br />moving image.</h2><p class="w7-section-copy">The two original films open the project before any still image. Below them, ten moving studies work as an interactive scene console: choose a frame, change the rhythm, then open it full-screen with sound.</p></div>
+      </header>
+
+      <div class="w7-anchor-films w7-primary-films">
+        <figure class="w7-anchor-film w7-reveal">
+          <div class="w7-film-shell"><video controls playsinline webkit-playsinline preload="metadata"><source src="videos/work-7-collab.mp4" type="video/mp4" /></video><span class="w7-film-id">FILM A</span></div>
+          <figcaption class="w7-caption"><span>A</span><strong>Original Collaboration Film</strong><span>With sound ↗</span></figcaption>
+        </figure>
+        <figure class="w7-anchor-film w7-reveal">
+          <div class="w7-film-shell"><video controls playsinline webkit-playsinline preload="metadata"><source src="https://www.genspark.ai/api/files/s/0S0ZbYN8" type="video/mp4" /></video><span class="w7-film-id">FILM B</span></div>
+          <figcaption class="w7-caption"><span>B</span><strong>Original Process Film</strong><span>Archive ↗</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="w7-motion-lab w7-reveal">
+        <div class="w7-motion-lab-bar"><span>SCENE CONSOLE / SELECT A MOVING LOOK</span><strong id="w7MotionCounter">01 / 10</strong></div>
+        <div class="w7-motion-stage" data-w7-video="videos/work-7-study-01.mp4">
+          <video id="w7MotionFeature" autoplay muted loop playsinline webkit-playsinline preload="metadata"><source src="videos/work-7-study-01.mp4" type="video/mp4" /></video>
+          <div class="w7-motion-stage-shade"></div>
+          <div class="w7-motion-stage-copy"><span id="w7MotionLabel">MOVING LOOK 01</span><button class="w7-feature-open" type="button" aria-label="Open selected moving look full screen">PLAY WITH SOUND ↗</button></div>
+        </div>
+        <div class="w7-motion-controls"><button id="w7MotionPrev" type="button" aria-label="Previous moving look">← PREV</button><span>CLICK OR HOVER TO SWITCH SCENE</span><button id="w7MotionNext" type="button" aria-label="Next moving look">NEXT →</button></div>
+        <div class="w7-motion-strip" role="tablist" aria-label="Moving look studies">
+          <button class="w7-motion-chip is-active" type="button" role="tab" aria-selected="true" data-index="1" data-src="videos/work-7-study-01.mp4"><video muted loop playsinline preload="metadata"><source src="videos/work-7-study-01.mp4" type="video/mp4" /></video><span>01</span></button>
+          <button class="w7-motion-chip" type="button" role="tab" aria-selected="false" data-index="2" data-src="videos/work-7-study-02.mp4"><video muted loop playsinline preload="metadata"><source src="videos/work-7-study-02.mp4" type="video/mp4" /></video><span>02</span></button>
+          <button class="w7-motion-chip" type="button" role="tab" aria-selected="false" data-index="3" data-src="videos/work-7-study-03.mp4"><video muted loop playsinline preload="metadata"><source src="videos/work-7-study-03.mp4" type="video/mp4" /></video><span>03</span></button>
+          <button class="w7-motion-chip" type="button" role="tab" aria-selected="false" data-index="4" data-src="videos/work-7-study-04.mp4"><video muted loop playsinline preload="metadata"><source src="videos/work-7-study-04.mp4" type="video/mp4" /></video><span>04</span></button>
+          <button class="w7-motion-chip" type="button" role="tab" aria-selected="false" data-index="5" data-src="videos/work-7-study-05.mp4"><video muted loop playsinline preload="metadata"><source src="videos/work-7-study-05.mp4" type="video/mp4" /></video><span>05</span></button>
+          <button class="w7-motion-chip" type="button" role="tab" aria-selected="false" data-index="6" data-src="videos/work-7-study-06.mp4"><video muted loop playsinline preload="metadata"><source src="videos/work-7-study-06.mp4" type="video/mp4" /></video><span>06</span></button>
+          <button class="w7-motion-chip" type="button" role="tab" aria-selected="false" data-index="7" data-src="videos/work-7-study-07.mp4"><video muted loop playsinline preload="metadata"><source src="videos/work-7-study-07.mp4" type="video/mp4" /></video><span>07</span></button>
+          <button class="w7-motion-chip" type="button" role="tab" aria-selected="false" data-index="8" data-src="videos/work-7-study-08.mp4"><video muted loop playsinline preload="metadata"><source src="videos/work-7-study-08.mp4" type="video/mp4" /></video><span>08</span></button>
+          <button class="w7-motion-chip" type="button" role="tab" aria-selected="false" data-index="9" data-src="videos/work-7-study-09.mp4"><video muted loop playsinline preload="metadata"><source src="videos/work-7-study-09.mp4" type="video/mp4" /></video><span>09</span></button>
+          <button class="w7-motion-chip" type="button" role="tab" aria-selected="false" data-index="10" data-src="videos/work-7-study-10.mp4"><video muted loop playsinline preload="metadata"><source src="videos/work-7-study-10.mp4" type="video/mp4" /></video><span>10</span></button>
+        </div>
+      </div>
+    </section>
+
     <section class="w7-section w7-paper w7-looks" id="looks">
       <div class="w7-section-inner">
-        <header class="w7-section-head w7-reveal">
-          <div class="w7-kicker">01 / Public Draft</div>
-          <div>
-            <h2 class="w7-heading">Six looks.<br/><em>One identity</em><br/>in motion.</h2>
-            <p class="w7-section-copy">A first chapter built as an editorial sequence: bodies, clothes and architectural fragments are composed across the frame as if every image were a spread from an unfinished magazine.</p>
-          </div>
-        </header>
-
+        <header class="w7-section-head w7-reveal"><div class="w7-kicker">02 / Public Draft</div><div><h2 class="w7-heading">Six looks.<br />One identity<br />in motion.</h2><p class="w7-section-copy">Bodies, clothes and architectural fragments are composed like spreads from an unfinished magazine. Move over the images, then open a frame to inspect the scene.</p></div></header>
         <div class="w7-look-layout">
-          <figure class="w7-look-card w7-reveal">
-            <button class="w7-image-button" type="button" data-w7-image="images/work-7-look-01.jpg" aria-label="Open Public Draft look 01">
-              <img src="images/work-7-look-01.jpg" alt="Tiger-print look staged upside down in a blue concrete stairwell" loading="eager" />
-            </button>
-            <figcaption class="w7-caption"><span>01</span><strong>Wild Theatrical</strong><span>Open ↗</span></figcaption>
-          </figure>
-
-          <figure class="w7-look-card w7-reveal">
-            <button class="w7-image-button" type="button" data-w7-image="images/work-7-look-02.jpg" aria-label="Open Public Draft look 02">
-              <img src="images/work-7-look-02.jpg" alt="Black leather look balancing over scattered papers in a garage" loading="lazy" />
-            </button>
-            <figcaption class="w7-caption"><span>02</span><strong>A Clash of Attitude</strong><span>Open ↗</span></figcaption>
-          </figure>
-
-          <figure class="w7-look-card w7-reveal">
-            <button class="w7-image-button" type="button" data-w7-image="images/work-7-look-03.jpg" aria-label="Open Public Draft look 03">
-              <img src="images/work-7-look-03.jpg" alt="Black and green look framed by a circular metal stair cage" loading="lazy" />
-            </button>
-            <figcaption class="w7-caption"><span>03</span><strong>Confident and Raw</strong><span>Open ↗</span></figcaption>
-          </figure>
-
-          <figure class="w7-look-card w7-reveal">
-            <button class="w7-image-button" type="button" data-w7-image="images/work-7-look-04.jpg" aria-label="Open Public Draft look 04">
-              <img src="images/work-7-look-04.jpg" alt="Tiger-print figure inverted in a projected stairwell scene" loading="lazy" />
-            </button>
-            <figcaption class="w7-caption"><span>04</span><strong>Retro Toughness</strong><span>Open ↗</span></figcaption>
-          </figure>
-
-          <figure class="w7-look-card w7-reveal">
-            <button class="w7-image-button" type="button" data-w7-image="images/work-7-look-05.jpg" aria-label="Open Public Draft look 05">
-              <img src="images/work-7-look-05.jpg" alt="Red football top and leopard shorts staged in a concrete stairwell" loading="lazy" />
-            </button>
-            <figcaption class="w7-caption"><span>05</span><strong>Between Irony and Rebellion</strong><span>Open ↗</span></figcaption>
-          </figure>
-
+          <figure class="w7-look-card w7-reveal" data-w7-tilt><button class="w7-image-button" type="button" data-w7-image="images/work-7-look-01.jpg" aria-label="Open Public Draft look 01"><img src="images/work-7-look-01.jpg" alt="Tiger-print look staged upside down in a blue concrete stairwell" loading="eager" /></button><figcaption class="w7-caption"><span>01</span><strong>Wild Theatrical</strong><span>Open ↗</span></figcaption></figure>
+          <figure class="w7-look-card w7-reveal" data-w7-tilt><button class="w7-image-button" type="button" data-w7-image="images/work-7-look-02.jpg" aria-label="Open Public Draft look 02"><img src="images/work-7-look-02.jpg" alt="Black leather look balancing over scattered papers in a garage" loading="lazy" /></button><figcaption class="w7-caption"><span>02</span><strong>A Clash of Attitude</strong><span>Open ↗</span></figcaption></figure>
+          <figure class="w7-look-card w7-reveal" data-w7-tilt><button class="w7-image-button" type="button" data-w7-image="images/work-7-look-03.jpg" aria-label="Open Public Draft look 03"><img src="images/work-7-look-03.jpg" alt="Black and green look framed by a circular metal stair cage" loading="lazy" /></button><figcaption class="w7-caption"><span>03</span><strong>Confident and Raw</strong><span>Open ↗</span></figcaption></figure>
+          <figure class="w7-look-card w7-reveal" data-w7-tilt><button class="w7-image-button" type="button" data-w7-image="images/work-7-look-04.jpg" aria-label="Open Public Draft look 04"><img src="images/work-7-look-04.jpg" alt="Tiger-print figure inverted in a projected stairwell scene" loading="lazy" /></button><figcaption class="w7-caption"><span>04</span><strong>Retro Toughness</strong><span>Open ↗</span></figcaption></figure>
+          <figure class="w7-look-card w7-reveal" data-w7-tilt><button class="w7-image-button" type="button" data-w7-image="images/work-7-look-05.jpg" aria-label="Open Public Draft look 05"><img src="images/work-7-look-05.jpg" alt="Red football top and leopard shorts staged in a concrete stairwell" loading="lazy" /></button><figcaption class="w7-caption"><span>05</span><strong>Between Irony and Rebellion</strong><span>Open ↗</span></figcaption></figure>
           <blockquote class="w7-look-quote w7-reveal">The self is never finished—<span>only rehearsed in public.</span></blockquote>
         </div>
       </div>
     </section>
 
-    <section class="w7-section w7-dark w7-motion" id="motion">
-      <header class="w7-section-head w7-reveal">
-        <div class="w7-kicker">02 / Scenery + Film</div>
-        <div>
-          <h2 class="w7-heading">Ten moving<br/><em>studies.</em></h2>
-          <p class="w7-section-copy">The still compositions continue as a horizontal film strip. Hover to preview silently; open any frame for full-screen playback with sound.</p>
-        </div>
-      </header>
-
-      <div class="w7-video-rail" aria-label="Ten moving look studies">
-        <figure class="w7-video-card" data-w7-video="videos/work-7-study-01.mp4">
-          <div class="w7-video-frame"><video muted loop playsinline webkit-playsinline preload="metadata"><source src="videos/work-7-study-01.mp4" type="video/mp4" /></video><button class="w7-video-open" type="button" aria-label="Open moving study 01"><span>▶</span></button></div>
-          <figcaption class="w7-caption"><span>01</span><strong>Moving Look</strong><span>Play ↗</span></figcaption>
-        </figure>
-        <figure class="w7-video-card" data-w7-video="videos/work-7-study-02.mp4">
-          <div class="w7-video-frame"><video muted loop playsinline webkit-playsinline preload="metadata"><source src="videos/work-7-study-02.mp4" type="video/mp4" /></video><button class="w7-video-open" type="button" aria-label="Open moving study 02"><span>▶</span></button></div>
-          <figcaption class="w7-caption"><span>02</span><strong>Moving Look</strong><span>Play ↗</span></figcaption>
-        </figure>
-        <figure class="w7-video-card" data-w7-video="videos/work-7-study-03.mp4">
-          <div class="w7-video-frame"><video muted loop playsinline webkit-playsinline preload="metadata"><source src="videos/work-7-study-03.mp4" type="video/mp4" /></video><button class="w7-video-open" type="button" aria-label="Open moving study 03"><span>▶</span></button></div>
-          <figcaption class="w7-caption"><span>03</span><strong>Moving Look</strong><span>Play ↗</span></figcaption>
-        </figure>
-        <figure class="w7-video-card" data-w7-video="videos/work-7-study-04.mp4">
-          <div class="w7-video-frame"><video muted loop playsinline webkit-playsinline preload="metadata"><source src="videos/work-7-study-04.mp4" type="video/mp4" /></video><button class="w7-video-open" type="button" aria-label="Open moving study 04"><span>▶</span></button></div>
-          <figcaption class="w7-caption"><span>04</span><strong>Moving Look</strong><span>Play ↗</span></figcaption>
-        </figure>
-        <figure class="w7-video-card" data-w7-video="videos/work-7-study-05.mp4">
-          <div class="w7-video-frame"><video muted loop playsinline webkit-playsinline preload="metadata"><source src="videos/work-7-study-05.mp4" type="video/mp4" /></video><button class="w7-video-open" type="button" aria-label="Open moving study 05"><span>▶</span></button></div>
-          <figcaption class="w7-caption"><span>05</span><strong>Moving Look</strong><span>Play ↗</span></figcaption>
-        </figure>
-        <figure class="w7-video-card" data-w7-video="videos/work-7-study-06.mp4">
-          <div class="w7-video-frame"><video muted loop playsinline webkit-playsinline preload="metadata"><source src="videos/work-7-study-06.mp4" type="video/mp4" /></video><button class="w7-video-open" type="button" aria-label="Open moving study 06"><span>▶</span></button></div>
-          <figcaption class="w7-caption"><span>06</span><strong>Moving Look</strong><span>Play ↗</span></figcaption>
-        </figure>
-        <figure class="w7-video-card" data-w7-video="videos/work-7-study-07.mp4">
-          <div class="w7-video-frame"><video muted loop playsinline webkit-playsinline preload="metadata"><source src="videos/work-7-study-07.mp4" type="video/mp4" /></video><button class="w7-video-open" type="button" aria-label="Open moving study 07"><span>▶</span></button></div>
-          <figcaption class="w7-caption"><span>07</span><strong>Moving Look</strong><span>Play ↗</span></figcaption>
-        </figure>
-        <figure class="w7-video-card" data-w7-video="videos/work-7-study-08.mp4">
-          <div class="w7-video-frame"><video muted loop playsinline webkit-playsinline preload="metadata"><source src="videos/work-7-study-08.mp4" type="video/mp4" /></video><button class="w7-video-open" type="button" aria-label="Open moving study 08"><span>▶</span></button></div>
-          <figcaption class="w7-caption"><span>08</span><strong>Moving Look</strong><span>Play ↗</span></figcaption>
-        </figure>
-        <figure class="w7-video-card" data-w7-video="videos/work-7-study-09.mp4">
-          <div class="w7-video-frame"><video muted loop playsinline webkit-playsinline preload="metadata"><source src="videos/work-7-study-09.mp4" type="video/mp4" /></video><button class="w7-video-open" type="button" aria-label="Open moving study 09"><span>▶</span></button></div>
-          <figcaption class="w7-caption"><span>09</span><strong>Moving Look</strong><span>Play ↗</span></figcaption>
-        </figure>
-        <figure class="w7-video-card" data-w7-video="videos/work-7-study-10.mp4">
-          <div class="w7-video-frame"><video muted loop playsinline webkit-playsinline preload="metadata"><source src="videos/work-7-study-10.mp4" type="video/mp4" /></video><button class="w7-video-open" type="button" aria-label="Open moving study 10"><span>▶</span></button></div>
-          <figcaption class="w7-caption"><span>10</span><strong>Moving Look</strong><span>Play ↗</span></figcaption>
-        </figure>
-      </div>
-
-      <div class="w7-anchor-films">
-        <figure class="w7-anchor-film w7-reveal">
-          <video controls playsinline webkit-playsinline preload="metadata"><source src="videos/work-7-collab.mp4" type="video/mp4" /></video>
-          <figcaption class="w7-caption"><span>A</span><strong>Original Collaboration Film</strong><span>With sound ↗</span></figcaption>
-        </figure>
-        <figure class="w7-anchor-film w7-reveal">
-          <video controls playsinline webkit-playsinline preload="metadata"><source src="https://www.genspark.ai/api/files/s/0S0ZbYN8" type="video/mp4" /></video>
-          <figcaption class="w7-caption"><span>B</span><strong>Original Process Film</strong><span>Archive ↗</span></figcaption>
-        </figure>
-      </div>
-
-    </section>
-
     <section class="w7-section w7-paper w7-celebrity" id="celebrity">
       <div class="w7-section-inner">
-        <header class="w7-section-head w7-reveal">
-          <div class="w7-kicker">03 / Celebrity concept</div>
-          <div>
-            <h2 class="w7-heading">Almost an<br/><em>accident.</em></h2>
-            <p class="w7-section-copy">A collaboration concept for Earl Cave: near-collisions and airborne mishaps hold each look on the edge of disaster, turning awkwardness into elegance.</p>
-          </div>
-        </header>
-
+        <header class="w7-section-head w7-reveal"><div class="w7-kicker">03 / Celebrity concept</div><div><h2 class="w7-heading">Almost an<br />accident.</h2><p class="w7-section-copy">A collaboration concept for Earl Cave: near-collisions and airborne mishaps hold each look on the edge of disaster, turning awkwardness into elegance.</p></div></header>
         <div class="w7-celebrity-grid">
-          <figure class="w7-celebrity-card w7-reveal">
-            <button class="w7-image-button" type="button" data-w7-image="images/work-7-celebrity-01.jpg" aria-label="Open celebrity collaboration image 01"><span class="w7-big-number">01</span><img src="images/work-7-celebrity-01.jpg" alt="Blonde figure suspended above a construction ladder" loading="lazy" /></button>
-            <figcaption class="w7-caption"><span>01</span><strong>Chaos Arrived First</strong><span>Open ↗</span></figcaption>
-          </figure>
-          <figure class="w7-celebrity-card w7-reveal">
-            <button class="w7-image-button" type="button" data-w7-image="images/work-7-celebrity-02.jpg" aria-label="Open celebrity collaboration image 02"><span class="w7-big-number">02</span><img src="images/work-7-celebrity-02.jpg" alt="Figure floating over a New York rooftop with a cat in a paper bag" loading="lazy" /></button>
-            <figcaption class="w7-caption"><span>02</span><strong>Falling Faster</strong><span>Open ↗</span></figcaption>
-          </figure>
-          <figure class="w7-celebrity-card w7-reveal">
-            <button class="w7-image-button" type="button" data-w7-image="images/work-7-celebrity-03.jpg" aria-label="Open celebrity collaboration image 03"><span class="w7-big-number">03</span><img src="images/work-7-celebrity-03.jpg" alt="Tiger-print figure floating horizontally above a wet street" loading="lazy" /></button>
-            <figcaption class="w7-caption"><span>03</span><strong>Scenes Happen to Him</strong><span>Open ↗</span></figcaption>
-          </figure>
+          <figure class="w7-celebrity-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-celebrity-01.jpg" aria-label="Open celebrity image 01"><span class="w7-big-number">01</span><img src="images/work-7-celebrity-01.jpg" alt="Blonde figure suspended above a construction ladder" loading="lazy" /></button><figcaption class="w7-caption"><span>01</span><strong>Chaos Arrived First</strong><span>Open ↗</span></figcaption></figure>
+          <figure class="w7-celebrity-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-celebrity-02.jpg" aria-label="Open celebrity image 02"><span class="w7-big-number">02</span><img src="images/work-7-celebrity-02.jpg" alt="Figure floating over a New York rooftop with a cat in a paper bag" loading="lazy" /></button><figcaption class="w7-caption"><span>02</span><strong>Falling Faster</strong><span>Open ↗</span></figcaption></figure>
+          <figure class="w7-celebrity-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-celebrity-03.jpg" aria-label="Open celebrity image 03"><span class="w7-big-number">03</span><img src="images/work-7-celebrity-03.jpg" alt="Tiger-print figure floating horizontally above a wet street" loading="lazy" /></button><figcaption class="w7-caption"><span>03</span><strong>Scenes Happen to Him</strong><span>Open ↗</span></figcaption></figure>
         </div>
       </div>
     </section>
 
     <section class="w7-section w7-dark" id="music">
       <div class="w7-section-inner">
-        <header class="w7-music-intro w7-reveal">
-          <div>
-            <div class="w7-kicker">04 / Music collaboration concept</div>
-            <h2 class="w7-heading">Inner<br/><em>rooms.</em></h2>
-          </div>
-          <p class="w7-music-statement">Joji and the band study become a private, awkward interior world. Each handmade hat translates a personality into atmosphere, then turns that atmosphere into image, object and performance.</p>
-        </header>
-
+        <header class="w7-music-intro w7-reveal"><div><div class="w7-kicker">04 / Music collaboration concept</div><h2 class="w7-heading">Inner<br />rooms.</h2></div><p class="w7-music-statement">Joji and the band study become a private, awkward interior world. Each handmade hat translates a personality into atmosphere, then turns that atmosphere into image, object and performance.</p></header>
         <div class="w7-music-portraits">
-          <figure class="w7-music-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-01.jpg" aria-label="Open music collaboration portrait 01"><img src="images/work-7-music-01.jpg" alt="Joji-inspired portrait wearing a handmade cap and sculptural insect necklace" loading="lazy" /></button><figcaption class="w7-caption"><span>01</span><strong>Inner Room</strong><span>Portrait ↗</span></figcaption></figure>
-          <figure class="w7-music-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-02.jpg" aria-label="Open music collaboration portrait 02"><img src="images/work-7-music-02.jpg" alt="Soft green motion-blurred portrait in a transparent hood and cap" loading="lazy" /></button><figcaption class="w7-caption"><span>02</span><strong>Soft Focus</strong><span>Portrait ↗</span></figcaption></figure>
-          <figure class="w7-music-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-03.jpg" aria-label="Open music collaboration portrait 03"><img src="images/work-7-music-03.jpg" alt="Warm-toned portrait wearing a patchworked handmade cap" loading="lazy" /></button><figcaption class="w7-caption"><span>03</span><strong>Heat Room</strong><span>Portrait ↗</span></figcaption></figure>
-          <figure class="w7-music-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-04.jpg" aria-label="Open music collaboration portrait 04"><img src="images/work-7-music-04.jpg" alt="High-contrast dark portrait wearing a handmade cap" loading="lazy" /></button><figcaption class="w7-caption"><span>04</span><strong>Night Room</strong><span>Portrait ↗</span></figcaption></figure>
-          <figure class="w7-music-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-05.jpg" aria-label="Open music collaboration portrait 05"><img src="images/work-7-music-05.jpg" alt="Blue and pink layered portrait wearing a textured cap" loading="lazy" /></button><figcaption class="w7-caption"><span>05</span><strong>Layered Identity</strong><span>Portrait ↗</span></figcaption></figure>
+          <figure class="w7-music-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-01.jpg"><img src="images/work-7-music-01.jpg" alt="Joji-inspired portrait wearing a handmade cap and sculptural insect necklace" loading="lazy" /></button><figcaption class="w7-caption"><span>01</span><strong>Inner Room</strong><span>Portrait ↗</span></figcaption></figure>
+          <figure class="w7-music-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-02.jpg"><img src="images/work-7-music-02.jpg" alt="Soft green motion-blurred portrait in a transparent hood and cap" loading="lazy" /></button><figcaption class="w7-caption"><span>02</span><strong>Soft Focus</strong><span>Portrait ↗</span></figcaption></figure>
+          <figure class="w7-music-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-03.jpg"><img src="images/work-7-music-03.jpg" alt="Warm-toned portrait wearing a patchworked handmade cap" loading="lazy" /></button><figcaption class="w7-caption"><span>03</span><strong>Heat Room</strong><span>Portrait ↗</span></figcaption></figure>
+          <figure class="w7-music-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-04.jpg"><img src="images/work-7-music-04.jpg" alt="High-contrast dark portrait wearing a handmade cap" loading="lazy" /></button><figcaption class="w7-caption"><span>04</span><strong>Night Room</strong><span>Portrait ↗</span></figcaption></figure>
+          <figure class="w7-music-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-05.jpg"><img src="images/work-7-music-05.jpg" alt="Blue and pink layered portrait wearing a textured cap" loading="lazy" /></button><figcaption class="w7-caption"><span>05</span><strong>Layered Identity</strong><span>Portrait ↗</span></figcaption></figure>
         </div>
-
         <div class="w7-object-grid">
-          <figure class="w7-object-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-06.png" aria-label="Open music collaboration object 01"><img src="images/work-7-music-06.png" alt="Side view of a hand-stitched patchwork cap" loading="lazy" /></button></figure>
-          <figure class="w7-object-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-07.jpg" aria-label="Open music collaboration object 02"><img src="images/work-7-music-07.jpg" alt="Blurred multi-cap portrait composition" loading="lazy" /></button></figure>
-          <figure class="w7-object-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-08.png" aria-label="Open music collaboration object 03"><img src="images/work-7-music-08.png" alt="Patchwork cap balanced on crushed metallic cans and a white heel" loading="lazy" /></button></figure>
-          <figure class="w7-object-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-09.jpg" aria-label="Open music collaboration object 04"><img src="images/work-7-music-09.jpg" alt="Soft orange portrait with handmade cap" loading="lazy" /></button></figure>
-          <figure class="w7-object-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-10.png" aria-label="Open music collaboration object 05"><img src="images/work-7-music-10.png" alt="Green-lit portrait wearing a blue photographic patchwork cap" loading="lazy" /></button></figure>
-          <figure class="w7-object-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-11.jpg" aria-label="Open music collaboration object 06"><img src="images/work-7-music-11.jpg" alt="Patchwork cap still life balanced on metallic cans" loading="lazy" /></button></figure>
+          <figure class="w7-object-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-06.png"><img src="images/work-7-music-06.png" alt="Side view of a hand-stitched patchwork cap" loading="lazy" /></button></figure>
+          <figure class="w7-object-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-07.jpg"><img src="images/work-7-music-07.jpg" alt="Blurred multi-cap portrait composition" loading="lazy" /></button></figure>
+          <figure class="w7-object-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-08.png"><img src="images/work-7-music-08.png" alt="Patchwork cap balanced on crushed metallic cans and a white heel" loading="lazy" /></button></figure>
+          <figure class="w7-object-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-09.jpg"><img src="images/work-7-music-09.jpg" alt="Soft orange portrait with handmade cap" loading="lazy" /></button></figure>
+          <figure class="w7-object-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-10.png"><img src="images/work-7-music-10.png" alt="Green-lit portrait wearing a blue photographic patchwork cap" loading="lazy" /></button></figure>
+          <figure class="w7-object-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-music-11.jpg"><img src="images/work-7-music-11.jpg" alt="Patchwork cap still life balanced on metallic cans" loading="lazy" /></button></figure>
         </div>
       </div>
     </section>
 
     <section class="w7-section w7-paper" id="craft">
       <div class="w7-section-inner">
-        <header class="w7-section-head w7-reveal">
-          <div class="w7-kicker">05 / Craftsmanship</div>
-          <div>
-            <h2 class="w7-heading">Make it in the<br/><em>wrong way.</em></h2>
-            <p class="w7-section-copy">Craft is treated as an attitude rather than a demonstration of correctness. Repeated frames, misaligned bodies and visible joins keep the process present in the finished image.</p>
-          </div>
-        </header>
-
+        <header class="w7-section-head w7-reveal"><div class="w7-kicker">05 / Craftsmanship</div><div><h2 class="w7-heading">Make it in the<br />wrong way.</h2><p class="w7-section-copy">Craft is treated as an attitude rather than a demonstration of correctness. Repeated frames, misaligned bodies and visible joins keep the process present in the finished image.</p></div></header>
         <div class="w7-craft-grid">
-          <figure class="w7-craft-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-craft-01.jpg" aria-label="Open craftsmanship collage 01"><img src="images/work-7-craft-01.jpg" alt="Fragmented yellow and grey fashion portrait collage" loading="lazy" /></button><figcaption class="w7-caption"><span>01</span><strong>Separated Body</strong><span>Joiner ↗</span></figcaption></figure>
-          <figure class="w7-craft-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-craft-02.jpg" aria-label="Open craftsmanship collage 02"><img src="images/work-7-craft-02.jpg" alt="Fragmented portrait seated in grass with scattered objects" loading="lazy" /></button><figcaption class="w7-caption"><span>02</span><strong>Repeated Angle</strong><span>Joiner ↗</span></figcaption></figure>
-          <figure class="w7-craft-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-craft-03.jpg" aria-label="Open craftsmanship collage 03"><img src="images/work-7-craft-03.jpg" alt="Fragmented portrait in layered outdoor clothing" loading="lazy" /></button><figcaption class="w7-caption"><span>03</span><strong>Stitched Movement</strong><span>Joiner ↗</span></figcaption></figure>
+          <figure class="w7-craft-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-craft-01.jpg"><img src="images/work-7-craft-01.jpg" alt="Fragmented yellow and grey fashion portrait collage" loading="lazy" /></button><figcaption class="w7-caption"><span>01</span><strong>Separated Body</strong><span>Joiner ↗</span></figcaption></figure>
+          <figure class="w7-craft-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-craft-02.jpg"><img src="images/work-7-craft-02.jpg" alt="Fragmented portrait seated in grass with scattered objects" loading="lazy" /></button><figcaption class="w7-caption"><span>02</span><strong>Repeated Angle</strong><span>Joiner ↗</span></figcaption></figure>
+          <figure class="w7-craft-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-craft-03.jpg"><img src="images/work-7-craft-03.jpg" alt="Fragmented portrait in layered outdoor clothing" loading="lazy" /></button><figcaption class="w7-caption"><span>03</span><strong>Stitched Movement</strong><span>Joiner ↗</span></figcaption></figure>
         </div>
-
-        <div class="w7-cap-rule w7-reveal">
-          <h3>From digital fragment<br/>to stitched object.</h3>
-          <p>Six caps close the loop between generated image and handwork. Raw seams, mesh, hardware and photographic fragments are kept visible as evidence of making.</p>
-        </div>
-
+        <div class="w7-cap-rule w7-reveal"><h3>From digital fragment<br />to stitched object.</h3><p>Six caps close the loop between generated image and handwork. Raw seams, mesh, hardware and photographic fragments are kept visible as evidence of making.</p></div>
         <div class="w7-cap-grid">
-          <figure class="w7-cap-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-cap1.jpg" aria-label="Open cap 01"><img src="images/work-7-cap1.jpg" alt="Handmade cap 01" loading="lazy" /></button></figure>
-          <figure class="w7-cap-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-cap2.jpg" aria-label="Open cap 02"><img src="images/work-7-cap2.jpg" alt="Handmade cap 02" loading="lazy" /></button></figure>
-          <figure class="w7-cap-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-cap3.jpg" aria-label="Open cap 03"><img src="images/work-7-cap3.jpg" alt="Handmade cap 03" loading="lazy" /></button></figure>
-          <figure class="w7-cap-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-cap4.jpg" aria-label="Open cap 04"><img src="images/work-7-cap4.jpg" alt="Handmade cap 04" loading="lazy" /></button></figure>
-          <figure class="w7-cap-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-cap5.jpg" aria-label="Open cap 05"><img src="images/work-7-cap5.jpg" alt="Handmade cap 05" loading="lazy" /></button></figure>
-          <figure class="w7-cap-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-cap6.jpg" aria-label="Open cap 06"><img src="images/work-7-cap6.jpg" alt="Handmade cap 06" loading="lazy" /></button></figure>
+          <figure class="w7-cap-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-cap1.jpg"><img src="images/work-7-cap1.jpg" alt="Handmade cap 01" loading="lazy" /></button></figure>
+          <figure class="w7-cap-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-cap2.jpg"><img src="images/work-7-cap2.jpg" alt="Handmade cap 02" loading="lazy" /></button></figure>
+          <figure class="w7-cap-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-cap3.jpg"><img src="images/work-7-cap3.jpg" alt="Handmade cap 03" loading="lazy" /></button></figure>
+          <figure class="w7-cap-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-cap4.jpg"><img src="images/work-7-cap4.jpg" alt="Handmade cap 04" loading="lazy" /></button></figure>
+          <figure class="w7-cap-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-cap5.jpg"><img src="images/work-7-cap5.jpg" alt="Handmade cap 05" loading="lazy" /></button></figure>
+          <figure class="w7-cap-card w7-reveal"><button class="w7-image-button" type="button" data-w7-image="images/work-7-cap6.jpg"><img src="images/work-7-cap6.jpg" alt="Handmade cap 06" loading="lazy" /></button></figure>
         </div>
       </div>
     </section>
 
     <section class="w7-section w7-dark w7-project-end" id="project">
-      <div class="w7-section-inner">
-        <div class="w7-kicker w7-reveal">06 / Project introduction</div>
-        <h2 class="w7-end-title w7-reveal">Draft<span>Persona</span></h2>
-
-        <div class="w7-end-copy w7-reveal">
-          <p class="w7-end-lead">Identity is treated as a public draft—continuously revised through imitation, resistance and play.</p>
-          <p class="w7-end-text">In dialogue with Martine Rose's language of subculture, masculinity and awkward beauty, the project moves between six styled looks, spatial image-making, celebrity and music collaboration concepts, AI-generated motion, and hand-stitched caps. Rather than hiding errors, it uses distortion, visible seams and imperfect composites as a working method: authenticity is never fixed, but rehearsed in public view.</p>
-        </div>
-
-        <div class="w7-end-meta w7-reveal" aria-label="Project information">
-          <div><span>CATEGORY</span><strong>AI Video · Fashion Image</strong></div>
-          <div><span>YEAR</span><strong>2025–2026</strong></div>
-          <div><span>MEDIUM</span><strong>AI · Styling · Craft · Film</strong></div>
-          <div><span>ROLE</span><strong>Concept · Direction · Making</strong></div>
-        </div>
-      </div>
+      <div class="w7-section-inner"><div class="w7-kicker w7-reveal">06 / Project introduction</div><h2 class="w7-end-title w7-reveal">Draft<span>Persona</span></h2><div class="w7-end-copy w7-reveal"><p class="w7-end-lead">Identity is treated as a public draft—continuously revised through imitation, resistance and play.</p><p class="w7-end-text">In dialogue with Martine Rose's language of subculture, masculinity and awkward beauty, the project moves between styled looks, spatial image-making, celebrity and music collaboration concepts, AI-generated motion, and hand-stitched caps. Distortion, visible seams and imperfect composites are kept as a working method: authenticity is never fixed, but rehearsed in public view.</p></div><div class="w7-end-meta w7-reveal"><div><span>CATEGORY</span><strong>AI Video · Fashion Image</strong></div><div><span>YEAR</span><strong>2025–2026</strong></div><div><span>MEDIUM</span><strong>AI · Styling · Craft · Film</strong></div><div><span>ROLE</span><strong>Concept · Direction · Making</strong></div></div></div>
     </section>
   </main>
 
-  <dialog class="w7-player" id="w7Player" aria-label="Full-screen video player">
-    <button class="w7-close" id="w7PlayerClose" type="button" aria-label="Close video">×</button>
-    <div class="w7-player-inner"><video id="w7PlayerMedia" controls playsinline webkit-playsinline></video></div>
-  </dialog>
+  <dialog class="w7-player" id="w7Player" aria-label="Full-screen video player"><button class="w7-close" id="w7PlayerClose" type="button" aria-label="Close video">×</button><div class="w7-player-inner"><video id="w7PlayerMedia" controls playsinline webkit-playsinline></video></div></dialog>
+  <div class="w7-lightbox" id="w7Lightbox" role="dialog" aria-modal="true" aria-label="Project image viewer"><button class="w7-close" id="w7LightboxClose" type="button" aria-label="Close image">×</button><img id="w7LightboxImage" src="" alt="Project image" /></div>
 
-  <div class="w7-lightbox" id="w7Lightbox" role="dialog" aria-modal="true" aria-label="Project image viewer">
-    <button class="w7-close" id="w7LightboxClose" type="button" aria-label="Close image">×</button>
-    <img id="w7LightboxImage" src="" alt="Project image" />
-  </div>
-
-  <section class="work-info-row">
-    <div class="work-info-item"><span class="info-label">CATEGORY</span><span class="info-value">AI Video</span></div>
-    <div class="work-info-item"><span class="info-label">YEAR</span><span class="info-value">2025</span></div>
-    <div class="work-info-item"><span class="info-label">MEDIUM</span><span class="info-value">AI · Craft · Video</span></div>
-    <div class="work-info-item"><span class="info-label">ROLE</span><span class="info-value">Design · Direction · Making</span></div>
-  </section>
-
-  <!-- VIDEO 2 — 合作.mp4 (小视频) -->
-  <section class="work-video-section">
-    <div class="video-label">COLLABORATION FILM</div>
-    <div class="work-video-wrap landscape">
-      <video controls playsinline webkit-playsinline>
-        <source src="videos/work-7-collab.mp4" type="video/mp4" />
-      </video>
-    </div>
-  </section>
-
-  <!-- VIDEO 3 — 4月18日.mp4 (大视频，直链) -->
-  <section class="work-video-section">
-    <div class="video-label">PROCESS FILM</div>
-    <div class="work-video-wrap landscape">
-      <video controls playsinline webkit-playsinline>
-        <source src="https://www.genspark.ai/api/files/s/0S0ZbYN8" type="video/mp4" />
-      </video>
-    </div>
-  </section>
-
-  <section class="work-body">
-    <div class="work-body-inner">
-      <div class="work-desc-col">
-        <h2 class="work-section-label">PROJECT OVERVIEW</h2>
-        <p class="work-lead">An AI-powered collaborative imaging project in dialogue with the aesthetic of Martine Rose.</p>
-        <p class="work-text">Starting from AI-generated imagery, this project hand-stitches a series of caps, merging digital textures with fabric craftsmanship and exploring the creative tension between artificial intelligence and the handmade. Each cap is a conversation held between algorithm and fingertip.</p>
-      </div>
-      <div class="work-tags-col">
-        <h2 class="work-section-label">TAGS</h2>
-        <div class="work-tag-list">
-          <span>AI</span><span>Craft</span><span>Cap</span><span>Martine Rose</span><span>Collaboration</span><span>Textile</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CAP GALLERY: 6 images -->
-  <section class="cap-gallery">
-    <div class="cap-gallery-label">CAP SERIES — 01 / 06</div>
-    <div class="cap-grid" id="capGrid">
-      <div class="cap-grid-item" data-src="images/work-7-cap1.jpg">
-        <img src="images/work-7-cap1.jpg" alt="Cap 01" loading="lazy" />
-      </div>
-      <div class="cap-grid-item" data-src="images/work-7-cap2.jpg">
-        <img src="images/work-7-cap2.jpg" alt="Cap 02" loading="lazy" />
-      </div>
-      <div class="cap-grid-item" data-src="images/work-7-cap3.jpg">
-        <img src="images/work-7-cap3.jpg" alt="Cap 03" loading="lazy" />
-      </div>
-      <div class="cap-grid-item" data-src="images/work-7-cap4.jpg">
-        <img src="images/work-7-cap4.jpg" alt="Cap 04" loading="lazy" />
-      </div>
-      <div class="cap-grid-item" data-src="images/work-7-cap5.jpg">
-        <img src="images/work-7-cap5.jpg" alt="Cap 05" loading="lazy" />
-      </div>
-      <div class="cap-grid-item" data-src="images/work-7-cap6.jpg">
-        <img src="images/work-7-cap6.jpg" alt="Cap 06" loading="lazy" />
-      </div>
-    </div>
-  </section>
-
-  <!-- LIGHTBOX -->
-  <div class="cap-lightbox" id="capLightbox">
-    <button class="cap-lightbox-close" id="capLbClose">×</button>
-    <img src="" alt="cap detail" id="capLbImg" />
-  </div>
-
-  <section class="work-next">
-    <a href="work-8.html" class="next-work-link">
-      <div class="next-label">NEXT PROJECT</div>
-      <div class="next-title">Clang &amp; Clattered →</div>
-      <div class="next-img-wrap"><img src="images/work-06-cover.jpg" alt="Clang &amp; Clattered" /></div>
-    </a>
-  </section>
-
-  <footer class="detail-footer">
-    <a href="index.html" class="footer-back">← Back to Portfolio</a>
-    <span>© 2026 GUIPING MEI</span>
-  </footer>
-
+  <section class="work-next"><a href="work-8.html" class="next-work-link"><div class="next-label">NEXT PROJECT</div><div class="next-title">Clang &amp; Clattered →</div><div class="next-img-wrap"><img src="images/work-6.jpg" alt="Clang and Clattered" /></div></a></section>
+  <footer class="detail-footer"><a href="index.html" class="footer-back">← Back to Portfolio</a><span>© 2026 GUIPING MEI</span></footer>
   <script src="js/work-detail.js"></script>
-  <script>
-    // Lightbox for cap gallery
-    const grid    = document.getElementById('capGrid');
-    const lb      = document.getElementById('capLightbox');
-    const lbImg   = document.getElementById('capLbImg');
-    const lbClose = document.getElementById('capLbClose');
-
-    grid.querySelectorAll('.cap-grid-item').forEach(item => {
-      item.addEventListener('click', () => {
-        lbImg.src = item.dataset.src;
-        lb.classList.add('open');
-      });
-    });
-    lbClose.addEventListener('click', () => lb.classList.remove('open'));
-    lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
-  </script>
-  <script src="js/work-7.js?v=3"></script>
+  <script src="js/work-7.js?v=4"></script>
 </body>
 </html>

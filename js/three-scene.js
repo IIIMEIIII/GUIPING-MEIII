@@ -90,7 +90,7 @@
       year: '2025',
       desc: 'Featuring motifs of metal chains, insects, and leather, the handkerchiefs and kimono prints blend boldness with a touch of edginess.',
       image: 'images/work-6.jpg',
-      href: 'work-8.html?v=metal-mobile-2',
+      href: 'work-8.html?v=metal-mobile-3',
       color1: '#111216', color2: '#20222a',
     },
     {

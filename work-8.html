@@ -3,106 +3,225 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Clang &amp; Clattered — Portfolio</title>
+  <meta name="description" content="Clang & Clattered — a textile print system translating armour, insects and metal into scarf and kimono design." />
+  <title>Clang &amp; Clattered — Soft Armour</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/work-detail.css" />
-  <link rel="stylesheet" href="css/bag-editorial.css" />
-  <link rel="stylesheet" href="css/textile-editorial.css" />
+  <link rel="stylesheet" href="css/clang-soft-armour.css" />
 </head>
-<body class="bag-case textile-case clang-case">
+<body class="clang-experience">
+  <a class="clang-skip" href="#clang-main">Skip to project</a>
+
   <nav class="detail-nav" id="detailNav">
     <a href="index.html" class="nav-back"><span class="nav-back-arrow">←</span><span>PORTFOLIO</span></a>
-    <div class="nav-work-title">Clang &amp; Clattered</div>
+    <div class="nav-work-title">CLANG &amp; CLATTERED</div>
     <div class="nav-pagination"><a href="work-7.html" class="nav-page-btn">PREV</a><span class="nav-page-sep">/</span><a href="work-9.html" class="nav-page-btn">NEXT</a></div>
   </nav>
 
-  <section class="work-hero">
-    <div class="work-hero-img"><img src="images/work-6.jpg" alt="Clang and Clattered printed scarf styling" /><div class="work-hero-overlay"></div></div>
-    <div class="work-hero-meta">
-      <div class="work-meta-tag">Textile Lab · Print System · 2025</div>
-      <h1 class="work-hero-title">Clang &amp;<br />Clattered</h1>
-      <p class="work-hero-sub">Armour · Insects · Metal Entanglement</p>
+  <button class="clang-sound" type="button" aria-pressed="false" aria-label="Enable interface sound">
+    <span class="clang-sound-dot" aria-hidden="true"></span>
+    <span data-sound-label>SOUND OFF</span>
+  </button>
+
+  <aside class="clang-progress" aria-label="Project chapters">
+    <span class="clang-progress-label">SOFT ARMOUR</span>
+    <div class="clang-progress-links">
+      <a href="#origin" data-progress-link><i></i><span>Origin</span></a>
+      <a href="#system" data-progress-link><i></i><span>System</span></a>
+      <a href="#looks" data-progress-link><i></i><span>20 Looks</span></a>
+      <a href="#scarf" data-progress-link><i></i><span>Scarf</span></a>
+      <a href="#kimono" data-progress-link><i></i><span>Kimono</span></a>
+      <a href="#campaign" data-progress-link><i></i><span>Campaign</span></a>
     </div>
-  </section>
+  </aside>
 
-  <section class="work-info-row">
-    <div class="work-info-item"><span class="info-label">CATEGORY</span><span class="info-value">Textile &amp; Surface Design</span></div>
-    <div class="work-info-item"><span class="info-label">YEAR</span><span class="info-value">2025</span></div>
-    <div class="work-info-item"><span class="info-label">OUTPUT</span><span class="info-value">Scarf · Kimono · 20 Looks</span></div>
-    <div class="work-info-item"><span class="info-label">ROLE</span><span class="info-value">Print · Styling · Art Direction</span></div>
-  </section>
+  <header class="clang-hero" id="top">
+    <div class="clang-hero-image" aria-hidden="true">
+      <img src="images/work-6.jpg" alt="" />
+    </div>
+    <div class="clang-hero-metal" aria-hidden="true"></div>
+    <div class="clang-shutters" aria-hidden="true">
+      <div class="clang-shutter clang-shutter--one"><span>ARMOUR</span></div>
+      <div class="clang-shutter clang-shutter--two"><span>INSECTS</span></div>
+      <div class="clang-shutter clang-shutter--three"><span>SILK</span></div>
+    </div>
+    <div class="clang-hero-copy">
+      <div class="clang-hero-kicker"><span>08 / TEXTILE LAB</span><span>MILAN · 2025</span></div>
+      <h1><span>CLANG</span><span>&amp; CLATTERED</span></h1>
+      <div class="clang-hero-bottom">
+        <p>Armour, insects and metallic impact<br />translated into soft movement.</p>
+        <span class="clang-hero-cn">将盔甲、昆虫与金属碰撞转译为柔软的身体表面。</span>
+      </div>
+    </div>
+    <div class="clang-hero-seal" aria-hidden="true">
+      <img src="images/textile-clang/decor/insect-ornament-met.jpg" alt="" />
+      <span>SOFT<br />ARMOUR</span>
+    </div>
+    <a class="clang-scroll" href="#origin"><span>ENTER THE SYSTEM</span><i></i></a>
+  </header>
 
-  <div class="bag-chapter-nav" aria-label="Project chapters">
-    <a href="#system"><span>01</span>Visual System</a>
-    <a href="#scarf"><span>02</span>Square Scarf</a>
-    <a href="#kimono"><span>03</span>Kimono Print</a>
+  <div class="clang-specs" aria-label="Project information">
+    <div><span>DISCIPLINE</span><strong>Textile &amp; Surface Design</strong></div>
+    <div><span>OUTPUT</span><strong>20 Looks · Scarf · Kimono</strong></div>
+    <div><span>METHOD</span><strong>Print · Styling · Art Direction</strong></div>
+    <div><span>MATERIAL LOGIC</span><strong>Hard Structure / Soft Carrier</strong></div>
   </div>
 
-  <main class="bag-editorial">
-    <section class="bag-intro bag-reveal">
-      <div><div class="bag-eyebrow">Project Overview</div><h2>A print system built from impact.</h2></div>
-      <div class="bag-intro-copy">
-        <p>盔甲、昆虫、链条与刀刃被拆解成可以不断重组的视觉零件。项目先建立 20 套造型的色彩与图案语言，再把同一套系统压缩进方巾，最后扩展到和服式定位印花。</p>
-        <p>不是把图案简单复制到不同载体，而是测试它在“方形边界、身体包裹、前后对称”三种尺度里的力度与节奏。</p>
-        <div class="textile-index">
-          <div><span>System</span><strong>6:3:1 色彩比例与 20 looks 阵列</strong></div>
-          <div><span>Object</span><strong>方巾：中心徽章、边框与旋转构图</strong></div>
-          <div><span>Body</span><strong>和服：跨越衣身的连续定位印花</strong></div>
+  <main id="clang-main">
+    <section class="clang-origin clang-section" id="origin" data-clang-section="Origin">
+      <div class="clang-section-index">00 / ORIGIN</div>
+      <div class="clang-origin-statement" data-clang-reveal>
+        <p class="clang-origin-small">THE PROJECT BEGINS WITH A CONTRADICTION</p>
+        <h2>What happens when protection becomes ornament?</h2>
+        <p class="clang-origin-cn">当用于防御的结构变成装饰，坚硬的图像如何在丝绸上重新获得动作？</p>
+      </div>
+      <div class="clang-origin-copy" data-clang-reveal>
+        <p>盔甲、昆虫外骨骼、链条与刀刃被拆解为可以重组的视觉零件。项目不是把图案简单复制到不同载体，而是测试同一套语言如何穿过系列、物体和身体。</p>
+        <div class="clang-origin-equation" aria-label="Project translation sequence">
+          <span>HARD STRUCTURE</span><i>→</i><span>GRAPHIC SYSTEM</span><i>→</i><span>SOFT MOVEMENT</span>
+        </div>
+      </div>
+      <figure class="clang-origin-engraving" data-clang-reveal>
+        <img src="images/textile-clang/decor/firearm-ornament-met-02.jpg" alt="Seventeenth-century firearm ornament etching from The Metropolitan Museum of Art" />
+        <figcaption>REFERENCE / ETCHING OF FIREARM ORNAMENT · PUBLIC DOMAIN · THE MET</figcaption>
+      </figure>
+    </section>
+
+    <section class="clang-lab clang-section" id="system" data-clang-section="Visual system">
+      <div class="clang-lab-heading">
+        <div>
+          <span class="clang-section-index">01 / MOTIF ANATOMY</span>
+          <h2>Three sources.<br />One visual organism.</h2>
+        </div>
+        <p>选择一种结构，观察图案系统如何从防御、外骨骼与运动中生长。<span>SELECT A SOURCE TO OPEN THE SPECIMEN.</span></p>
+      </div>
+
+      <div class="clang-lab-shell" data-clang-lab>
+        <div class="clang-lab-controls" role="tablist" aria-label="Motif sources">
+          <button type="button" class="is-active" role="tab" aria-selected="true" data-lab-key="armour" data-lab-src="images/textile-clang/01-research.jpg" data-lab-title="ARMOUR" data-lab-number="A / 01" data-lab-copy="Curved plates, rivets and engraved edges become a grammar of protection.">
+            <span>A / 01</span><strong>ARMOUR</strong><i>防御结构</i>
+          </button>
+          <button type="button" role="tab" aria-selected="false" data-lab-key="bugs" data-lab-src="images/textile-clang/02-image-board.jpg" data-lab-title="BUGS" data-lab-number="B / 02" data-lab-copy="Shells, joints and mirrored anatomy provide the internal architecture.">
+            <span>B / 02</span><strong>BUGS</strong><i>外骨骼</i>
+          </button>
+          <button type="button" role="tab" aria-selected="false" data-lab-key="flies" data-lab-src="images/textile-clang/04-scarf-sketch.jpg" data-lab-title="FLIES" data-lab-number="C / 03" data-lab-copy="Wings and rapid directional changes introduce tension, rhythm and speed.">
+            <span>C / 03</span><strong>FLIES</strong><i>运动轨迹</i>
+          </button>
+        </div>
+        <div class="clang-lab-stage" role="tabpanel">
+          <div class="clang-lab-scan" aria-hidden="true"></div>
+          <img src="images/textile-clang/01-research.jpg" alt="Armour, insects and flies research board" data-lab-image />
+          <div class="clang-lab-readout">
+            <span data-lab-number>A / 01</span>
+            <strong data-lab-title>ARMOUR</strong>
+            <p data-lab-copy>Curved plates, rivets and engraved edges become a grammar of protection.</p>
+          </div>
+          <button class="clang-expand" type="button" data-clang-expand aria-label="Expand motif research image">＋</button>
         </div>
       </div>
     </section>
 
-    <section class="bag-story" id="system">
-      <div class="bag-story-head bag-reveal">
-        <div><div class="bag-eyebrow">01 · Visual System</div><h2>From fragments to a collection.</h2></div>
-        <p>以 Armor、Bugs、Flies 为起点，把图像切成可替换的局部，再用 6:3:1 的色彩规则建立统一却不重复的系列秩序。<small>Research · Image board · 20-look line-up</small></p>
+    <section class="clang-looks clang-section" id="looks" data-clang-section="20 looks">
+      <div class="clang-looks-head">
+        <div><span class="clang-section-index">02 / COLLECTION ENGINE</span><h2>20 looks,<br />one vocabulary.</h2></div>
+        <p>The 6:3:1 colour rule keeps every look related without making the collection repeat itself.<span>拖动浏览完整系列，双击打开原图。</span></p>
       </div>
-      <div class="bag-gallery">
-        <div class="textile-spread-pair bag-reveal">
-          <figure class="bag-page" data-bag-zoom><img src="images/textile-clang/01-research.jpg" alt="Armour insects and flies research board" loading="lazy" /><figcaption>01 · Research board</figcaption></figure>
-          <figure class="bag-page" data-bag-zoom><img src="images/textile-clang/02-image-board.jpg" alt="Clang and Clattered image and colour board" loading="lazy" /><figcaption>02 · Image system</figcaption></figure>
+      <div class="clang-look-counter" aria-hidden="true"><span>LOOK</span><strong data-look-count>01</strong><span>/ 20</span></div>
+      <div class="clang-look-viewport" data-look-viewport tabindex="0" aria-label="Draggable 20-look collection line-up">
+        <div class="clang-look-rail" data-look-rail>
+          <img src="images/textile-clang/03-lineup.jpg" alt="Twenty-look Clang and Clattered collection line-up" draggable="false" data-clang-expand />
+          <div class="clang-look-ruler" aria-hidden="true">
+            <span>01</span><span>05</span><span>10</span><span>15</span><span>20</span>
+          </div>
         </div>
-        <figure class="bag-page bag-page--wide bag-reveal" data-bag-zoom><img src="images/textile-clang/03-lineup.jpg" alt="Twenty look collection line-up" loading="lazy" /><figcaption>03 · 20-look line-up</figcaption></figure>
+        <div class="clang-look-sight" aria-hidden="true"><i></i><span>DRAG TO SCAN</span></div>
       </div>
-      <div class="textile-caption bag-reveal"><strong>One vocabulary, multiple scales</strong><p>链条提供方向，昆虫骨骼提供结构，金属表面提供冷感。三类元素共同构成后续方巾和和服图案的母语。</p></div>
+      <div class="clang-look-legend">
+        <span>6 / DOMINANT</span><span>3 / SECONDARY</span><span>1 / IMPACT</span><span>ARMOUR · BUGS · FLIES</span>
+      </div>
     </section>
 
-    <section class="bag-story bag-story--dark" id="scarf">
-      <div class="bag-story-head bag-reveal">
-        <div><div class="bag-eyebrow">02 · Square Scarf</div><h2>A portable field of tension.</h2></div>
-        <p>方巾被当成一个可旋转的舞台：中心锁定视觉重量，四角保持动作，链条沿边缘形成闭环。多组配色检验图案在折叠、围裹和贴近面部时的识别度。<small>Motif · Colourways · Styling</small></p>
+    <section class="clang-scarf clang-section" id="scarf" data-clang-section="Scarf engine">
+      <div class="clang-scarf-copy">
+        <span class="clang-section-index">03 / SCARF ENGINE</span>
+        <h2>A portable field of tension.</h2>
+        <p>方巾是一块可以旋转的舞台。中心锁定重量，四角维持动作，链条沿边缘形成闭环；折叠之后，图案依然必须成立。</p>
+        <div class="clang-scarf-controls" role="tablist" aria-label="Scarf views">
+          <button class="is-active" type="button" role="tab" aria-selected="true" data-scarf-src="images/textile-clang/05-scarf-master.jpg" data-scarf-label="01 / MASTER COMPOSITION">FLAT</button>
+          <button type="button" role="tab" aria-selected="false" data-scarf-src="images/textile-clang/06-scarf-colours.jpg" data-scarf-label="02 / COLOUR VARIATIONS">COLOUR</button>
+          <button type="button" role="tab" aria-selected="false" data-scarf-src="images/textile-clang/07-scarf-styling.jpg" data-scarf-label="03 / WORN ON BODY">WORN</button>
+        </div>
+        <div class="clang-scarf-rotate">
+          <button type="button" data-scarf-rotate="-90" aria-label="Rotate scarf left">↺</button>
+          <span>ROTATE THE OBJECT</span>
+          <button type="button" data-scarf-rotate="90" aria-label="Rotate scarf right">↻</button>
+        </div>
       </div>
-      <div class="bag-gallery">
-        <figure class="bag-page bag-page--half bag-reveal" data-bag-zoom><img src="images/textile-clang/04-scarf-sketch.jpg" alt="Scarf motif sketch development" loading="lazy" /><figcaption>04 · Motif development</figcaption></figure>
-        <figure class="bag-page bag-page--half bag-reveal" data-bag-zoom><img src="images/textile-clang/05-scarf-master.jpg" alt="Final Clang and Clattered scarf design" loading="lazy" /><figcaption>05 · Master composition</figcaption></figure>
-        <figure class="bag-page bag-page--wide bag-reveal" data-bag-zoom><img src="images/textile-clang/06-scarf-colours.jpg" alt="Scarf colour variations" loading="lazy" /><figcaption>06 · Colour variations</figcaption></figure>
-        <figure class="bag-page bag-page--right bag-reveal" data-bag-zoom><img src="images/textile-clang/07-scarf-styling.jpg" alt="Printed scarf styled on model" loading="lazy" /><figcaption>07 · Styling study</figcaption></figure>
+      <div class="clang-scarf-stage" data-scarf-stage data-clang-reveal>
+        <div class="clang-scarf-orbit" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        <figure>
+          <img src="images/textile-clang/05-scarf-master.jpg" alt="Clang and Clattered master scarf composition" data-scarf-image data-clang-expand />
+          <figcaption data-scarf-caption>01 / MASTER COMPOSITION</figcaption>
+        </figure>
       </div>
-      <div class="bag-note-strip bag-reveal"><span>Square / Repeat / Fold</span><span>The design remains legible whether displayed flat or compressed around the body.</span></div>
     </section>
 
-    <section class="bag-story" id="kimono">
-      <div class="bag-story-head bag-reveal">
-        <div><div class="bag-eyebrow">03 · Kimono Placement</div><h2>The image crosses the body.</h2></div>
-        <p>在和服式轮廓上，图案不再只是平面重复。金属与昆虫的缠绕从前片穿过侧缝延续至背部，让衣身在静止时像图腾，动作时则像被拉开的机械结构。<small>Placement print · Front / Back · Campaign</small></p>
+    <section class="clang-kimono clang-section" id="kimono" data-clang-section="Kimono placement">
+      <div class="clang-kimono-head">
+        <div><span class="clang-section-index">04 / BODY MAP</span><h2>The image crosses the body.</h2></div>
+        <p>拖动中间的接缝，对比平面定位与穿着后的连续结构。<span>DRAG THE SEAM TO MOVE FROM PLAN TO BODY.</span></p>
       </div>
-      <div class="bag-gallery">
-        <div class="textile-spread-pair bag-reveal">
-          <figure class="bag-page" data-bag-zoom><img src="images/textile-clang/08-kimono-development.jpg" alt="Kimono placement print development" loading="lazy" /><figcaption>08 · Development</figcaption></figure>
-          <figure class="bag-page" data-bag-zoom><img src="images/textile-clang/09-kimono-placement.jpg" alt="Metal and insect kimono motif" loading="lazy" /><figcaption>09 · Placement motif</figcaption></figure>
+      <div class="clang-compare" data-clang-compare style="--compare: 52%;">
+        <div class="clang-compare-layer clang-compare-base">
+          <img src="images/textile-clang/10-kimono-front-back.jpg" alt="Kimono front and back placement print plan" />
+          <span>PLAN / FRONT + BACK</span>
         </div>
-        <figure class="bag-page bag-page--wide bag-reveal" data-bag-zoom><img src="images/textile-clang/10-kimono-front-back.jpg" alt="Kimono front and back print design" loading="lazy" /><figcaption>10 · Front / Back</figcaption></figure>
-        <figure class="bag-page bag-page--half bag-reveal" data-bag-zoom><img src="images/textile-clang/11-kimono-shoot-one.jpg" alt="Kimono campaign image one" loading="lazy" /><figcaption>11 · Campaign I</figcaption></figure>
-        <figure class="bag-page bag-page--half bag-reveal" data-bag-zoom><img src="images/textile-clang/12-kimono-shoot-two.jpg" alt="Kimono campaign image two" loading="lazy" /><figcaption>12 · Campaign II</figcaption></figure>
+        <div class="clang-compare-layer clang-compare-top">
+          <img src="images/textile-clang/11-kimono-shoot-one.jpg" alt="Clang and Clattered kimono campaign image" />
+          <span>BODY / CAMPAIGN</span>
+        </div>
+        <div class="clang-compare-seam" aria-hidden="true"><i></i><b>DRAG</b></div>
+        <input type="range" min="0" max="100" value="52" aria-label="Compare kimono plan with final campaign" data-compare-range />
       </div>
-      <div class="bag-endnote bag-reveal"><p>One graphic language, translated from collection to object to body.</p><a href="#system">Return to the system ↑</a></div>
+      <div class="clang-kimono-notes">
+        <div><span>01</span><strong>SHOULDER</strong><p>The motif bends at the joint.</p></div>
+        <div><span>02</span><strong>SIDE SEAM</strong><p>The line continues across construction.</p></div>
+        <div><span>03</span><strong>BACK</strong><p>The image resolves as a single totem.</p></div>
+      </div>
+    </section>
+
+    <section class="clang-campaign clang-section" id="campaign" data-clang-section="Campaign">
+      <div class="clang-campaign-sticky">
+        <div class="clang-campaign-panel clang-campaign-panel--one" data-campaign-panel="one">
+          <img src="images/textile-clang/11-kimono-shoot-one.jpg" alt="Clang and Clattered kimono campaign portrait" />
+        </div>
+        <div class="clang-campaign-panel clang-campaign-panel--two" data-campaign-panel="two">
+          <img src="images/textile-clang/12-kimono-shoot-two.jpg" alt="Clang and Clattered kimono campaign detail" />
+        </div>
+        <div class="clang-campaign-copy">
+          <span>05 / CAMPAIGN</span>
+          <h2>Hard structures,<br />translated into<br />soft movement.</h2>
+          <p>ONE LANGUAGE / COLLECTION → OBJECT → BODY</p>
+        </div>
+      </div>
     </section>
   </main>
 
-  <section class="work-next"><a href="work-9.html" class="next-work-link"><div class="next-label">NEXT PROJECT</div><div class="next-title">Rust →</div><div class="next-img-wrap"><img src="images/work-7.jpg" alt="Rust" /></div></a></section>
-  <footer class="detail-footer"><a href="index.html" class="footer-back">← Back to Portfolio</a><span>© 2026 GUIPING MEI</span></footer>
+  <section class="work-next clang-next"><a href="work-9.html" class="next-work-link"><div class="next-label">NEXT PROJECT / 09</div><div class="next-title">RUST <span>→</span></div><div class="next-img-wrap"><img src="images/work-7.jpg" alt="Rust textile project" /></div></a></section>
+
+  <footer class="detail-footer clang-footer">
+    <a href="index.html" class="footer-back">← BACK TO PORTFOLIO</a>
+    <span>OPEN ACCESS REFERENCES: THE MET · POLY HAVEN / CC0</span>
+    <span>© 2026 GUIPING MEI</span>
+  </footer>
+
+  <div class="clang-lightbox" data-clang-lightbox aria-hidden="true" role="dialog" aria-modal="true" aria-label="Expanded project image">
+    <div class="clang-lightbox-top"><span>SPECIMEN VIEW</span><button type="button" data-lightbox-close>CLOSE ×</button></div>
+    <div class="clang-lightbox-stage"><img alt="Expanded project image" /></div>
+  </div>
+
   <script src="js/work-detail.js"></script>
-  <script src="js/bag-editorial.js"></script>
+  <script src="js/clang-soft-armour.js"></script>
 </body>
 </html>

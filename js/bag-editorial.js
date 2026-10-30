@@ -51,13 +51,71 @@
   lightbox.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeLightbox(); });
 
+  document.querySelectorAll('[data-bag-rail]').forEach((rail) => {
+    const wrap = rail.closest('.bag-process-wrap') || rail.parentElement;
+    const previous = wrap.querySelector('[data-rail-prev]');
+    const next = wrap.querySelector('[data-rail-next]');
+    const step = () => {
+      const card = rail.querySelector('.bag-process-card');
+      return card ? card.getBoundingClientRect().width + 26 : rail.clientWidth * 0.72;
+    };
+    previous?.addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next?.addEventListener('click', () => rail.scrollBy({ left: step(), behavior: 'smooth' }));
+  });
+
+  document.querySelectorAll('[data-bag-switcher]').forEach((switcher) => {
+    const stage = switcher.querySelector('.bag-switcher-stage');
+    const image = stage?.querySelector('img');
+    const caption = stage?.querySelector('.bag-switcher-caption');
+    const note = stage?.querySelector('.bag-switcher-note');
+    const buttons = Array.from(switcher.querySelectorAll('.bag-switcher-button'));
+    if (!stage || !image || !buttons.length) return;
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        if (button.classList.contains('is-active')) return;
+        buttons.forEach((item) => item.classList.toggle('is-active', item === button));
+        stage.classList.add('is-changing');
+        window.setTimeout(() => {
+          image.src = button.dataset.switchSrc || image.src;
+          image.alt = button.dataset.switchAlt || button.textContent.trim();
+          if (caption) caption.textContent = button.dataset.switchCaption || button.textContent.trim();
+          if (note) note.textContent = button.dataset.switchNote || '';
+          stage.classList.remove('is-changing');
+        }, 160);
+      });
+    });
+  });
+
   const navLinks = Array.from(document.querySelectorAll('.bag-chapter-nav a[href^="#"]'));
   const sections = navLinks.map((link) => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+  const indicator = document.createElement('div');
+  indicator.className = 'bag-section-indicator';
+  indicator.setAttribute('aria-hidden', 'true');
+  indicator.innerHTML = '<div class="bag-section-indicator-track"><div class="bag-section-indicator-fill"></div></div><div class="bag-section-indicator-copy"><strong>01 / ' + String(Math.max(sections.length, 1)).padStart(2, '0') + '</strong><span>' + (navLinks[0]?.textContent.replace(/^\s*\d+\s*/, '') || 'Project') + '</span></div>';
+  document.body.appendChild(indicator);
+  const indicatorNumber = indicator.querySelector('strong');
+  const indicatorLabel = indicator.querySelector('span');
+
+  const updatePageProgress = () => {
+    const hero = document.querySelector('.work-hero');
+    const start = hero ? hero.offsetHeight * 0.72 : 320;
+    const range = Math.max(document.documentElement.scrollHeight - window.innerHeight - start, 1);
+    const progress = Math.min(1, Math.max(0, (window.scrollY - start) / range));
+    indicator.style.setProperty('--bag-page-progress', progress.toFixed(4));
+    indicator.classList.toggle('is-visible', window.scrollY > start);
+  };
+  updatePageProgress();
+  window.addEventListener('scroll', updatePageProgress, { passive: true });
+
   if (sections.length && 'IntersectionObserver' in window) {
     const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
+        const activeIndex = sections.indexOf(entry.target);
         navLinks.forEach((link) => link.classList.toggle('is-active', link.getAttribute('href') === '#' + entry.target.id));
+        if (indicatorNumber) indicatorNumber.textContent = String(activeIndex + 1).padStart(2, '0') + ' / ' + String(sections.length).padStart(2, '0');
+        if (indicatorLabel) indicatorLabel.textContent = navLinks[activeIndex]?.textContent.replace(/^\s*\d+\s*/, '') || entry.target.id;
       });
     }, { rootMargin: '-34% 0px -58% 0px', threshold: 0 });
     sections.forEach((section) => sectionObserver.observe(section));

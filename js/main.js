@@ -372,7 +372,7 @@ function initWorksGrid() {
     {
       label: 'Textile Design',
       works: [
-        { num:'08', title:'Clang & Clattered',           cat:'Print Design · 2025',   href:'work-8.html?v=soft-armour', img:'images/work-6.jpg' },
+        { num:'08', title:'Clang & Clattered',           cat:'Print Design · 2025',   href:'work-8.html?v=metal-mobile-2', img:'images/work-6.jpg' },
         { num:'09', title:'Rust',                        cat:'Textile design · 2024', href:'work-9.html', img:'images/work-7.jpg' },
       ]
     },

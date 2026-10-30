@@ -30,8 +30,10 @@
   inset: 0;
   z-index: 999;
   pointer-events: none;
-  opacity: .025;
-  background: url('../images/textile-clang/decor/metal-plate-02.jpg') center / 720px repeat;
+  opacity: .065;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 3px, rgba(255,255,255,.12) 3px 4px, transparent 4px 9px),
+    url('../images/textile-clang/decor/metal-plate-02.jpg') center / 720px repeat;
   mix-blend-mode: screen;
 }
 
@@ -349,7 +351,7 @@
   width: clamp(88px, 10vw, 150px);
   aspect-ratio: 1;
   border-radius: 50%;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid rgba(233, 231, 225, .36);
   opacity: 0;
   transform: rotate(22deg) scale(.84);
@@ -359,11 +361,13 @@
 .clang-hero-seal img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  filter: grayscale(1) contrast(1.6) brightness(.55);
+  padding: 10%;
+  object-fit: contain;
+  filter: saturate(.35) contrast(1.3) brightness(1.25) drop-shadow(0 0 18px rgba(190,205,205,.34));
+  transform: scale(1.5);
 }
 
-.clang-hero-seal::after { content: ''; position: absolute; inset: 0; background: rgba(9,10,10,.42); }
+.clang-hero-seal::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, transparent 48%, rgba(9,10,10,.28) 100%); }
 
 .clang-hero-seal span {
   position: absolute;
@@ -522,7 +526,7 @@
 .clang-kimono-head > p span { display: block; margin-top: 18px; font: 400 .5rem/1.5 var(--clang-mono); letter-spacing: .14em; }
 
 .clang-lab-shell { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(210px, 300px) minmax(0, 1fr); max-width: 1480px; min-height: min(74vw, 820px); margin: 0 auto; border: 1px solid var(--clang-line-light); }
-.clang-lab-controls { display: grid; grid-template-rows: repeat(3, 1fr); border-right: 1px solid var(--clang-line-light); }
+.clang-lab-controls { display: grid; grid-template-rows: repeat(2, 1fr); border-right: 1px solid var(--clang-line-light); }
 
 .clang-lab-controls button {
   position: relative;
@@ -690,6 +694,51 @@
 .clang-impact { position: fixed; z-index: 999; width: 10px; height: 10px; border: 1px solid rgba(233,231,225,.6); border-radius: 50%; transform: translate(-50%, -50%) scale(.2); pointer-events: none; animation: clangImpact .7s var(--clang-ease) forwards; }
 @keyframes clangImpact { to { opacity: 0; transform: translate(-50%, -50%) scale(7); } }
 
+/* Brushed-metal atmosphere across the dark chapters. */
+.clang-specs,
+.clang-lab,
+.clang-looks,
+.clang-kimono,
+.clang-campaign,
+.clang-campaign-sticky,
+.clang-footer {
+  background-image:
+    linear-gradient(118deg, rgba(255,255,255,.035), transparent 31%, rgba(113,128,135,.075) 54%, transparent 76%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.014) 0 1px, transparent 1px 6px),
+    url('../images/textile-clang/decor/metal-plate-02.jpg');
+  background-size: 100% 100%, auto, 840px 840px;
+  background-position: center, center, center;
+  background-blend-mode: screen, overlay, soft-light;
+}
+
+.clang-lab-shell,
+.clang-compare {
+  border-color: rgba(214,220,220,.28);
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,.7),
+    inset 0 0 48px rgba(188,194,195,.045),
+    0 28px 80px rgba(0,0,0,.28);
+}
+
+.clang-lab-controls,
+.clang-look-counter,
+.clang-look-legend,
+.clang-kimono-notes {
+  text-shadow: 0 1px 0 rgba(255,255,255,.04);
+}
+
+.clang-origin,
+.clang-scarf,
+.clang-next {
+  background-color: #dfe0dc;
+  background-image:
+    linear-gradient(118deg, rgba(255,255,255,.44), transparent 32%, rgba(113,128,135,.13) 54%, transparent 74%),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.018) 0 1px, transparent 1px 7px),
+    url('../images/textile-clang/decor/metal-plate-02.jpg');
+  background-size: 100% 100%, auto, 920px 920px;
+  background-blend-mode: screen, multiply, soft-light;
+}
+
 @media (max-width: 1024px) {
   .clang-progress { display: none; }
   .clang-specs { grid-template-columns: repeat(2, 1fr); }
@@ -704,9 +753,24 @@
 }
 
 @media (max-width: 760px) {
-  .clang-experience::before { display: none; }
+  .clang-experience::before { opacity: .045; }
   .clang-sound { right: 12px; bottom: 12px; }
   .clang-hero { min-height: 650px; }
+  .clang-hero-image {
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(circle at 50% 42%, rgba(188,194,195,.12), transparent 58%),
+      url('../images/textile-clang/decor/metal-plate-02.jpg') center / 680px repeat;
+  }
+  .clang-hero-image img,
+  .is-ready .clang-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transform: none;
+  }
   .clang-hero-copy { inset: 92px 22px 68px; }
   .clang-hero-copy h1 { margin-bottom: 15vh; font-size: clamp(3.3rem, 17vw, 6.4rem); line-height: .82; }
   .clang-hero-copy h1 span:last-child { margin-left: 0; }
@@ -721,33 +785,39 @@
   .clang-origin-copy,
   .clang-origin-engraving { grid-column: 1; }
   .clang-origin-engraving { width: 100%; }
+  .clang-origin-engraving img { max-height: none; object-fit: contain; }
   .clang-lab-heading,
   .clang-looks-head,
   .clang-kimono-head { grid-template-columns: 1fr; gap: 28px; margin-bottom: 52px; }
   .clang-lab-shell { grid-template-columns: 1fr; min-height: 0; }
-  .clang-lab-controls { grid-template-columns: repeat(3, 1fr); grid-template-rows: auto; border-right: 0; border-bottom: 1px solid var(--clang-line-light); }
+  .clang-lab-controls { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; border-right: 0; border-bottom: 1px solid var(--clang-line-light); }
   .clang-lab-controls button { min-height: 112px; padding: 16px 12px; border-right: 1px solid var(--clang-line-light); border-bottom: 0; }
   .clang-lab-controls button:last-child { border-right: 0; }
   .clang-lab-controls button strong { font-size: .88rem; }
   .clang-lab-controls button i { font-size: .5rem; }
-  .clang-lab-stage { min-height: 62vh; }
+  .clang-lab-stage { min-height: 0; aspect-ratio: 1600 / 1019; background: rgba(8,10,10,.78); }
+  .clang-lab-stage > img { object-fit: contain; }
   .clang-lab-readout { left: 14px; bottom: 14px; width: calc(100% - 70px); padding: 16px; }
   .clang-look-counter,
   .clang-look-legend { width: calc(100% - 48px); }
   .clang-look-rail { width: 1750px; padding-inline: 24px; }
-  .clang-look-rail img { min-height: 420px; }
+  .clang-look-rail img { min-height: 0; object-fit: contain; }
   .clang-look-ruler { left: 24px; right: 24px; }
   .clang-scarf { padding-block: 96px; gap: 54px; }
   .clang-scarf-stage figure { width: 92%; }
-  .clang-compare { height: 68vh; min-height: 480px; }
-  .clang-compare-base img { object-fit: contain; }
+  .clang-scarf-stage figure img { height: auto; aspect-ratio: auto; object-fit: contain; }
+  .clang-compare { height: auto; min-height: 0; aspect-ratio: 1600 / 1019; }
+  .clang-compare-layer img { object-fit: contain; padding: 14px; }
   .clang-kimono-notes { grid-template-columns: 1fr; }
   .clang-kimono-notes > div { min-height: 100px; border-right: 0; border-bottom: 1px solid var(--clang-line-light); }
   .clang-kimono-notes > div:last-child { border-bottom: 0; }
   .clang-campaign { height: 180vh; }
+  .clang-campaign-panel { display: grid; place-items: center; }
+  .clang-campaign-panel img { object-fit: contain; }
   .clang-campaign-copy { left: 22px; right: 22px; }
   .clang-campaign-copy h2 { font-size: clamp(2.7rem, 13vw, 5rem); }
   .clang-next .next-img-wrap { height: 56vw; }
+  .clang-next .next-img-wrap img { object-fit: contain; }
   .clang-footer { align-items: flex-start; text-align: left; }
   .clang-lightbox-stage { padding: 12px; place-items: start center; }
 }

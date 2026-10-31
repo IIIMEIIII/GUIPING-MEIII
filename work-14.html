@@ -3,88 +3,255 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>悦己 · Natural — Portfolio</title>
+  <meta name="theme-color" content="#f1eee5" />
+  <title>悦己 · Weave Yourself — Guiping Mei</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&amp;display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/work-detail.css" />
-  <link rel="stylesheet" href="css/bag-editorial.css" />
+  <link rel="stylesheet" href="css/yueji.css" />
 </head>
-<body class="bag-case">
-  <nav class="detail-nav" id="detailNav">
+<body class="yueji-page">
+  <canvas class="yj-thread-canvas" id="yjThreadCanvas" aria-hidden="true"></canvas>
+  <div class="yj-cursor" id="yjCursor" aria-hidden="true"><span>WEAVE</span></div>
+
+  <nav class="detail-nav yj-nav" id="detailNav">
     <a href="index.html" class="nav-back"><span class="nav-back-arrow">←</span><span>PORTFOLIO</span></a>
-    <div class="nav-work-title">悦己 · Natural</div>
+    <div class="nav-work-title">悦己 / WEAVE YOURSELF</div>
     <div class="nav-pagination"><a href="work-12.html" class="nav-page-btn">PREV</a><span class="nav-page-sep">/</span><a href="work-13.html" class="nav-page-btn">NEXT</a></div>
   </nav>
 
-  <section class="work-hero">
-    <div class="work-hero-img"><img src="images/bag-portfolio/natural-final.jpg" alt="Natural woven leather and bamboo handle bag" /><div class="work-hero-overlay"></div></div>
-    <div class="work-hero-meta">
-      <div class="work-meta-tag">Natural Material Bag Family</div>
-      <h1 class="work-hero-title">悦己<br/>Natural</h1>
-      <p class="work-hero-sub">Weaving · Leather · Bamboo</p>
+  <aside class="yj-chapter-rail" aria-label="Project chapters">
+    <a href="#concept" class="is-active"><b>01</b><span>CONCEPT</span></a>
+    <a href="#build"><b>02</b><span>BUILD</span></a>
+    <a href="#family"><b>03</b><span>FAMILY</span></a>
+    <a href="#process"><b>04</b><span>PROCESS</span></a>
+    <a href="#archive"><b>05</b><span>ARCHIVE</span></a>
+  </aside>
+
+  <header class="yj-hero" id="top" data-cursor="MOVE">
+    <div class="yj-hero-halo yj-hero-halo--one"></div>
+    <div class="yj-hero-halo yj-hero-halo--two"></div>
+    <div class="yj-hero-grid" aria-hidden="true"></div>
+
+    <div class="yj-hero-copy">
+      <span class="yj-kicker">NATURAL MATERIAL BAG SYSTEM · 2023</span>
+      <h1><span>悦己</span><small>WEAVE YOURSELF</small></h1>
+      <p>A bag completed by the person who carries it.</p>
     </div>
-  </section>
 
-  <section class="work-info-row">
-    <div class="work-info-item"><span class="info-label">CATEGORY</span><span class="info-value">Bag Collection</span></div>
-    <div class="work-info-item"><span class="info-label">SYSTEM</span><span class="info-value">3 Product Directions</span></div>
-    <div class="work-info-item"><span class="info-label">MEDIUM</span><span class="info-value">Woven Fibre · Leather · Bamboo</span></div>
-    <div class="work-info-item"><span class="info-label">ROLE</span><span class="info-value">Research · Design · Development</span></div>
-  </section>
+    <div class="yj-hero-family" id="yjHeroFamily">
+      <figure class="yj-hero-bag yj-hero-bag--mobius" data-float="-1">
+        <img src="images/bag-portfolio/natural-woven-study.jpg" alt="Mobius Shell woven bag" />
+        <figcaption>01 / MOBIUS SHELL</figcaption>
+      </figure>
+      <figure class="yj-hero-bag yj-hero-bag--heart" data-float="1">
+        <img src="images/yueji/heart-final.jpg" alt="Heart Shell DIY bag" />
+        <figcaption>02 / HEART SHELL DIY</figcaption>
+      </figure>
+      <figure class="yj-hero-bag yj-hero-bag--bamboo" data-float="-0.55">
+        <img src="images/yueji/bamboo-final.png" alt="Bamboo Handle woven bag" />
+        <figcaption>03 / BAMBOO HANDLE</figcaption>
+      </figure>
+    </div>
 
-  <nav class="bag-chapter-nav" aria-label="Project chapters"><a href="#material"><span>01</span>Material</a><a href="#form"><span>02</span>Form</a><a href="#system"><span>03</span>System</a></nav>
+    <div class="yj-hero-meta">
+      <span>TEAM PROJECT</span>
+      <span>PERSONAL FOCUS / MOBIUS SHELL</span>
+      <span>SCROLL TO WEAVE</span>
+    </div>
+    <a class="yj-scroll-cue" href="#concept" aria-label="Scroll to project concept"><i></i><span>ENTER</span></a>
+  </header>
 
-  <main class="bag-editorial">
-    <section class="bag-intro" id="material">
-      <div class="bag-reveal"><div class="bag-eyebrow">悦己 · Natural</div><h2>Natural craft, shaped for contemporary use.</h2></div>
-      <div class="bag-intro-copy bag-reveal">
-        <p>以法棍包为基础，将玉米叶编织、拉菲草、皮革与竹节手柄组合成三种产品方向。天然材料不是装饰，而是决定触感、开合和轮廓的结构核心。</p>
-        <p>The collection balances recognisable bag architecture with tactile irregularity, turning natural fibre into a repeatable and customisable product language.</p>
-        <div class="bag-facts"><div><span>FAMILY</span><strong>3 bag directions</strong></div><div><span>VALUE</span><strong>Customisable details</strong></div><div><span>MATERIAL</span><strong>Natural + leather</strong></div></div>
-      </div>
-    </section>
-
-    <section class="bag-story bag-story--dark">
-      <div class="bag-story-head"><div class="bag-reveal"><div class="bag-eyebrow">01 / Material language</div><h2>Woven irregularity meets a controlled edge.</h2></div><div class="bag-reveal"><p>编织材料提供温度和不完全的纹理；皮革包边与竹节提手提供稳定的轮廓和耐用触点。</p><small>Corn-leaf weave · Raffia · Leather · Bamboo</small></div></div>
-      <div class="bag-gallery">
-        <figure class="bag-page bag-page--half bag-reveal" data-bag-zoom><img src="images/bag-portfolio/page-09.jpg" alt="Natural bag collection material directions" loading="lazy" /><figcaption>Collection overview / 系列概览</figcaption></figure>
-        <figure class="bag-page bag-page--half bag-reveal" data-bag-zoom><img src="images/bag-portfolio/natural-development.jpg" alt="Natural bag colour and material development" loading="lazy" /><figcaption>Material board / 材料板</figcaption></figure>
-      </div>
-    </section>
-
-    <section class="bag-story" id="form">
-      <div class="bag-story-head"><div class="bag-reveal"><div class="bag-eyebrow">02 / Form development</div><h2>Three handles, three ways to carry the same idea.</h2></div><div class="bag-reveal"><p>从连续草图中筛选出手挽、心形与竹节提手三条路线，并让编织面板成为系列中可变化的视觉中心。</p><small>Sketch selection · proportion · handle study</small></div></div>
-      <div class="bag-gallery">
-        <figure class="bag-page bag-page--wide bag-reveal" data-bag-zoom><img src="images/bag-portfolio/page-10.jpg" alt="Natural bag sketches and series development" loading="lazy" /><figcaption>Sketch archive / 草图档案</figcaption></figure>
-      </div>
-      <div class="bag-switcher bag-reveal" data-bag-switcher>
-        <div class="bag-switcher-nav">
-          <button class="bag-switcher-button is-active" type="button" data-switch-src="images/bag-portfolio/natural-woven-study.jpg" data-switch-alt="Woven leather baguette bag study" data-switch-caption="01 / WOVEN PANEL" data-switch-note="The woven insert keeps irregular craft texture at the centre of a controlled leather frame."><span>01</span><span>Woven panel</span></button>
-          <button class="bag-switcher-button" type="button" data-switch-src="images/bag-portfolio/natural-bamboo-study.jpg" data-switch-alt="Bamboo handle bag study" data-switch-caption="02 / BAMBOO HANDLE" data-switch-note="A warm bamboo grip gives the compact body a stronger tactile identity."><span>02</span><span>Bamboo handle</span></button>
-          <button class="bag-switcher-button" type="button" data-switch-src="images/bag-portfolio/natural-final.jpg" data-switch-alt="Final natural woven and leather bag" data-switch-caption="03 / RESOLVED FORM" data-switch-note="Leather shell, woven centre and handle become one repeatable product architecture."><span>03</span><span>Resolved form</span></button>
+  <main>
+    <section class="yj-statement" id="concept">
+      <div class="yj-section-index" data-reveal><span>01</span><span>CONCEPT / 悦己</span></div>
+      <div class="yj-statement-grid">
+        <h2 data-reveal>完成它的人，<br />也完成了它的身份。</h2>
+        <div class="yj-statement-copy" data-reveal>
+          <p>“悦己”从统一的法棍包比例出发，让天然编织、皮革结构与用户制作共同决定产品的最终形态。包袋不再只是已经完成的物件，而是留给使用者继续参与的开放系统。</p>
+          <p>Starting from a shared baguette proportion, the collection turns natural craft into a personal system of shells, inserts and handles.</p>
         </div>
-        <figure class="bag-switcher-stage" data-bag-zoom><img src="images/bag-portfolio/natural-woven-study.jpg" alt="Woven leather baguette bag study" loading="lazy" /><figcaption><span class="bag-switcher-caption">01 / WOVEN PANEL</span><span class="bag-switcher-note">The woven insert keeps irregular craft texture at the centre of a controlled leather frame.</span></figcaption></figure>
+        <dl class="yj-facts" data-reveal>
+          <div><dt>FORMAT</dt><dd>Bag family + DIY system</dd></div>
+          <div><dt>MATERIAL</dt><dd>Corn leaf, raffia, leather, bamboo</dd></div>
+          <div><dt>CONTRIBUTION</dt><dd>Mobius form, sketch and material direction</dd></div>
+        </dl>
+      </div>
+      <figure class="yj-mood" data-reveal data-zoom data-cursor="VIEW">
+        <img src="images/yueji/mood-relax.jpg" alt="Relax mood and material research board" loading="lazy" />
+        <figcaption><span>RELAX / LIGHTNESS / SELF-PLEASURE</span><span>ORIGINAL MOOD STUDY</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="yj-naked" id="build">
+      <div class="yj-naked-copy">
+        <div class="yj-section-index" data-reveal><span>02</span><span>THE NAKED BAG</span></div>
+        <h2 data-reveal>从一个基础包型，<br />长出三种性格。</h2>
+        <p data-reveal>“裸包”保留开放的结构空间。外壳、内胆、提手和编织细节可以被更换，让同一个基础比例根据使用方式产生不同身份。</p>
+      </div>
+
+      <div class="yj-builder" data-reveal data-cursor="CHOOSE">
+        <div class="yj-builder-stage" id="yjBuilderStage">
+          <div class="yj-builder-orbit" aria-hidden="true"></div>
+          <span class="yj-builder-number" id="yjBuilderNumber">01</span>
+          <img id="yjBuilderImage" src="images/bag-portfolio/natural-woven-study.jpg" alt="Mobius Shell configuration" />
+          <div class="yj-builder-caption">
+            <strong id="yjBuilderTitle">MOBIUS SHELL</strong>
+            <span id="yjBuilderNote">Continuous leather shell × corn-leaf weave</span>
+          </div>
+        </div>
+
+        <div class="yj-builder-controls">
+          <div class="yj-builder-control-label"><span>SELECT A STRUCTURE</span><span>01—03</span></div>
+          <div class="yj-builder-options" role="group" aria-label="Select bag direction">
+            <button class="is-active" type="button" data-build-option data-number="01" data-title="MOBIUS SHELL" data-note="Continuous leather shell × corn-leaf weave" data-src="images/bag-portfolio/natural-woven-study.jpg" data-alt="Mobius Shell woven bag"><span>01</span>Continuous</button>
+            <button type="button" data-build-option data-number="02" data-title="HEART SHELL DIY" data-note="Replaceable insert × personal craft" data-src="images/yueji/heart-final.jpg" data-alt="Heart Shell DIY bag"><span>02</span>Replaceable</button>
+            <button type="button" data-build-option data-number="03" data-title="BAMBOO HANDLE" data-note="Bamboo handle × woven baguette" data-src="images/yueji/bamboo-final.png" data-alt="Bamboo Handle woven bag"><span>03</span>Tactile</button>
+          </div>
+          <div class="yj-palette" role="group" aria-label="Select viewing atmosphere">
+            <span>ATMOSPHERE</span>
+            <button class="is-active" type="button" data-palette="#a9d8d2" style="--swatch:#a9d8d2" aria-label="Water glass blue"></button>
+            <button type="button" data-palette="#c89c67" style="--swatch:#c89c67" aria-label="Honey brown"></button>
+            <button type="button" data-palette="#d4c7b0" style="--swatch:#d4c7b0" aria-label="Natural fibre"></button>
+            <button type="button" data-palette="#242724" style="--swatch:#242724" aria-label="Deep charcoal"></button>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="bag-story bag-story--dark" id="system">
-      <div class="bag-story-head"><div class="bag-reveal"><div class="bag-eyebrow">03 / Product system</div><h2>From one bag to a flexible family.</h2></div><div class="bag-reveal"><p>最终方案补充正侧背视图、尺寸、材料与部件逻辑，让系列可以进入进一步打样、配色与市场化开发。</p><small>Technical view · colourway · application</small></div></div>
-      <div class="bag-gallery">
-        <figure class="bag-page bag-page--wide bag-system-map bag-reveal" data-bag-zoom><img src="images/bag-portfolio/natural-system.jpg" alt="Natural bag customisable product system map" loading="lazy" /><figcaption>System map / 可定制产品系统</figcaption></figure>
-        <figure class="bag-page bag-page--half bag-reveal" data-bag-zoom><img src="images/bag-portfolio/natural-product-board.jpg" alt="Natural bag product board" loading="lazy" /><figcaption>Product board / 产品方案</figcaption></figure>
-        <figure class="bag-page bag-page--half bag-reveal" data-bag-zoom><img src="images/bag-portfolio/natural-final.jpg" alt="Natural final bamboo handle bag" loading="lazy" /><figcaption>Final direction / 最终方向</figcaption></figure>
-        <figure class="bag-page bag-page--half bag-reveal" data-bag-zoom><img src="images/bag-portfolio/natural-technical.jpg" alt="Natural bag technical drawing" loading="lazy" /><figcaption>Technical / 技术图</figcaption></figure>
-        <figure class="bag-page bag-page--half bag-reveal" data-bag-zoom><img src="images/bag-portfolio/natural-campaign.jpg" alt="Natural bag campaign application" loading="lazy" /><figcaption>Application / 视觉应用</figcaption></figure>
+    <section class="yj-materials" aria-labelledby="materialTitle">
+      <div class="yj-section-index yj-section-index--light" data-reveal><span>03</span><span>MATERIAL TOUCH</span></div>
+      <div class="yj-material-head">
+        <h2 id="materialTitle" data-reveal>材料不是表面，<br />它决定如何触摸。</h2>
+        <p data-reveal>移动鼠标查看编织、皮革边缘与竹节提手。每一种材料都承担结构功能，同时保留天然的不规则感。</p>
       </div>
-      <div class="bag-note-strip"><span>Product value</span><span>Natural material + fashion · User interaction · Customisation · Market potential</span></div>
+      <div class="yj-material-strip">
+        <article class="yj-material-card" data-material data-cursor="TOUCH">
+          <img src="images/bag-portfolio/natural-woven-study.jpg" alt="Corn leaf woven panel detail" loading="lazy" />
+          <div><span>01</span><strong>CORN LEAF WEAVE</strong><small>粗线玉米叶编织 · 2mm</small></div>
+        </article>
+        <article class="yj-material-card" data-material data-cursor="TOUCH">
+          <img src="images/yueji/heart-technical.jpg" alt="Raffia and vegetable tanned leather detail" loading="lazy" />
+          <div><span>02</span><strong>RAFFIA + LEATHER</strong><small>可替换内胆 · 双层植鞣革</small></div>
+        </article>
+        <article class="yj-material-card" data-material data-cursor="TOUCH">
+          <img src="images/yueji/bamboo-final.png" alt="Bamboo handle detail" loading="lazy" />
+          <div><span>03</span><strong>BAMBOO HANDLE</strong><small>烧制塑形 · 天然竹节</small></div>
+        </article>
+        <article class="yj-material-card" data-material data-cursor="TOUCH">
+          <img src="images/yueji/bamboo-technical.png" alt="Metal rings and bag construction" loading="lazy" />
+          <div><span>04</span><strong>METAL + JOINERY</strong><small>金属环 · 磁吸扣 · 螺丝钉</small></div>
+        </article>
+      </div>
     </section>
 
-    <section class="bag-endnote"><p>悦己 keeps the irregular life of natural fibre visible inside a clear, usable product system.</p><a href="work-13.html">Next: Metalworking →</a></section>
+    <section class="yj-family" id="family">
+      <div class="yj-family-intro">
+        <div class="yj-section-index" data-reveal><span>04</span><span>THREE SELVES</span></div>
+        <h2 data-reveal>同一比例，<br />三种结构语言。</h2>
+        <p data-reveal>向下滚动，三款包以各自的运动逻辑进入同一个系列。</p>
+      </div>
+
+      <div class="yj-family-scroll">
+        <div class="yj-family-copy">
+          <article class="yj-family-panel is-active" data-direction data-number="01" data-title="MOBIUS SHELL" data-sub="PERSONAL DIRECTION" data-src="images/bag-portfolio/natural-woven-study.jpg" data-alt="Mobius Shell bag">
+            <span>01 / PERSONAL DIRECTION</span>
+            <h3>Mobius Shell</h3>
+            <p>连续皮革曲线包覆玉米叶草编内胆。莫比乌斯结构让外壳形成没有明确起点与终点的视觉循环。</p>
+            <figure data-zoom data-cursor="VIEW"><img src="images/yueji/mobius-development.jpg" alt="Mobius Shell development board" loading="lazy" /></figure>
+          </article>
+          <article class="yj-family-panel" data-direction data-number="02" data-title="HEART SHELL DIY" data-sub="COLLABORATIVE FAMILY" data-src="images/yueji/heart-final.jpg" data-alt="Heart Shell DIY bag">
+            <span>02 / COLLABORATIVE FAMILY</span>
+            <h3>Heart Shell DIY</h3>
+            <p>心形植鞣革外壳可以打开，使用者能够替换编织内胆，也可以放入自己制作的合适组件。</p>
+            <figure data-zoom data-cursor="VIEW"><img src="images/yueji/heart-technical.jpg" alt="Heart Shell technical and material study" loading="lazy" /></figure>
+          </article>
+          <article class="yj-family-panel" data-direction data-number="03" data-title="BAMBOO HANDLE" data-sub="COLLABORATIVE FAMILY" data-src="images/yueji/bamboo-final.png" data-alt="Bamboo Handle bag">
+            <span>03 / COLLABORATIVE FAMILY</span>
+            <h3>Bamboo Handle</h3>
+            <p>竹节提手成为最直接的触觉识别，草编面板与皮革包边将度假感转化为清晰、可开发的产品结构。</p>
+            <figure data-zoom data-cursor="VIEW"><img src="images/yueji/bamboo-technical.png" alt="Bamboo Handle technical drawing" loading="lazy" /></figure>
+          </article>
+        </div>
+
+        <div class="yj-family-stage" aria-live="polite">
+          <div class="yj-family-stage-top"><span id="yjDirectionSub">PERSONAL DIRECTION</span><span id="yjDirectionNumber">01 / 03</span></div>
+          <div class="yj-family-stage-image"><img id="yjDirectionImage" src="images/bag-portfolio/natural-woven-study.jpg" alt="Mobius Shell bag" /></div>
+          <h3 id="yjDirectionTitle">MOBIUS SHELL</h3>
+        </div>
+      </div>
+    </section>
+
+    <section class="yj-sketches" id="process">
+      <div class="yj-section-index yj-section-index--light" data-reveal><span>05</span><span>SKETCH GARDEN</span></div>
+      <header class="yj-sketch-head">
+        <h2 data-reveal>草图从噪音中，<br />慢慢长成系统。</h2>
+        <p data-reveal>移动光圈寻找不同阶段。点击任意图像可查看完整草图。</p>
+      </header>
+      <div class="yj-sketch-field" id="yjSketchField" data-cursor="FIND">
+        <figure class="yj-sketch yj-sketch--a" data-zoom><img src="images/yueji/mobius-sketch-01.jpg" alt="Early Mobius bag sketches" loading="lazy" /><figcaption>MOBIUS / FIRST FORMS</figcaption></figure>
+        <figure class="yj-sketch yj-sketch--b" data-zoom><img src="images/yueji/mobius-colourways.jpg" alt="Mobius bag colour exploration" loading="lazy" /><figcaption>MOBIUS / COLOUR</figcaption></figure>
+        <figure class="yj-sketch yj-sketch--c" data-zoom><img src="images/yueji/heart-sketches.jpg" alt="Heart Shell sketch development" loading="lazy" /><figcaption>HEART / OPEN SHELL</figcaption></figure>
+        <figure class="yj-sketch yj-sketch--d" data-zoom><img src="images/yueji/bamboo-sketches.jpg" alt="Bamboo Handle sketch development" loading="lazy" /><figcaption>BAMBOO / HANDLE</figcaption></figure>
+        <figure class="yj-sketch yj-sketch--e" data-zoom><img src="images/bag-portfolio/page-10.jpg" alt="Complete bag family sketch evolution" loading="lazy" /><figcaption>FAMILY / SELECTION</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="yj-system" aria-labelledby="systemTitle">
+      <div class="yj-section-index" data-reveal><span>06</span><span>FROM HAND TO AVATAR</span></div>
+      <header class="yj-system-head">
+        <h2 id="systemTitle" data-reveal>从实体手作，<br />进入专属身份。</h2>
+        <p data-reveal>原项目将用户参与延伸到数字身份：选择、制作和收到产品之后，扫描包身可以获得对应的虚拟形象。此处呈现为项目系统提案。</p>
+      </header>
+      <div class="yj-journey" id="yjJourney">
+        <div class="yj-journey-line"><i id="yjJourneyProgress"></i></div>
+        <ol>
+          <li><span>01</span><strong>SELECT</strong><small>选择基础结构</small></li>
+          <li><span>02</span><strong>DIY</strong><small>组合编织组件</small></li>
+          <li><span>03</span><strong>CRAFT</strong><small>手工艺部分制作</small></li>
+          <li><span>04</span><strong>ASSEMBLE</strong><small>工厂结构制作</small></li>
+          <li><span>05</span><strong>CHECK</strong><small>成品检查</small></li>
+          <li><span>06</span><strong>RECEIVE</strong><small>用户收到产品</small></li>
+          <li><span>07</span><strong>AVATAR</strong><small>扫描生成虚拟形象</small></li>
+        </ol>
+      </div>
+      <figure class="yj-system-map" data-reveal data-zoom data-cursor="VIEW">
+        <img src="images/yueji/product-system.jpg" alt="Customisable product and avatar system map" loading="lazy" />
+        <figcaption><span>ORIGINAL PRODUCT SYSTEM</span><span>DIY + PARAMETRIC DEVELOPMENT</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="yj-archive" id="archive">
+      <div class="yj-section-index yj-section-index--light" data-reveal><span>07</span><span>TECHNICAL ARCHIVE</span></div>
+      <header class="yj-archive-head">
+        <h2 data-reveal>结构证据</h2>
+        <p data-reveal>尺寸、拆解、连接与配色让概念能够继续进入打样和产品开发。</p>
+      </header>
+      <div class="yj-archive-grid">
+        <figure class="yj-archive-wide" data-reveal data-zoom data-cursor="VIEW"><img src="images/yueji/family-technical.jpg" alt="Technical drawings for the three bag directions" loading="lazy" /><figcaption>FAMILY / TECHNICAL LANGUAGE</figcaption></figure>
+        <figure data-reveal data-zoom data-cursor="VIEW"><img src="images/yueji/heart-colourways.jpg" alt="Heart Shell colourways" loading="lazy" /><figcaption>HEART SHELL / COLOURWAYS</figcaption></figure>
+        <figure data-reveal data-zoom data-cursor="VIEW"><img src="images/yueji/bamboo-forms.jpg" alt="Bamboo Handle form studies" loading="lazy" /><figcaption>BAMBOO / FORM SELECTION</figcaption></figure>
+        <figure class="yj-archive-poster" data-reveal data-zoom data-cursor="VIEW"><img src="images/yueji/campaign.png" alt="Natural bag colour campaign application" loading="lazy" /><figcaption>CAMPAIGN / HONEY BROWN + WATER GLASS</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="yj-outro">
+      <div class="yj-outro-halo" aria-hidden="true"></div>
+      <p>CHOOSE · MAKE · CARRY</p>
+      <h2>A bag completed by<br />the person who carries it.</h2>
+      <img src="images/yueji/bamboo-final.png" alt="Final Bamboo Handle bag" loading="lazy" />
+      <a href="work-13.html"><span>NEXT PROJECT</span><strong>METALWORKING →</strong></a>
+    </section>
   </main>
 
-  <section class="work-next"><a href="work-13.html" class="next-work-link"><div class="next-label">NEXT PROJECT</div><div class="next-title">Metalworking →</div><div class="next-img-wrap"><img src="images/work-12.jpg" alt="Metalworking" /></div></a></section>
-  <footer class="detail-footer"><a href="index.html" class="footer-back">← Back to Portfolio</a><span>© 2026 GUIPING MEI</span></footer>
+  <footer class="detail-footer yj-footer"><a href="index.html" class="footer-back">← Back to Portfolio</a><span>© 2026 GUIPING MEI</span></footer>
+
+  <div class="yj-lightbox" id="yjLightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image preview">
+    <button type="button" class="yj-lightbox-close" aria-label="Close image preview">CLOSE ×</button>
+    <figure><img alt="Expanded project image" /><figcaption></figcaption></figure>
+  </div>
+
   <script src="js/work-detail.js"></script>
-  <script src="js/bag-editorial.js"></script>
+  <script src="js/yueji.js"></script>
 </body>
 </html>
